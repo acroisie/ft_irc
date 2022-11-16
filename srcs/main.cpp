@@ -7,7 +7,7 @@ int	main(int argc, char** argv)
 		if (argc != 3)
 			throw std::invalid_argument(("Invalid args ./ircserv <port> <password>"));
 		Server irc(argv[1], argv[2]);
-		// irc.start(); // Un truc du genre
+		irc.start(); // Un truc du genre
 		return (0);
 	}
 	catch(const std::exception& e)
