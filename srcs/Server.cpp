@@ -32,8 +32,20 @@ void	Server::start(void)
 		throw	std::runtime_error("bind failed");
 	if (listen(_serverFd, 42) < 0)
 		throw	std::runtime_error("listen failed");
+	while (true)
+	{
+		
+		FD_ZERO(&_readFds);
+		FD_ZERO(&_writeFds);
+		FD_SET(_serverFd, &_readFds);
+		FD_SET(_serverFd, &_writeFds);
+
+		if ((select(43, &_readFds, &_writeFds, NULL , NULL, &timeout)) <= 0)
+			throw std::runtime_error("select failed");
+	}
+	
 	int addrlen = sizeof(_address);
-	if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t *)&addrlen)) < 0)
+	if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
 		throw	std::runtime_error("accept failed");
 	std::cout << "connected" << std::endl;
 }
