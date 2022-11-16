@@ -12,6 +12,7 @@ private:
 	const std::string	_password;
 	struct sockaddr_in	_address;
 	int					_serverFd;
+	int					_opt;
 	int					_newSocket;
 public:
 	Server(const std::string& port, const std::string& password);
