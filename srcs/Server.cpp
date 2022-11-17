@@ -6,6 +6,8 @@ Server::Server(const std::string& port, const std::string& password)
 :_port(port), _password(password)
 {
 	_opt = 1;
+	_timeout.tv_sec = 3 * 60;
+	_timeout.tv_usec = 0;
 }
 
 Server::~Server(){}
@@ -32,20 +34,29 @@ void	Server::start(void)
 		throw	std::runtime_error("bind failed");
 	if (listen(_serverFd, 42) < 0)
 		throw	std::runtime_error("listen failed");
+	FD_ZERO(&_readFds);
+	FD_ZERO(&_writeFds);
+	FD_SET(_serverFd, &_readFds);
+	FD_SET(_serverFd, &_writeFds);
 	while (true)
 	{
+		std::cout << "Listen..." << std::endl;
+		if ((select(43, &_readFds, &_writeFds, NULL, &_timeout)) <= 0)
+			throw std::runtime_error("timeout");
+		std::cout << getline(_readFds)
+		int addrlen = sizeof(_address);
+		if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
+			throw	std::runtime_error("accept failed");
+		std::cout << "connected" << std::endl;
+		FD_SET(_newSocket, &_readFds);
 		
-		FD_ZERO(&_readFds);
-		FD_ZERO(&_writeFds);
-		FD_SET(_serverFd, &_readFds);
-		FD_SET(_serverFd, &_writeFds);
 
-		if ((select(43, &_readFds, &_writeFds, NULL , NULL, &timeout)) <= 0)
-			throw std::runtime_error("select failed");
+		std::stringstream buff;
+		buff << _newSocket;
+		
+		std::string welcome = "001 " + buff.str() + " :Welcome to the 127.0.0.1 Network, acroisie\r\n";
+
+		if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
+			throw std::runtime_error("send failed");
 	}
-	
-	int addrlen = sizeof(_address);
-	if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
-		throw	std::runtime_error("accept failed");
-	std::cout << "connected" << std::endl;
 }
