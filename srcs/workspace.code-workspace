@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "bircd",
+			"path": "../../../Downloads/bircd"
+		},
+		{
+			"name": "ft_irc",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
