@@ -38,25 +38,40 @@ void	Server::start(void)
 	FD_ZERO(&_writeFds);
 	FD_SET(_serverFd, &_readFds);
 	FD_SET(_serverFd, &_writeFds);
+	int select_rvalue;
+	char buffer[500];
+	bzero((void *)buffer, sizeof(buffer));
 	while (true)
 	{
 		std::cout << "Listen..." << std::endl;
-		if ((select(43, &_readFds, &_writeFds, NULL, &_timeout)) <= 0)
+		if (((select_rvalue = select(43, &_readFds, &_writeFds, NULL, &_timeout))) <= 0)
 			throw std::runtime_error("timeout");
-		std::cout << getline(_readFds)
-		int addrlen = sizeof(_address);
-		if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
-			throw	std::runtime_error("accept failed");
-		std::cout << "connected" << std::endl;
-		FD_SET(_newSocket, &_readFds);
-		
+		for (int i = 0; i <= 43 ; i++)
+		{
+			if (FD_ISSET(i, &_readFds))
+			{
+				if (i == _serverFd)
+				{
+					int addrlen = sizeof(_address);
+					if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
+						throw	std::runtime_error("accept failed");
+					std::cout << "connected" << std::endl;
+					FD_SET(_newSocket, &_readFds);
+					std::stringstream buff;
+					buff << _newSocket;
+					std::string welcome = "001 " + buff.str() + " :Welcome to the 127.0.0.1 Network, acroisie\r\n";
 
-		std::stringstream buff;
-		buff << _newSocket;
+					if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
+						throw std::runtime_error("send failed");
+				}
+				else
+				{
+					if (recv(i, (void*)buffer, sizeof(buffer), 0) <= 0)
+						throw std::runtime_error("recv failed");
+					std::cout << buffer;	
+				}
+			}
+		}
 		
-		std::string welcome = "001 " + buff.str() + " :Welcome to the 127.0.0.1 Network, acroisie\r\n";
-
-		if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
-			throw std::runtime_error("send failed");
 	}
 }
