@@ -1,3 +1,5 @@
 .vscode
 srcs/objs
 ircserv
+srcs/workspace.code-workspace
+test

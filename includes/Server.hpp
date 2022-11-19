@@ -1,13 +1,6 @@
 #pragma		once
 
-#include	<iostream>
-#include	<sys/socket.h>
-#include	<netinet/in.h>
-#include	<errno.h>
-#include	<stdlib.h>
-#include	<sys/select.h>
-#include	<sys/time.h>
-#include	<sstream>
+#include	"Utils.hpp"
 
 class Server
 {
@@ -28,5 +21,6 @@ class Server
 
 		int		getServerFd(void);
 		int		getSocketOpt(void);
+		void	socketInit(void);
 		void	start(void);
 };

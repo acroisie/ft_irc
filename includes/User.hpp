@@ -1,12 +1,12 @@
 #pragma once
 
-#include <iostream>
+#include "Utils.hpp"
 
 class User
 {
 	private:
-		std::string _nickName;
-		std::string _userName;
+		std::string	_nickName;
+		std::string	_userName;
 	public:
 		User();
 		~User();

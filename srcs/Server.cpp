@@ -21,32 +21,35 @@ int		Server::getServerFd(void)
 
 /*-----------------MemberFunctions------------------*/
 
-void	Server::start(void)
+void	Server::socketInit(void)
 {
 	if ((_serverFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		throw	std::runtime_error("socket failed");
-	if ((setsockopt(_serverFd, SOL_SOCKET,SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
-		throw	std::runtime_error("setsocketopt failed");
+	FD_SET(_serverFd, &_readFds);
+	FD_SET(_serverFd, &_writeFds);
+	// if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
+	// 	throw	std::runtime_error("setsocketopt failed");
     _address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(atoi(_port.c_str()));
 	if (bind(_serverFd, (struct sockaddr*)&_address, (socklen_t)sizeof(_address)) < 0)
 		throw	std::runtime_error("bind failed");
-	if (listen(_serverFd, 42) < 0)
+	if (listen(_serverFd, MAX_CONNECTIONS) < 0)
 		throw	std::runtime_error("listen failed");
-	FD_ZERO(&_readFds);
-	FD_ZERO(&_writeFds);
-	FD_SET(_serverFd, &_readFds);
-	FD_SET(_serverFd, &_writeFds);
+}
+
+void	Server::start(void)
+{
+	socketInit();
 	int select_rvalue;
 	char buffer[500];
 	bzero((void *)buffer, sizeof(buffer));
 	while (true)
 	{
 		std::cout << "Listen..." << std::endl;
-		if (((select_rvalue = select(43, &_readFds, &_writeFds, NULL, &_timeout))) <= 0)
+		if (((select_rvalue = select((MAX_CONNECTIONS + 1), &_readFds, &_writeFds, NULL, &_timeout))) <= 0)
 			throw std::runtime_error("timeout");
-		for (int i = 0; i <= 43 ; i++)
+		for (int i = 0; i <= (MAX_CONNECTIONS + 1) ; i++)
 		{
 			if (FD_ISSET(i, &_readFds))
 			{
