@@ -8,5 +8,7 @@
 #include	<sys/select.h>
 #include	<sys/time.h>
 #include	<sstream>
+#include	<fcntl.h>
+#include	<map>
 
 #define 	MAX_CONNECTIONS 42

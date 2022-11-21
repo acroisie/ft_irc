@@ -1,19 +1,22 @@
 #pragma		once
 
 #include	"Utils.hpp"
-
+#include	"User.hpp"
+class User;
 class Server
 {
 	private:
-		const std::string	_port;
-		const std::string	_password;
-		struct sockaddr_in	_address;
-		int					_serverFd;
-		int					_opt;
-		int					_newSocket;
-		struct fd_set		_readFds;
-		struct fd_set		_writeFds;
-		struct timeval		_timeout;
+		const std::string			_port;
+		const std::string			_password;
+		struct sockaddr_in			_address;
+		int							_serverFd;
+		int							_opt;
+		int							_newSocket;
+		struct fd_set				_readFds;
+		struct fd_set				_writeFds;
+		struct timeval				_timeout;
+		std::map<int, User *>		userTab;
+
 	
 	public:
 		Server(const std::string& port, const std::string& password);
@@ -23,4 +26,5 @@ class Server
 		int		getSocketOpt(void);
 		void	socketInit(void);
 		void	start(void);
+		void	addUserInTab(int fd);
 };

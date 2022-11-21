@@ -21,10 +21,17 @@ int		Server::getServerFd(void)
 
 /*-----------------MemberFunctions------------------*/
 
+//void	Server::addUserInTab(int fd)
+//{
+//	userTab.insert(std::pair<int, User*>(fd, new User()));
+//}
+
 void	Server::socketInit(void)
 {
 	if ((_serverFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		throw	std::runtime_error("socket failed");
+	FD_ZERO(&_readFds);
+	FD_ZERO(&_writeFds);
 	FD_SET(_serverFd, &_readFds);
 	FD_SET(_serverFd, &_writeFds);
 	// if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
@@ -44,16 +51,17 @@ void	Server::start(void)
 	int select_rvalue;
 	char buffer[500];
 	bzero((void *)buffer, sizeof(buffer));
+	fcntl(_serverFd, F_SETFL, O_NONBLOCK);
 	while (true)
 	{
 		std::cout << "Listen..." << std::endl;
 		if (((select_rvalue = select((MAX_CONNECTIONS + 1), &_readFds, &_writeFds, NULL, &_timeout))) <= 0)
 			throw std::runtime_error("timeout");
-		for (int i = 0; i <= (MAX_CONNECTIONS + 1) ; i++)
+		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
 		{
-			if (FD_ISSET(i, &_readFds))
+			if (FD_ISSET(currentFd, &_readFds))
 			{
-				if (i == _serverFd)
+				if (currentFd == _serverFd)
 				{
 					int addrlen = sizeof(_address);
 					if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
@@ -62,17 +70,25 @@ void	Server::start(void)
 					FD_SET(_newSocket, &_readFds);
 					std::stringstream buff;
 					buff << _newSocket;
-					std::string welcome = "001 " + buff.str() + " :Welcome to the 127.0.0.1 Network, acroisie\r\n";
+					std::string welcome = "001 " + buff.str() + " :Welcome to the 127.0.0.1 Network\r\n";
 
 					if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
 						throw std::runtime_error("send failed");
+					
+					//addUserInTab(_newSocket);
 				}
 				else
 				{
-					if (recv(i, (void*)buffer, sizeof(buffer), 0) <= 0)
+					if (recv(currentFd, (void*)buffer, sizeof(buffer), 0) <= 0)
 						throw std::runtime_error("recv failed");
-					std::cout << buffer;	
+					std::cout << "\r\n[" << buffer << "]\n";
+					//buffer = exec(buffer);
 				}
+			}
+			else if (FD_ISSET(currentFd, &_writeFds))
+			{
+				//if(send(currentFd, buffer) < 0)
+				//	throw std::runtime_error("send fail");
 			}
 		}
 		

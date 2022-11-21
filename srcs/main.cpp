@@ -1,4 +1,5 @@
 #include	"../includes/Server.hpp"
+#include	"../includes/User.hpp"
 
 int	main(int argc, char** argv)
 {
