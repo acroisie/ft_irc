@@ -51,7 +51,7 @@ void	Server::start(void)
 	int select_rvalue;
 	char buffer[500];
 	bzero((void *)buffer, sizeof(buffer));
-	fcntl(_serverFd, F_SETFL, O_NONBLOCK);
+	//fcntl(_serverFd, F_SETFL, O_NONBLOCK);
 	while (true)
 	{
 		std::cout << "Listen..." << std::endl;
