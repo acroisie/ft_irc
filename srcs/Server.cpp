@@ -21,18 +21,15 @@ int		Server::getServerFd(void)
 
 /*-----------------MemberFunctions------------------*/
 
-//void	Server::addUserInTab(int fd)
-//{
-//	userTab.insert(std::pair<int, User*>(fd, new User()));
-//}
-
 void	Server::socketInit(void)
 {
 	if ((_serverFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		throw	std::runtime_error("socket failed");
-	FD_ZERO(&_readFds);
+	if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) < 0)
+		throw	std::runtime_error("fcntl failed");
+	FD_ZERO(&_clientFds);
 	FD_ZERO(&_writeFds);
-	FD_SET(_serverFd, &_readFds);
+	FD_SET(_serverFd, &_clientFds);
 	FD_SET(_serverFd, &_writeFds);
 	if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
 		throw	std::runtime_error("reuse of socket failed");
@@ -46,21 +43,19 @@ void	Server::socketInit(void)
 	bzero((void *)_buffer, sizeof(_buffer));
 }
 
-void	Server::getMessage(int	currentFd)
+void	Server::handleMessage(int	currentFd)
 {
-	{
-		if (recv(currentFd, (void*)_buffer, sizeof(_buffer), 0) <= 0)
-			throw std::runtime_error("recv failed");
-		std::cout << "\r\n[" << _buffer << "]\n";
-		//buffer = exec(buffer);
-	}
+	if (recv(currentFd, (void*)_buffer, sizeof(_buffer), 0) <= 0)
+		throw std::runtime_error("recv failed");
+	std::cout << "\r\n[" << _buffer << "]\n";
+	FD_SET(currentFd,&_writeFds);
 }
 void	Server::start(void)
 {
 	socketInit();
-	// fcntl(_serverFd, F_SETFL, O_NONBLOCK);
 	while (true)
 	{
+		_readFds = _clientFds;
 		std::cout << "Listen..." << std::flush;
 		if ((select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)) <= 0)
 			throw std::runtime_error("timeout");
@@ -74,21 +69,22 @@ void	Server::start(void)
 					if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
 						throw	std::runtime_error("accept failed");
 					std::cout << "connected" << std::endl;
-					FD_SET(_newSocket, &_readFds);
-					std::stringstream buff;
-					buff << _newSocket;
-					std::string welcome = "001 " + buff.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
-					if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
-						throw std::runtime_error("send failed");
-					//addUserInTab(_newSocket);
+					FD_SET(_newSocket, &_clientFds);
+					//handleConnexion()
+					// std::stringstream buff;
+					// buff << _newSocket;
+					// std::string welcome = "001 " + buff.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
+					// if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
+					// 	throw std::runtime_error("send failed");
 				}
 				else
-					getMessage(currentFd);
+					handleMessage(currentFd);
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
 			{
-				//if(send(currentFd, buffer) < 0)
-				//	throw std::runtime_error("send fail");
+				if(send(currentFd, "test",4, 0) < 0)
+					throw std::runtime_error("send fail");
+				FD_CLR(currentFd,&_writeFds);
 			}
 		}
 		
