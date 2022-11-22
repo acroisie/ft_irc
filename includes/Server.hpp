@@ -28,6 +28,7 @@ class Server
 		int		getSocketOpt(void);
 		void	socketInit(void);
 		void	handleMessage(int	currentFd);
+		void	handleNewConnexion(void);
 		void	start(void);
 		void	addUserInTab(int fd);
 };

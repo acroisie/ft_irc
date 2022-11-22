@@ -52,6 +52,23 @@ void	Server::handleMessage(int	currentFd)
 	std::cout << "\r\n[" << _buffer << "]\n";
 	FD_SET(currentFd,&_writeFds);
 }
+
+void	Server::handleNewConnexion(void)
+{
+	int addrlen = sizeof(_address);
+
+	if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
+		throw	std::runtime_error("accept failed");
+	std::cout << "connected" << std::endl;
+	FD_SET(_newSocket, &_clientFds);
+
+	std::stringstream buf;
+	buf << _newSocket;
+	std::string welcome = "001 " + buf.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
+	if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
+		throw std::runtime_error("send failed");
+}
+
 void	Server::start(void)
 {
 	socketInit();
@@ -66,19 +83,7 @@ void	Server::start(void)
 			if (FD_ISSET(currentFd, &_readFds))
 			{
 				if (currentFd == _serverFd)
-				{
-					int addrlen = sizeof(_address);
-					if ((_newSocket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&addrlen)) < 0)
-						throw	std::runtime_error("accept failed");
-					std::cout << "connected" << std::endl;
-					FD_SET(_newSocket, &_clientFds);
-					//handleConnexion()
-					// std::stringstream buff;
-					// buff << _newSocket;
-					// std::string welcome = "001 " + buff.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
-					// if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
-					// 	throw std::runtime_error("send failed");
-				}
+					handleNewConnexion();
 				else
 					handleMessage(currentFd);
 			}
