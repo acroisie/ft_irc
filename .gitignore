@@ -3,3 +3,6 @@ srcs/objs
 ircserv
 srcs/workspace.code-workspace
 test
+test.cpp
+trash.cpp
+trash.hpp

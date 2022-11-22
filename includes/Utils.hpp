@@ -10,5 +10,6 @@
 #include	<sstream>
 #include	<fcntl.h>
 #include	<map>
+#include	<unistd.h>
 
 #define 	MAX_CONNECTIONS 42

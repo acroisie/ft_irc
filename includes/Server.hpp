@@ -12,10 +12,12 @@ class Server
 		int							_serverFd;
 		int							_opt;
 		int							_newSocket;
+		struct fd_set				_clientFds;
 		struct fd_set				_readFds;
 		struct fd_set				_writeFds;
 		struct timeval				_timeout;
-		std::map<int, User *>		userTab;
+		char						_buffer[512];
+		std::map<int, User *>		_userTab;
 
 	
 	public:
@@ -25,6 +27,7 @@ class Server
 		int		getServerFd(void);
 		int		getSocketOpt(void);
 		void	socketInit(void);
+		void	handleMessage(int	currentFd);
 		void	start(void);
 		void	addUserInTab(int fd);
 };
