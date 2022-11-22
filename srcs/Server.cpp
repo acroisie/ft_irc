@@ -34,11 +34,13 @@ void	Server::socketInit(void)
 	FD_ZERO(&_writeFds);
 	FD_SET(_serverFd, &_readFds);
 	FD_SET(_serverFd, &_writeFds);
-	// if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
+	//if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
 	// 	throw	std::runtime_error("setsocketopt failed");
     _address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(atoi(_port.c_str()));
+	if	(fcntl(_serverFd, F_SETFL, O_NONBLOCK))
+		throw	std::runtime_error("fcntl");
 	if (bind(_serverFd, (struct sockaddr*)&_address, (socklen_t)sizeof(_address)) < 0)
 		throw	std::runtime_error("bind failed");
 	if (listen(_serverFd, MAX_CONNECTIONS) < 0)
@@ -51,7 +53,6 @@ void	Server::start(void)
 	int select_rvalue;
 	char buffer[500];
 	bzero((void *)buffer, sizeof(buffer));
-	//fcntl(_serverFd, F_SETFL, O_NONBLOCK);
 	while (true)
 	{
 		std::cout << "Listen..." << std::endl;
