@@ -1,8 +1,8 @@
 #pragma		once
 
 #include	"Utils.hpp"
-#include	"User.hpp"
-class User;
+#include	"Client.hpp"
+class Client;
 class Server
 {
 	private:
@@ -17,7 +17,7 @@ class Server
 		struct fd_set				_writeFds;
 		struct timeval				_timeout;
 		char						_buffer[512];
-		std::map<int, User *>		_userTab;
+		std::map<int, Client *>		_ClientTab;
 
 	
 	public:
@@ -29,6 +29,7 @@ class Server
 		void	socketInit(void);
 		void	handleMessage(int	currentFd);
 		void	handleNewConnexion(void);
+		void	replyToClient(int currentFd);
 		void	start(void);
-		void	addUserInTab(int fd);
+		void	addClientInTab(int fd);
 };

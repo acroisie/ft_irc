@@ -49,7 +49,7 @@ void	Server::handleMessage(int	currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, sizeof(_buffer), 0) <= 0)
 		throw std::runtime_error("recv failed");
-	std::cout << "\r\n[" << _buffer << "]\n";
+	std::cout << "[" << _buffer << "]";
 	FD_SET(currentFd,&_writeFds);
 }
 
@@ -67,6 +67,11 @@ void	Server::handleNewConnexion(void)
 	std::string welcome = "001 " + buf.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
 	if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
 		throw std::runtime_error("send failed");
+}
+
+void	Server::replyToClient(int currentFd)
+{
+	(void)currentFd;
 }
 
 void	Server::start(void)
@@ -89,7 +94,7 @@ void	Server::start(void)
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
 			{
-				if(send(currentFd, "test",4, 0) < 0)
+				if(send(currentFd, "prout\n",6, 0) < 0)
 					throw std::runtime_error("send fail");
 				FD_CLR(currentFd,&_writeFds);
 			}

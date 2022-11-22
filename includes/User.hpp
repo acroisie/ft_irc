@@ -2,16 +2,16 @@
 
 #include "Utils.hpp"
 
-class User
+class Client
 {
 	private:
 		std::string	_nickName;
-		std::string	_userName;
+		std::string	_ClientName;
 	public:
-		User();
-		~User();
+		Client();
+		~Client();
 		const std::string	&getNickName();
-		const std::string 	&getUserName();
+		const std::string 	&getClientName();
 		void				setNickName(std::string s);
-		void				setUserName(std::string s);
+		void				setClientName(std::string s);
 };

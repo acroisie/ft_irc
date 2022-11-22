@@ -1,5 +1,5 @@
 #include	"../includes/Server.hpp"
-#include	"../includes/User.hpp"
+#include	"../includes/Client.hpp"
 
 int	main(int argc, char** argv)
 {
