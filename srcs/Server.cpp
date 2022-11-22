@@ -34,8 +34,8 @@ void	Server::socketInit(void)
 	FD_ZERO(&_writeFds);
 	FD_SET(_serverFd, &_readFds);
 	FD_SET(_serverFd, &_writeFds);
-	// if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
-	// 	throw	std::runtime_error("setsocketopt failed");
+	if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
+		throw	std::runtime_error("reuse of socket failed");
     _address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(atoi(_port.c_str()));
@@ -43,19 +43,26 @@ void	Server::socketInit(void)
 		throw	std::runtime_error("bind failed");
 	if (listen(_serverFd, MAX_CONNECTIONS) < 0)
 		throw	std::runtime_error("listen failed");
+	bzero((void *)_buffer, sizeof(_buffer));
 }
 
+void	Server::getMessage(int	currentFd)
+{
+	{
+		if (recv(currentFd, (void*)_buffer, sizeof(_buffer), 0) <= 0)
+			throw std::runtime_error("recv failed");
+		std::cout << "\r\n[" << _buffer << "]\n";
+		//buffer = exec(buffer);
+	}
+}
 void	Server::start(void)
 {
 	socketInit();
-	int select_rvalue;
-	char buffer[500];
-	bzero((void *)buffer, sizeof(buffer));
-	fcntl(_serverFd, F_SETFL, O_NONBLOCK);
+	// fcntl(_serverFd, F_SETFL, O_NONBLOCK);
 	while (true)
 	{
-		std::cout << "Listen..." << std::endl;
-		if (((select_rvalue = select((MAX_CONNECTIONS + 1), &_readFds, &_writeFds, NULL, &_timeout))) <= 0)
+		std::cout << "Listen..." << std::flush;
+		if ((select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)) <= 0)
 			throw std::runtime_error("timeout");
 		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
 		{
@@ -70,20 +77,13 @@ void	Server::start(void)
 					FD_SET(_newSocket, &_readFds);
 					std::stringstream buff;
 					buff << _newSocket;
-					std::string welcome = "001 " + buff.str() + " :Welcome to the 127.0.0.1 Network\r\n";
-
+					std::string welcome = "001 " + buff.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
 					if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
 						throw std::runtime_error("send failed");
-					
 					//addUserInTab(_newSocket);
 				}
 				else
-				{
-					if (recv(currentFd, (void*)buffer, sizeof(buffer), 0) <= 0)
-						throw std::runtime_error("recv failed");
-					std::cout << "\r\n[" << buffer << "]\n";
-					//buffer = exec(buffer);
-				}
+					getMessage(currentFd);
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
 			{
