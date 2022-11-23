@@ -17,7 +17,7 @@ class Server
 		struct fd_set				_writeFds;
 		struct timeval				_timeout;
 		char						_buffer[512];
-		std::map<int, Client *>		_ClientTab;
+		std::map<int, Client *>		_clientList;
 
 	
 	public:
@@ -29,7 +29,7 @@ class Server
 		void	socketInit(void);
 		void	handleMessage(int	currentFd);
 		void	handleNewConnexion(void);
-		void	replyToClient(int currentFd);
+		void	replyToClient(void);
 		void	start(void);
 		void	addClientInTab(int fd);
 };

@@ -10,20 +10,25 @@ Client::~Client()
 	std::cout << " Destructor Client Called\n";
 }
 
+const int		 &Client::getFd()
+{
+	return(_fd);
+}
+
 const std::string &Client::getNickName()
 {
-	return(this->_nickName);
+	return(_nickName);
 }
 const std::string &Client::getClientName()
 {
-	return(this->_ClientName);
+	return(_ClientName);
 }
 
 void Client::setNickName(std::string s)
 {
-	this->_nickName = s;
+	_nickName = s;
 }
 void Client::setClientName(std::string s)
 {
-	this->_ClientName = s;
+	_ClientName = s;
 }
