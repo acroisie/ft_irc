@@ -18,6 +18,7 @@ class Server
 		struct timeval				_timeout;
 		char						_buffer[512];
 		std::map<int, Client *>		_clientList;
+		
 
 	
 	public:
@@ -29,7 +30,7 @@ class Server
 		void	socketInit(void);
 		void	handleMessage(int	currentFd);
 		void	handleNewConnexion(void);
-		void	replyToClient(void);
+		void	replyToClient(int currentFd);
 		void	start(void);
 		void	addClientInTab(int fd);
 };

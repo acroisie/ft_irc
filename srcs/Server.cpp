@@ -62,7 +62,7 @@ void	Server::handleNewConnexion(void)
 		throw	std::runtime_error("accept failed");
 	std::cout << "connected" << std::endl;
 	FD_SET(_newSocket, &_clientFds);
-	_clientList[_newSocket] = new User();
+	//_clientList[_newSocket] = new User();
 	std::stringstream buff;
 	buff << _newSocket;
 	std::string welcome = "001 " + buff.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
@@ -70,9 +70,9 @@ void	Server::handleNewConnexion(void)
 		throw std::runtime_error("send failed");
 }
 
-void	Server::replyToClient(void)
+void	Server::replyToClient(int currentFd)
 {
-	
+	send(currentFd, )
 }
 
 void	Server::start(void)
@@ -94,9 +94,9 @@ void	Server::start(void)
 					handleMessage(currentFd);
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
-				replyToClient();
+				replyToClient(currentFd);
 			// {
-			// 	if(send(currentFd, "prout\n",6, 0) < 0)
+			// 	if(send(_clienTab[fd], _buffer,6, 0) < 0)
 			// 		throw std::runtime_error("send fail");
 			// 	FD_CLR(currentFd,&_writeFds);
 			// }
