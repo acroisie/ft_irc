@@ -17,3 +17,6 @@ int	main(int argc, char** argv)
 		return (1);
 	}
 }
+
+
+// /server add test5 localhost/80 -password=fololo
