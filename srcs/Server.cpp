@@ -3,7 +3,7 @@
 /*---------------Constructor/Destructor--------------*/
 
 Server::Server(const std::string& port, const std::string& password)
-:_port(port), _password(password)
+:_port(port), _password(password + "\r\n")
 {
 	_opt = 1;
 	_timeout.tv_sec = 3 * 60;
@@ -45,12 +45,39 @@ void	Server::socketInit(void)
 	bzero((void *)_buffer, sizeof(_buffer));
 }
 
+void	Server::parseCommand(int currentFd)
+{
+	_tokens = splitString(_buffer, ' ');
+	std::vector<std::string>::iterator it = _tokens.begin();
+	if(*it == "PASS")
+	{
+		it++;
+		std::cout << "[" << *it << "]" << "|" << _password << "|" << _password.compare(*it) << "\n";
+		if(_password.compare(*it) == 0)
+		{
+			std::cout << "prout\n";
+		}
+		else
+		{
+			std::string trest;
+			trest = "464 acroisie :Password incorrect\r\n";
+			send(currentFd,trest.c_str(), trest.size(), 0 );
+			trest = "904 acroisie :Authentication failed\r\n";
+			send(currentFd, trest.c_str(), trest.size(), 0);
+			// close(currentFd);
+			// FD_CLR(currentFd, &_clientFds);
+		}
+	}
+}
+
 void	Server::handleMessage(int	currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, sizeof(_buffer), 0) <= 0)
 		throw std::runtime_error("recv failed");
 	//Parse & buffer RPL
-	// std::cout << "[" << _buffer << "]";
+	std::cout << "[" << _buffer << "]";
+	parseCommand(currentFd);
+	
 	FD_SET(currentFd,&_writeFds);
 }
 
@@ -65,15 +92,15 @@ void	Server::handleNewConnexion(void)
 	//_clientList[_newSocket] = new User();
 	std::stringstream buff;
 	buff << _newSocket;
-	std::string welcome = "001 " + buff.str() + " :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
+	std::string welcome = "001 acroisie :Welcome to thejdfg dsdgsjkdfgjkdfg.1 Network\r\n";
 	if (send(_newSocket, welcome.c_str(), welcome.size(), 0) < 0)
 		throw std::runtime_error("send failed");
 }
 
-void	Server::replyToClient(int currentFd)
-{
-	send(currentFd, )
-}
+// void	Server::replyToClient(int currentFd)
+// {
+// 	send(currentFd, )
+// }
 
 void	Server::start(void)
 {
@@ -83,7 +110,7 @@ void	Server::start(void)
 		_readFds = _clientFds;
 		std::cout << "Listen..." << std::flush;
 		if ((select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)) <= 0)
-			throw std::runtime_error("timeout");
+			throw std::runtime_error("select quit");
 		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
 		{
 			if (FD_ISSET(currentFd, &_readFds))
@@ -94,12 +121,12 @@ void	Server::start(void)
 					handleMessage(currentFd);
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
-				replyToClient(currentFd);
-			// {
-			// 	if(send(_clienTab[fd], _buffer,6, 0) < 0)
-			// 		throw std::runtime_error("send fail");
-			// 	FD_CLR(currentFd,&_writeFds);
-			// }
+				// replyToClient(currentFd);
+			{
+				//if(send(_clienTab[fd], _buffer,6, 0) < 0)
+				//	throw std::runtime_error("send fail");
+				FD_CLR(currentFd,&_writeFds);
+			}
 		}
 		
 	}

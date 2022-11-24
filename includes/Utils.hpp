@@ -11,5 +11,9 @@
 #include	<fcntl.h>
 #include	<map>
 #include	<unistd.h>
+#include	<vector>
+#include	<string>
 
 #define 	MAX_CONNECTIONS 42
+
+std::vector<std::string> splitString(std::string input, char separator);

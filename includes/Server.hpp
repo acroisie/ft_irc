@@ -1,8 +1,7 @@
 #pragma		once
 
 #include	"Utils.hpp"
-#include	"Client.hpp"
-class Client;
+
 class Server
 {
 	private:
@@ -17,10 +16,9 @@ class Server
 		struct fd_set				_writeFds;
 		struct timeval				_timeout;
 		char						_buffer[512];
-		std::map<int, Client *>		_clientList;
-		
+		std::vector<std::string>	_tokens;
 
-	
+
 	public:
 		Server(const std::string& port, const std::string& password);
 		~Server();
@@ -32,5 +30,6 @@ class Server
 		void	handleNewConnexion(void);
 		void	replyToClient(int currentFd);
 		void	start(void);
-		void	addClientInTab(int fd);
+		void	parseCommand(int currentFd);
+
 };

@@ -15,9 +15,8 @@ OBJECTS_PREFIXED	= $(addprefix $(OBJS_DIR)/, $(OBJS))
 OBJS				= $(SRCS:.cpp=.o)
 
 SRCS				=	main.cpp \
+						Utils.cpp \
 						Server.cpp
-
-INC					=	$(INC_DIR)Server.hpp
 
 all: $(NAME)
 
@@ -27,9 +26,8 @@ $(NAME): $(OBJECTS_PREFIXED)
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)%.cpp Makefile $(INC) | $(OBJS_DIR)
-	$(CC) $(CC_FLAGS) -c $< -o $@ -I $(INC_DIR)
-
+$(OBJS_DIR)/%.o: $(SRCS_DIR)%.cpp Makefile $(shell find . -type f -name "*.hpp") | $(OBJS_DIR)
+	$(CC) $(CC_FLAGS) -c $< -o $@ -I
 clean:
 	rm -rf $(OBJS_DIR)
 
