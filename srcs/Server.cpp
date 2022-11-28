@@ -7,6 +7,7 @@ Server::Server(const std::string& port, const std::string& password)
 {
 	FD_ZERO(&_clientFds);
 	FD_ZERO(&_writeFds);
+	_opt = 1;
     _address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(atoi(_port.c_str()));
@@ -28,7 +29,6 @@ void	Server::acceptNewClient(void)
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
 		throw	std::runtime_error("accept failed");
-
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	std::cout << "connected" << std::endl;
@@ -40,10 +40,9 @@ void	Server::handleMsg(int currentFd)
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
 	_tokens = splitString(_buffer, ' ');
-	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++)
-	{
-	std::cout << "{" << *it << "}\n";
-	}
+	std::vector<std::string>::iterator it = _tokens.begin();
+	if(*it++ == "NICK")
+		_clientMap[currentFd].setNickname(*it++);
 }
 
 void	Server::socketInit(void)
@@ -52,6 +51,8 @@ void	Server::socketInit(void)
 		throw	std::runtime_error("socket creation failed");
 	if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) < 0)
 		throw	std::runtime_error("fcntl failed");
+	if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
+		throw	std::runtime_error("reuse of socket failed");
 	if (bind(_serverFd, (struct sockaddr*)&_address, (socklen_t)sizeof(_address)) < 0)
 		throw	std::runtime_error("bind failed");
 	if (listen(_serverFd, MAX_CONNECTIONS) < 0)

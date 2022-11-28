@@ -7,6 +7,7 @@ class Client
 private:
 	int						_clientFd;
 	struct sockaddr_in		_clientAddr;
+	std::string				_nickname;
 
 public:
 	Client(void);
@@ -14,4 +15,7 @@ public:
 
 	void	setFd(int _clientFd);
 	void	setAdress(struct sockaddr_in clientAddr);
+	void	setNickname(std::string nickname);
+
+	const std::string	getNickname(void);
 };
