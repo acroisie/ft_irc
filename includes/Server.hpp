@@ -28,4 +28,5 @@ public:
 	void	start(void);
 	void	socketInit(void);
 	void	acceptNewClient(void);
+	void	handleMsg(int currentFd);
 };

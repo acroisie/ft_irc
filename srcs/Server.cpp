@@ -28,20 +28,22 @@ void	Server::acceptNewClient(void)
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
 		throw	std::runtime_error("accept failed");
-	if (recv(newClient, (void*)_buffer, BUFF_SIZE, 0) <= 0)
-		throw std::runtime_error("recv failed");
-	_tokens = splitString(_buffer, ' ');
-
-
-	//  for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) {
-    //    std::cout << "{" << *it << "}\n";
-    // }
-
 
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	std::cout << "connected" << std::endl;
 	FD_SET(newClient, &_clientFds);
+}
+
+void	Server::handleMsg(int currentFd)
+{
+	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
+		throw std::runtime_error("recv failed");
+	_tokens = splitString(_buffer, ' ');
+	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++)
+	{
+	std::cout << "{" << *it << "}\n";
+	}
 }
 
 void	Server::socketInit(void)
@@ -72,7 +74,8 @@ void	Server::start()
 			{
 				if (currentFd == _serverFd)
 					acceptNewClient();
-				// if newClient.getFd() == _readFds
+				else
+					handleMsg(currentFd);
 			// else if (FD_ISSET(currentFd, &_writeFds))
 			// 	replyToClient(currentFd);
 			}	
