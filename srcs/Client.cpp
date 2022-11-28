@@ -6,7 +6,7 @@ Client::Client(void){}
 
 Client::~Client(){}
 
-/*-----------------MemberFunctions------------------*/
+/*---------------------Setters-----------------------*/
 
 void	Client::setFd(int clientFd)
 {
@@ -17,3 +17,5 @@ void	Client::setAdress(struct sockaddr_in clientAddr)
 {
 	_clientAddr =  clientAddr;
 }
+
+/*-----------------MemberFunctions------------------*/

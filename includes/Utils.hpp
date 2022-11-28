@@ -13,5 +13,6 @@
 #include	<vector>
 
 #define 	MAX_CONNECTIONS 42
+#define 	BUFF_SIZE 1024
 
 std::vector<std::string> splitString(std::string input, char separator);

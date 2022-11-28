@@ -16,7 +16,8 @@ OBJS				= $(SRCS:.cpp=.o)
 
 SRCS				=	Client.cpp \
 						main.cpp \
-						Server.cpp
+						Server.cpp \
+						Utils.cpp
 
 INC					=	$(INC_DIR)Client.hpp \
 						$(INC_DIR)Server.hpp \

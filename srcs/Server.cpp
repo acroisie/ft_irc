@@ -13,6 +13,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_addrLen = sizeof(_address);
 	_timeout.tv_sec = 3 * 60;
 	_timeout.tv_usec = 0;
+	bzero((void *)_buffer, BUFF_SIZE);
 }
 
 Server::~Server(){}
@@ -27,6 +28,16 @@ void	Server::acceptNewClient(void)
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
 		throw	std::runtime_error("accept failed");
+	if (recv(newClient, (void*)_buffer, BUFF_SIZE, 0) <= 0)
+		throw std::runtime_error("recv failed");
+	_tokens = splitString(_buffer, ' ');
+
+
+	//  for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) {
+    //    std::cout << "{" << *it << "}\n";
+    // }
+
+
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	std::cout << "connected" << std::endl;
@@ -44,7 +55,6 @@ void	Server::socketInit(void)
 	if (listen(_serverFd, MAX_CONNECTIONS) < 0)
 		throw	std::runtime_error("listen failed");
 	FD_SET(_serverFd, &_clientFds);
-	_readFds = _clientFds;
 }
 
 void	Server::start()
@@ -52,6 +62,7 @@ void	Server::start()
 	socketInit();
 	while (true)
 	{
+		_readFds = _clientFds;
 		std::cout << "\rListen..." << std::flush;
 		if (!(select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)))
 			throw std::runtime_error("time-out");
