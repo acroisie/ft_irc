@@ -14,10 +14,13 @@ OBJECTS_PREFIXED	= $(addprefix $(OBJS_DIR)/, $(OBJS))
 
 OBJS				= $(SRCS:.cpp=.o)
 
-SRCS				=	main.cpp \
+SRCS				=	Client.cpp \
+						main.cpp \
 						Server.cpp
 
-INC					=	$(INC_DIR)Server.hpp
+INC					=	$(INC_DIR)Client.hpp \
+						$(INC_DIR)Server.hpp \
+						$(INC_DIR)Utils.hpp
 
 all: $(NAME)
 

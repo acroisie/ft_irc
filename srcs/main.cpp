@@ -1,5 +1,4 @@
 #include	"../includes/Server.hpp"
-#include	"../includes/Client.hpp"
 
 int	main(int argc, char** argv)
 {
@@ -17,3 +16,5 @@ int	main(int argc, char** argv)
 		return (1);
 	}
 }
+
+// /server add irc localhost/4242 -password=test
