@@ -1,6 +1,9 @@
 #include	"../includes/Server.hpp"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> lNW/master
 int	main(int argc, char** argv)
 {
 	try
@@ -18,5 +21,9 @@ int	main(int argc, char** argv)
 	}
 }
 
+<<<<<<< HEAD
 
 // /server add test5 localhost/80 -password=fololo
+=======
+// /server add irc localhost/4242 -password=test
+>>>>>>> lNW/master

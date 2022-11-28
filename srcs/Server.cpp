@@ -3,15 +3,27 @@
 /*---------------Constructor/Destructor--------------*/
 
 Server::Server(const std::string& port, const std::string& password)
+<<<<<<< HEAD
 :_port(port), _password(password + "\r\n")
 {
 	_opt = 1;
+=======
+:_port(port), _password(password)
+{
+	FD_ZERO(&_clientFds);
+	FD_ZERO(&_writeFds);
+    _address.sin_family = AF_INET;
+    _address.sin_addr.s_addr = INADDR_ANY;
+    _address.sin_port = htons(atoi(_port.c_str()));
+	_addrLen = sizeof(_address);
+>>>>>>> lNW/master
 	_timeout.tv_sec = 3 * 60;
 	_timeout.tv_usec = 0;
 }
 
 Server::~Server(){}
 
+<<<<<<< HEAD
 /*---------------------Accessors--------------------*/
 
 int		Server::getServerFd(void)
@@ -38,10 +50,41 @@ void	Server::socketInit(void)
     _address.sin_port = htons(atoi(_port.c_str()));
 	if	(fcntl(_serverFd, F_SETFL, O_NONBLOCK))
 		throw	std::runtime_error("fcntl");
+=======
+/*-----------------MemberFunctions------------------*/
+
+void	Server::acceptNewClient(void)
+{
+	int						newClient;
+	struct sockaddr_in		clientAddr;
+	socklen_t				addrLen;
+	addrLen = sizeof(clientAddr);
+	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
+		throw	std::runtime_error("accept failed");
+	char clientName[1024];
+	char service[32];
+	memset(clientName, 0, 1024);
+	memset(service, 0, 32);
+	getnameinfo((sockaddr*)&clientAddr, addrLen, clientName, 1024, service, 32, 0);
+	std::cout << "Name :" << clientName << " service :" << service << std::endl;
+	_clientMap[newClient]; //set tout le bordel get nameinfo mes couilles
+	std::cout << "connected" << std::endl;
+	//new client object creation name + i++
+	FD_SET(newClient, &_clientFds);
+}
+
+void	Server::socketInit(void)
+{
+	if ((_serverFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+		throw	std::runtime_error("socket creation failed");
+	if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) < 0)
+		throw	std::runtime_error("fcntl failed");
+>>>>>>> lNW/master
 	if (bind(_serverFd, (struct sockaddr*)&_address, (socklen_t)sizeof(_address)) < 0)
 		throw	std::runtime_error("bind failed");
 	if (listen(_serverFd, MAX_CONNECTIONS) < 0)
 		throw	std::runtime_error("listen failed");
+<<<<<<< HEAD
 	bzero((void *)_buffer, sizeof(_buffer));
 }
 
@@ -103,19 +146,33 @@ void	Server::handleNewConnexion(void)
 // }
 
 void	Server::start(void)
+=======
+	FD_SET(_serverFd, &_clientFds);
+	_readFds = _clientFds;
+}
+
+void	Server::start()
+>>>>>>> lNW/master
 {
 	socketInit();
 	while (true)
 	{
+<<<<<<< HEAD
 		_readFds = _clientFds;
 		std::cout << "Listen..." << std::flush;
 		if ((select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)) <= 0)
 			throw std::runtime_error("select quit");
+=======
+		std::cout << "\rListen..." << std::flush;
+		if (!(select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)))
+			throw std::runtime_error("time-out");
+>>>>>>> lNW/master
 		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
 		{
 			if (FD_ISSET(currentFd, &_readFds))
 			{
 				if (currentFd == _serverFd)
+<<<<<<< HEAD
 					handleNewConnexion();
 				else
 					handleMessage(currentFd);
@@ -131,3 +188,13 @@ void	Server::start(void)
 		
 	}
 }
+=======
+					acceptNewClient();
+				// if newClient.getFd() == _readFds
+			// else if (FD_ISSET(currentFd, &_writeFds))
+			// 	replyToClient(currentFd);
+			}	
+		}
+	}
+}
+>>>>>>> lNW/master
