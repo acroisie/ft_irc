@@ -5,17 +5,19 @@ Commands::Commands()
 {
 	_commandMap["NICK"] = &Commands::nick;
 }
-Commands::~Commands()
-{}
+
+Commands::~Commands(){}
 /*---------------------Setters-----------------------*/
 
 /*----------------------Getters---------------------*/
 
 /*-----------------MemberFunctions------------------*/
-void Commands::execCommand(std::string s)
+
+void Commands::execCommand(std::string str)
 {
-	_commandMap[s];
+	_commandMap[str];
 }
+
 void	Commands::tokenize(char *buff)
 {
 	_tokens = splitString(buff, ' ');
