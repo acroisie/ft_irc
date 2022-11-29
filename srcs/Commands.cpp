@@ -13,9 +13,10 @@ Commands::~Commands(){}
 
 /*-----------------MemberFunctions------------------*/
 
-void Commands::execCommand(std::string str)
+void	Commands::execCommand(std::string str)
 {
-	_commandMap[str];
+	std::map<std::string, void (Commands::*)()>::iterator it = _commandMap.find(str);
+	(this->*(it->second))();
 }
 
 void	Commands::tokenize(char *buff)
@@ -27,7 +28,7 @@ void	Commands::tokenize(char *buff)
 
 void	Commands::nick(void)
 {
-	std::cout << "TEST\n";
+	std::cout << "\n|TESTnick|\n";
 	//std::cout << "*it: " << *it << std::endl; //to del
 	//std::cout << "*it++: " << *it++ << std::endl; //to del
 	//std::string str;

@@ -6,7 +6,7 @@ class Commands
 {
 	private:
 		std::vector<std::string>	_tokens;
-		std::map<std::string, void (Commands::*)() > _commandMap;
+		std::map<std::string, void (Commands::*)()> _commandMap;
 
 	public:
 		Commands();
