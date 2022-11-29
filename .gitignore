@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .vscode
 srcs/objs
 ircserv
@@ -7,9 +6,4 @@ test
 test.cpp
 trash.cpp
 trash.hpp
-=======
-srcs/objs
-ircserv
-.vscode
->>>>>>> lNW/master
 .DS_Store

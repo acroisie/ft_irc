@@ -21,6 +21,7 @@ private:
 	std::map<int, Client>		_clientMap;
 	char						_buffer[BUFF_SIZE];
 	std::vector<std::string>	_tokens;
+	std::vector<std::string>::iterator _It;
 
 public:
 	Server(const std::string& port, const std::string& password);

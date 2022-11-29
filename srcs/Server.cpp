@@ -1,5 +1,7 @@
 #include	"../includes/Server.hpp"
 
+
+
 /*---------------Constructor/Destructor--------------*/
 
 Server::Server(const std::string& port, const std::string& password)
@@ -16,6 +18,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_timeout.tv_usec = 0;
 	bzero((void *)_buffer, BUFF_SIZE);
 }
+
 
 Server::~Server(){}
 
@@ -41,8 +44,25 @@ void	Server::handleMsg(int currentFd)
 		throw std::runtime_error("recv failed");
 	_tokens = splitString(_buffer, ' ');
 	std::vector<std::string>::iterator it = _tokens.begin();
-	if(*it++ == "NICK")
-		_clientMap[currentFd].setNickname(*it++);
+	std::string commandsTab[] = 
+	{
+		"NICK",
+		"PASS"
+	};
+	int i = 0;
+	it++;
+	while(i < 3)
+	{
+		if (commandsTab[i] == *it)
+			break;
+		i++;
+	}
+	switch (i)
+	{
+		case 0:
+			_clientMap[currentFd].setNickname(*it);
+	}
+	std::cout << "nick : "<< _clientMap[currentFd].getNickname() << std::endl;
 }
 
 void	Server::socketInit(void)
