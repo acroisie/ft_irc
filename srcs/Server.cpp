@@ -17,7 +17,6 @@ Server::Server(const std::string& port, const std::string& password)
 	bzero((void *)_buffer, BUFF_SIZE);
 }
 
-
 Server::~Server(){}
 
 /*----------------------Getters---------------------*/
@@ -47,8 +46,7 @@ void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
-	//_command.tokenize(getBuffer());
-	std::cout << "her\n";
+	_command.tokenize(getBuffer());
 	_command.execCommand("NICK");
 	
 }
