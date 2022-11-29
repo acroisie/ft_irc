@@ -10,18 +10,13 @@ INC_DIR				= includes/
 
 SRCS_DIR			= srcs/
 
-OBJECTS_PREFIXED	= $(addprefix $(OBJS_DIR)/, $(OBJS))
+OBJECTS_PREFIXED	= 	$(addprefix , $(OBJS))
 
-OBJS				= $(SRCS:.cpp=.o)
+OBJS				= 	$(SRCS:.cpp=.o)
 
-SRCS				=	Client.cpp \
-						main.cpp \
-						Server.cpp \
-						Utils.cpp
+SRCS				=	$(shell find . -type f -name "*.cpp")
 
-INC					=	$(INC_DIR)Client.hpp \
-						$(INC_DIR)Server.hpp \
-						$(INC_DIR)Utils.hpp
+INC					=	$(shell find . -type f -name "*.hpp")
 
 all: $(NAME)
 

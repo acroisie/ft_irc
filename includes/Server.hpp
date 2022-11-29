@@ -2,9 +2,10 @@
 
 #include	"../includes/Utils.hpp"
 #include	"../includes/Client.hpp"
+#include	"../includes/Commands.hpp"
 
 class Client;
-
+class Commands;
 class Server
 {
 private:
@@ -23,6 +24,7 @@ private:
 	char						_buffer[BUFF_SIZE];
 	std::vector<std::string>	_tokens;
 	std::vector<std::string>::iterator _It;
+	Commands					_command;
 
 public:
 	Server(const std::string& port, const std::string& password);

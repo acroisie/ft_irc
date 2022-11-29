@@ -48,6 +48,7 @@ void	Server::handleMsg(int currentFd)
 
 	if(*it == "NICK")
 	{
+		_command.execCommand("NICK");
 		std::cout << "*it: " << *it << std::endl; //to del
 		std::cout << "*it++: " << *it++ << std::endl; //to del
 		std::string str;
