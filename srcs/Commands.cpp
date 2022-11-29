@@ -13,7 +13,7 @@ Commands::~Commands(){}
 
 /*-----------------MemberFunctions------------------*/
 
-void Commands::execCommand(std::string str)
+void	Commands::execCommand(std::string str)
 {
 	_commandMap[str];
 }
@@ -23,6 +23,10 @@ void	Commands::tokenize(char *buff)
 	_tokens = splitString(buff, ' ');
 	std::vector<std::string>::iterator it = _tokens.begin();
 	std::cout << *it;
+	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++)
+	{
+       std::cout << "{" << *it << "}\n";
+    }
 }
 
 void	Commands::nick(void)
@@ -31,7 +35,7 @@ void	Commands::nick(void)
 	//std::cout << "*it: " << *it << std::endl; //to del
 	//std::cout << "*it++: " << *it++ << std::endl; //to del
 	//std::string str;
-	//str = *it;
+	//str = *it;	
 	//str.erase(str.size() - 1);
 	//str.erase(str.size() - 1);
 	//_clientMap[currentFd].setNickname(str);

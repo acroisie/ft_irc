@@ -2,7 +2,7 @@ CC = c++
 
 CC_FLAGS = -Wall -Werror -Wextra -std=c++98
 
-NAME := ft_irc
+NAME := ircserv
 	
 SRCS := $(shell find srcs -type f -name "*.cpp" | cut -c6-)
 
