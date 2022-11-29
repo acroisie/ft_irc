@@ -6,6 +6,7 @@
 
 class Client;
 class Commands;
+
 class Server
 {
 private:
@@ -22,13 +23,13 @@ private:
 	std::map<int, Client>		_clientMap;
 	std::map<int, void *>		_serverMap;
 	char						_buffer[BUFF_SIZE];
-	std::vector<std::string>	_tokens;
-	std::vector<std::string>::iterator _It;
 	Commands					_command;
 
 public:
 	Server(const std::string& port, const std::string& password);
 	~Server();
+
+	const std::string	getBuffer(void);
 
 	void	start(void);
 	void	socketInit(void);

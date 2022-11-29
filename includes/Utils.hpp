@@ -1,8 +1,5 @@
 #pragma		once
 
-// #include	"../includes/Server.hpp"
-// #include	"../includes/Client.hpp"
-
 #include	<iostream>
 #include	<sys/socket.h>
 #include	<netinet/in.h>
