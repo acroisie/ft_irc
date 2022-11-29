@@ -29,7 +29,7 @@ public:
 	Server(const std::string& port, const std::string& password);
 	~Server();
 
-	const std::string	getBuffer(void);
+	char*	getBuffer(void);
 
 	void	start(void);
 	void	socketInit(void);

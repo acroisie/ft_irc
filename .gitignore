@@ -7,3 +7,8 @@ test.cpp
 trash.cpp
 trash.hpp
 .DS_Store
+srcs/Client.o
+srcs/Commands.o
+srcs/main.o
+srcs/Server.o
+srcs/Utils.o

@@ -1,7 +1,5 @@
 #include	"../includes/Server.hpp"
 
-
-
 /*---------------Constructor/Destructor--------------*/
 
 Server::Server(const std::string& port, const std::string& password)
@@ -24,7 +22,7 @@ Server::~Server(){}
 
 /*----------------------Getters---------------------*/
 
-const std::string	Server::getBuffer(void)
+char*	Server::getBuffer(void)
 {
 	return (_buffer);
 }
@@ -49,7 +47,7 @@ void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
-	command.tokenize(getBuffer().c_str());
+	_command.tokenize(getBuffer());
 	
 }
 
