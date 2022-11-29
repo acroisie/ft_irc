@@ -5,8 +5,12 @@
 class Commands
 {
 private:
-	/* data */
+	std::vector<std::string>	_tokens;
+
 public:
 	Commands(/* args */);
 	~Commands();
+
+	void	tokenize(char *_buffer);
+	void	nick(void);
 };

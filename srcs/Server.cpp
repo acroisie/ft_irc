@@ -19,6 +19,13 @@ Server::Server(const std::string& port, const std::string& password)
 
 Server::~Server(){}
 
+/*----------------------Getters---------------------*/
+
+const std::string	Server::getBuffer(void)
+{
+	return (_buffer);
+}
+
 /*-----------------MemberFunctions------------------*/
 
 void	Server::acceptNewClient(void)
@@ -31,32 +38,16 @@ void	Server::acceptNewClient(void)
 		throw	std::runtime_error("accept failed");
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
-	std::cout << "connected" << std::endl;
+	std::cout << "\rconnected" << std::endl;
 	FD_SET(newClient, &_clientFds);
 }
 
 void	Server::handleMsg(int currentFd)
 {
+	Commands command;
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
-	std::cout << _buffer << std::endl; //to del
-	_tokens = splitString(_buffer, ' ');
-	std::vector<std::string>::iterator it = _tokens.begin();
-
-	if(*it == "NICK")
-	{
-		std::cout << "*it: " << *it << std::endl; //to del
-		std::cout << "*it++: " << *it++ << std::endl; //to del
-		std::string str;
-		str = *it;
-		str.erase(str.size() - 1);
-		str.erase(str.size() - 1);
-		_clientMap[currentFd].setNickname(str);
-		std::cout << "nick: " << _clientMap[currentFd].getNickname() << '$' << std::endl; //to del
-		std::string	test = ERR_WRONGPASSWORD(_clientMap[currentFd].getNickname());
-		std::cout << test << std::endl; // degager
-		send(currentFd, test.c_str(), test.size(), 0);
-	}
+	command.tokenize(getBuffer().c_str());
 }
 
 void	Server::socketInit(void)

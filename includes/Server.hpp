@@ -1,9 +1,10 @@
 #pragma		once
 
 #include	"../includes/Utils.hpp"
-#include	"../includes/Client.hpp"
+#include	"../includes/Commands.hpp"
 
 class Client;
+class Commands;
 
 class Server
 {
@@ -21,11 +22,12 @@ private:
 	std::map<int, Client>		_clientMap;
 	std::map<int, void *>		_serverMap;
 	char						_buffer[BUFF_SIZE];
-	std::vector<std::string>	_tokens;
 
 public:
 	Server(const std::string& port, const std::string& password);
 	~Server();
+
+	const std::string	getBuffer(void);
 
 	void	start(void);
 	void	socketInit(void);
