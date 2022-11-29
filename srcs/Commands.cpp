@@ -4,6 +4,9 @@
 Commands::Commands()
 {
 	_commandMap["NICK"] = &Commands::nick;
+	_commandMap["PASS"] = &Commands::pass;
+	_commandMap["CAP"] = &Commands::cap;
+	_commandMap["USER"] = &Commands::user;
 }
 
 Commands::~Commands(){}
@@ -13,10 +16,14 @@ Commands::~Commands(){}
 
 /*-----------------MemberFunctions------------------*/
 
-void	Commands::execCommand(std::string str)
+void	Commands::execCommand(void)
 {
-	std::map<std::string, void (Commands::*)()>::iterator it = _commandMap.find(str);
-	(this->*(it->second))();
+	std::map<std::string, void (Commands::*)()>::iterator it = _commandMap.find(_tokens[0]);
+	if (it != _commandMap.end())
+	{
+		(this->*(it->second))();
+
+	}
 }
 
 void	Commands::tokenize(char *buff)
@@ -30,6 +37,20 @@ void	Commands::tokenize(char *buff)
     }
 }
 
+void	Commands::cap(void)
+{
+	std::cout << "\n|TESTcap|\n";
+}
+
+void	Commands::user(void)
+{
+	std::cout << "\n|TESTuser|\n";
+}
+
+void	Commands::pass(void)
+{
+	std::cout << "\n|TESTpass|\n";
+}
 void	Commands::nick(void)
 {
 	std::cout << "\n|TESTnick|\n";

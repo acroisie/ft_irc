@@ -13,6 +13,10 @@ class Commands
 		~Commands();
 
 		void	tokenize(char *_buffer);
-		void	execCommand(std::string s);
+		void	execCommand(void);
 		void	nick(void);
+		void	pass(void);
+		void	user(void);
+		void	cap(void);
+		void	join(void);
 };
