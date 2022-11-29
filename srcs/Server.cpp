@@ -49,7 +49,7 @@ void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
-	command.tokenize(getBuffer().c_str());
+	//_command.tokenize(getBuffer().c_str());
 	
 }
 
