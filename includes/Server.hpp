@@ -19,6 +19,7 @@ private:
 	int							_addrLen;
 	struct timeval				_timeout;
 	std::map<int, Client>		_clientMap;
+	std::map<int, void *>		_serverMap;
 	char						_buffer[BUFF_SIZE];
 	std::vector<std::string>	_tokens;
 

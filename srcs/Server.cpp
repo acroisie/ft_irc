@@ -39,10 +39,24 @@ void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
+	std::cout << _buffer << std::endl; //to del
 	_tokens = splitString(_buffer, ' ');
 	std::vector<std::string>::iterator it = _tokens.begin();
-	if(*it++ == "NICK")
-		_clientMap[currentFd].setNickname(*it++);
+
+	if(*it == "NICK")
+	{
+		std::cout << "*it: " << *it << std::endl; //to del
+		std::cout << "*it++: " << *it++ << std::endl; //to del
+		std::string str;
+		str = *it;
+		str.erase(str.size() - 1);
+		str.erase(str.size() - 1);
+		_clientMap[currentFd].setNickname(str);
+		std::cout << "nick: " << _clientMap[currentFd].getNickname() << '$' << std::endl; //to del
+		std::string	test = ERR_WRONGPASSWORD(_clientMap[currentFd].getNickname());
+		std::cout << test << std::endl; // degager
+		send(currentFd, test.c_str(), test.size(), 0);
+	}
 }
 
 void	Server::socketInit(void)
