@@ -25,6 +25,7 @@ void	Commands::tokenize(char *buff)
 
 void	Commands::nick(void)
 {
+	std::cout << "TEST\n";
 	//std::cout << "*it: " << *it << std::endl; //to del
 	//std::cout << "*it++: " << *it++ << std::endl; //to del
 	//std::string str;
