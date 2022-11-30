@@ -6,9 +6,9 @@
 class Commands
 {
 	private:
-		std::vector<std::string>					_tokens;
+		std::vector<std::string>							_tokens;
 		std::map<std::string, void (Commands::*)(Client &)>	_commandMap;
-		char										_replyBuff[BUFF_SIZE];									
+		char												_replyBuff[BUFF_SIZE];									
 
 	public:
 		Commands();
