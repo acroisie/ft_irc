@@ -47,8 +47,9 @@ void	Server::handleMsg(int currentFd)
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
 	_command.tokenize(getBuffer());
-	_command.execCommand();
-	
+	_command.execCommand();	
+	bzero(_buffer, strlen(_buffer));
+	_command.clearTokens();
 }
 
 void	Server::socketInit(void)

@@ -13,6 +13,7 @@ class Commands
 		~Commands();
 
 		void	tokenize(char *_buffer);
+		void	clearTokens(void);
 		void	execCommand(void);
 		void	nick(void);
 		void	pass(void);
