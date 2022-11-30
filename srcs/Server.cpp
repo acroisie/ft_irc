@@ -47,15 +47,16 @@ void	Server::acceptNewClient(void)
 
 void	Server::handleMsg(int currentFd)
 {
-	_command.setReplyOn(0);
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
 	_command.tokenize(getBuffer());
 	_command.execCommand(_clientMap[currentFd]);	
 	bzero(_buffer, strlen(_buffer));
 	_command.clearTokens();
-	if (_command.getReplyOn())
+	if (_command.getReply().size())
 		FD_SET(currentFd, &_writeFds);
+	if (_clientMap[currentFd].getAuth() == -1)
+		FD_CLR(currentFd, &_clientFds);
 }
 
 void	Server::socketInit(void)

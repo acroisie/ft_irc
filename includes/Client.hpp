@@ -8,7 +8,7 @@ private:
 	int						_clientFd;
 	struct sockaddr_in		_clientAddr;
 	std::string				_nickname;
-	bool					_isAuth;
+	int						_isAuth;
 
 public:
 	Client(void);
@@ -17,9 +17,9 @@ public:
 	void	setFd(int _clientFd);
 	void	setAdress(struct sockaddr_in clientAddr);
 	void	setNickname(std::string nickname);
-	void	setIsAuth(void);
+	void	setIsAuth(int auth);
 
 	const std::string	getNickname(void);
-	bool				getAuth(void);
+	int					getAuth(void);
 	int					getFd(void);
 };
