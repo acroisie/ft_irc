@@ -85,7 +85,7 @@ void	Server::start()
 				else
 					handleMsg(currentFd);
 			// else if (FD_ISSET(currentFd, &_writeFds))
-			// 	replyToClient(currentFd);
+			//	replyToClient(currentFd);
 			}	
 		}
 	}

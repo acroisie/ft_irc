@@ -31,12 +31,15 @@ void	Commands::execCommand(void)
 
 void	Commands::tokenize(char *buff)
 {
+	std::cout << "[" << buff << "]\n";
+	std::cout << strlen(buff);
+	buff[strlen(buff) - 2] = '\0';
     std::string tempStr;
     std::stringstream strStream(buff);
     while (getline(strStream, tempStr, ' '))
         _tokens.push_back(tempStr);
 	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-       std::cout << std::endl << "{" << *it << "}"; // To delete
+       std::cout << std::endl << "{" << *it << "}\n"; // To delete
 }
 
 void	Commands::cap(void)
@@ -51,18 +54,18 @@ void	Commands::user(void)
 
 void	Commands::pass(void)
 {
-	std::cout << "\n|TEST pass|\n";
+	std::cout << "|TEST pass|";
 }
 void	Commands::nick(void)
 {
-	std::cout << "\n|TEST nick|\n";
-	//std::cout << "*it: " << *it << std::endl; //to del
-	//std::cout << "*it++: " << *it++ << std::endl; //to del
-	//std::string str;
-	//str = *it;
-	//_clientMap[currentFd].setNickname(str);
-	//std::cout << "nick: " << _clientMap[currentFd].getNickname() << '$' << std::endl; //to del
-	//std::string	test = ERR_WRONGPASSWORD(_clientMap[currentFd].getNickname());
-	//std::cout << test << std::endl; // degager
+	_clientMap[currentFd].setNickname(_tokens[1]);
+	std::cout << "nick: " << _clientMap[currentFd].getNickname() << '$' << std::endl; //to del
+	std::string	test = ERR_WRONGPASSWORD(_clientMap[currentFd].getNickname());
+	std::cout << test << std::endl; // degager
 	//send(currentFd, test.c_str(), test.size(), 0);
+}
+
+char	*Commands::getReply(void)
+{
+	return(_replyBuff);
 }
