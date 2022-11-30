@@ -31,6 +31,9 @@ void	Commands::execCommand(Client &client)
 
 void	Commands::tokenize(char *buff)
 {
+	std::cout << "[" << buff << "]\n";
+	std::cout << strlen(buff);
+	buff[strlen(buff) - 2] = '\0';
     std::string tempStr;
     std::stringstream strStream(buff);
     while (getline(strStream, tempStr, ' '))
