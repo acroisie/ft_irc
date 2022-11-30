@@ -1,7 +1,7 @@
 #include	"../includes/Commands.hpp"
 
 /*---------------Constructor/Destructor--------------*/
-Commands::Commands()
+Commands::Commands() : _replyOn(0)
 {
 	_commandMap["NICK"] = &Commands::nick;
 	_commandMap["PASS"] = &Commands::pass;
@@ -13,7 +13,13 @@ Commands::~Commands(){}
 
 /*---------------------Setters-----------------------*/
 
+void	Commands::setPassword(std::string pass){_password = pass;}
+void	Commands::setReplyOn(int o){_replyOn = o;};
+
 /*----------------------Getters---------------------*/
+
+std::string	Commands::getReply(void){return (_replyBuff);}
+int			Commands::getReplyOn(void){return (_replyOn);}
 
 /*-----------------MemberFunctions------------------*/
 
@@ -31,43 +37,41 @@ void	Commands::execCommand(Client &client)
 
 void	Commands::tokenize(char *buff)
 {
-	std::cout << "[" << buff << "]\n";
-	std::cout << strlen(buff);
 	buff[strlen(buff) - 2] = '\0';
     std::string tempStr;
     std::stringstream strStream(buff);
     while (getline(strStream, tempStr, ' '))
         _tokens.push_back(tempStr);
-// 	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-//     	std::cout << std::endl << "{" << *it << "}"; // To delete
+ 	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
+     	std::cout << std::endl << "{" << *it << "}\n"; // To delete
 }
 
 void	Commands::cap(Client &client)
 {
-	std::cout << "\n|TEST cap|\n";
 	(void)client;
 }
 
 void	Commands::user(Client &client)
 {
-	std::cout << "\n|TEST user|\n";
 	(void)client;
 }
 
 void	Commands::pass(Client &client)
 {
-	std::cout << "\n|TEST pass|\n";
-	(void)client;
+	if (_tokens[1] == _password)
+	{
+		client.setIsAuth();
+	}
 }
 void	Commands::nick(Client &client)
 {
-// 	std::cout << "*it: " << *it << std::endl; //to del
-// 	std::cout << "*it++: " << *it++ << std::endl; //to del
-// 	std::string str;
-// 	str = *it;
 	client.setNickname(_tokens[1]);
-	std::cout << "nick: " << client.getNickname() << '$' << std::endl; //to del
-	// std::string	test = ERR_WRONGPASSWORD(_clientMap[currentFd].getNickname());
-	// std::cout << test << std::endl; // degager
-	// send(currentFd, test.c_str(), test.size(), 0);
+	std::cout << "nick: " << client.getNickname() << '$' << std::endl;
+	if(!client.getAuth())
+		_replyBuff = ERR_WRONGPASSWORD(client.getNickname());
+	else
+	{
+		_replyBuff = RPL_WELCOME(client.getNickname());
+		_replyOn = 1;
+	}
 }

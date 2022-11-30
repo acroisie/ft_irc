@@ -3,7 +3,7 @@
 /*---------------Constructor/Destructor--------------*/
 
 Server::Server(const std::string& port, const std::string& password)
-:_port(port), _password(password)
+:_port(port)
 {
 	FD_ZERO(&_clientFds);
 	FD_ZERO(&_writeFds);
@@ -14,6 +14,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_addrLen = sizeof(_address);
 	_timeout.tv_sec = 3 * 60;
 	_timeout.tv_usec = 0;
+	_command.setPassword(password);
 	bzero((void *)_buffer, BUFF_SIZE);
 }
 
@@ -38,18 +39,23 @@ void	Server::acceptNewClient(void)
 		throw	std::runtime_error("accept failed");
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
+	_clientMap[newClient].setFd(newClient);
+
 	std::cout << "\rconnected" << std::endl;
 	FD_SET(newClient, &_clientFds);
 }
 
 void	Server::handleMsg(int currentFd)
 {
+	_command.setReplyOn(0);
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
 	_command.tokenize(getBuffer());
 	_command.execCommand(_clientMap[currentFd]);	
 	bzero(_buffer, strlen(_buffer));
 	_command.clearTokens();
+	if (_command.getReplyOn())
+		FD_SET(currentFd, &_writeFds);
 }
 
 void	Server::socketInit(void)
@@ -84,8 +90,12 @@ void	Server::start()
 					acceptNewClient();
 				else
 					handleMsg(currentFd);
-			// else if (FD_ISSET(currentFd, &_writeFds))
-			//	replyToClient(currentFd);
+			}
+			else if (FD_ISSET(currentFd, &_writeFds))
+			{
+				std::cout << _command.getReply() << std::endl;
+				send(currentFd, _command.getReply().c_str(), _command.getReply().size(), 0);
+				FD_CLR(currentFd, &_writeFds);
 			}	
 		}
 	}
