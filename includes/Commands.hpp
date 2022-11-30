@@ -9,15 +9,20 @@ class Commands
 		std::vector<std::string>							_tokens;
 		std::map<std::string, void (Commands::*)(Client &)>	_commandMap;
 		std::string											_password;
-		std::string											_replyBuff;									
+		std::string											_replyBuff;	
+		bool												_replyOn;								
 
 	public:
 		Commands();
 		~Commands();
 
-		void		tokenize(char *_buffer);
 		void		setPassword(std::string pass);
+		void		setReplyOn(int o);
+
 		std::string	getReply(void);
+		int			getReplyOn(void);
+
+		void		tokenize(char *_buffer);
 		void		clearTokens(void);
 		void		execCommand(Client &client);
 		void		nick(Client &client);

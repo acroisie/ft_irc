@@ -20,4 +20,6 @@ public:
 	void	setIsAuth(void);
 
 	const std::string	getNickname(void);
+	bool				getAuth(void);
+	int					getFd(void);
 };

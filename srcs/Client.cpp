@@ -15,5 +15,6 @@ void	Client::setAdress(struct sockaddr_in clientAddr){_clientAddr =  clientAddr;
 /*----------------------Getters---------------------*/
 
 const std::string	Client::getNickname(void){return (_nickname);}
-
+bool				Client::getAuth(void){return (_isAuth);}
+int					Client::getFd(void){return (_clientFd);}
 /*-----------------MemberFunctions------------------*/

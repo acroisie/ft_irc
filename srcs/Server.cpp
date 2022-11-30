@@ -39,18 +39,23 @@ void	Server::acceptNewClient(void)
 		throw	std::runtime_error("accept failed");
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
+	_clientMap[newClient].setFd(newClient);
+
 	std::cout << "\rconnected" << std::endl;
 	FD_SET(newClient, &_clientFds);
 }
 
 void	Server::handleMsg(int currentFd)
 {
+	_command.setReplyOn(0);
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
 	_command.tokenize(getBuffer());
 	_command.execCommand(_clientMap[currentFd]);	
 	bzero(_buffer, strlen(_buffer));
 	_command.clearTokens();
+	if (_command.getReplyOn())
+		FD_SET(currentFd, &_writeFds);
 }
 
 void	Server::socketInit(void)
@@ -88,7 +93,9 @@ void	Server::start()
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
 			{
-					send(currentFd, _command.getReply().c_str(), _command.getReply().size(), 0);
+				std::cout << _command.getReply() << std::endl;
+				send(currentFd, _command.getReply().c_str(), _command.getReply().size(), 0);
+				FD_CLR(currentFd, &_writeFds);
 			}	
 		}
 	}

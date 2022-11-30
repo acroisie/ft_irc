@@ -1,7 +1,7 @@
 #include	"../includes/Commands.hpp"
 
 /*---------------Constructor/Destructor--------------*/
-Commands::Commands()
+Commands::Commands() : _replyOn(0)
 {
 	_commandMap["NICK"] = &Commands::nick;
 	_commandMap["PASS"] = &Commands::pass;
@@ -14,10 +14,12 @@ Commands::~Commands(){}
 /*---------------------Setters-----------------------*/
 
 void	Commands::setPassword(std::string pass){_password = pass;}
+void	Commands::setReplyOn(int o){_replyOn = o;};
 
 /*----------------------Getters---------------------*/
 
 std::string	Commands::getReply(void){return (_replyBuff);}
+int			Commands::getReplyOn(void){return (_replyOn);}
 
 /*-----------------MemberFunctions------------------*/
 
@@ -60,10 +62,16 @@ void	Commands::pass(Client &client)
 	{
 		client.setIsAuth();
 	}
-	_replyBuff = ERR_WRONGPASSWORD(client.getNickname());
 }
 void	Commands::nick(Client &client)
 {
 	client.setNickname(_tokens[1]);
 	std::cout << "nick: " << client.getNickname() << '$' << std::endl;
+	if(!client.getAuth())
+		_replyBuff = ERR_WRONGPASSWORD(client.getNickname());
+	else
+	{
+		_replyBuff = RPL_WELCOME(client.getNickname());
+		_replyOn = 1;
+	}
 }
