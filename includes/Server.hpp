@@ -11,7 +11,6 @@ class Server
 {
 private:
 	std::string					_port;
-	std::string					_password;
 	int							_serverFd;
 	int							_opt;
 	struct fd_set				_clientFds;

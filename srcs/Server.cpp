@@ -3,7 +3,7 @@
 /*---------------Constructor/Destructor--------------*/
 
 Server::Server(const std::string& port, const std::string& password)
-:_port(port), _password(password)
+:_port(port)
 {
 	FD_ZERO(&_clientFds);
 	FD_ZERO(&_writeFds);
@@ -14,6 +14,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_addrLen = sizeof(_address);
 	_timeout.tv_sec = 3 * 60;
 	_timeout.tv_usec = 0;
+	_command.setPassword(password);
 	bzero((void *)_buffer, BUFF_SIZE);
 }
 
@@ -84,8 +85,10 @@ void	Server::start()
 					acceptNewClient();
 				else
 					handleMsg(currentFd);
-			// else if (FD_ISSET(currentFd, &_writeFds))
-			//	replyToClient(currentFd);
+			}
+			else if (FD_ISSET(currentFd, &_writeFds))
+			{
+					send(currentFd, _command.getReply().c_str(), _command.getReply().size(), 0);
 			}	
 		}
 	}
