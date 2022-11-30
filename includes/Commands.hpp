@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Client.hpp"
 #include "Utils.hpp"
 
 class Commands
 {
 	private:
 		std::vector<std::string>					_tokens;
-		std::map<std::string, void (Commands::*)()>	_commandMap;
+		std::map<std::string, void (Commands::*)(Client &)>	_commandMap;
 
 	public:
 		Commands();
@@ -14,10 +15,10 @@ class Commands
 
 		void	tokenize(char *_buffer);
 		void	clearTokens(void);
-		void	execCommand(void);
-		void	nick(void);
-		void	pass(void);
-		void	user(void);
-		void	cap(void);
-		void	join(void);
+		void	execCommand(Client &client);
+		void	nick(Client &client);
+		void	pass(Client &client);
+		void	user(Client &client);
+		void	cap(Client &client);
+		void	join(Client &client);
 };
