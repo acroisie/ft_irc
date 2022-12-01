@@ -21,6 +21,7 @@ private:
 	struct timeval				_timeout;
 	std::map<int, Client>		_clientMap;
 	std::map<int, void *>		_serverMap;
+	std::string					_appendBuff;
 	char						_buffer[BUFF_SIZE];
 	Commands					_command;
 
