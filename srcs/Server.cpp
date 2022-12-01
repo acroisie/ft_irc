@@ -49,7 +49,7 @@ void	Server::handleMsg(int currentFd)
 	_command.execCommand(_clientMap[currentFd]);	
 	bzero(_buffer, strlen(_buffer));
 	_command.clearTokens();
-	if (_command.getReply().size())
+	if (_command.getReply().size() && _clientMap[currentFd].getAuth())
 		FD_SET(currentFd, &_writeFds);
 	if (_clientMap[currentFd].getAuth() == -1)
 		FD_CLR(currentFd, &_clientFds);

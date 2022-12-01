@@ -35,13 +35,19 @@ void	Commands::execCommand(Client &client)
 
 void	Commands::tokenize(char *buff)
 {
-	buff[strlen(buff) - 2] = '\0';
+	size_t		pos;
     std::string tempStr;
     std::stringstream strStream(buff);
     while (getline(strStream, tempStr, ' '))
+	{
+		if ((pos = tempStr.find("\r\n")))
+			tempStr = tempStr.substr(0, pos);
+		if ((pos = tempStr.find("\n")))
+			tempStr = tempStr.substr(0, pos);
         _tokens.push_back(tempStr);
+	}
  	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-     	std::cout << std::endl << "{" << *it << "}" << std::endl; // To delete
+     	std::cout << "{" << *it << "}" << std::endl; // To delete
 }
 
 void	Commands::cap(Client &client)
