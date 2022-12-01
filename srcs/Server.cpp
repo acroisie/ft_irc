@@ -22,10 +22,7 @@ Server::~Server(){}
 
 /*----------------------Getters---------------------*/
 
-char*	Server::getBuffer(void)
-{
-	return (_buffer);
-}
+char*	Server::getBuffer(void){return (_buffer);}
 
 /*-----------------MemberFunctions------------------*/
 
@@ -40,7 +37,6 @@ void	Server::acceptNewClient(void)
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	_clientMap[newClient].setFd(newClient);
-
 	std::cout << "\rconnected" << std::endl;
 	FD_SET(newClient, &_clientFds);
 }
@@ -49,7 +45,7 @@ void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_buffer, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
-	_command.tokenize(getBuffer());
+	_command.tokenize(_buffer);
 	_command.execCommand(_clientMap[currentFd]);	
 	bzero(_buffer, strlen(_buffer));
 	_command.clearTokens();
@@ -94,7 +90,6 @@ void	Server::start()
 			}
 			else if (FD_ISSET(currentFd, &_writeFds))
 			{
-				std::cout << _command.getReply() << std::endl;
 				send(currentFd, _command.getReply().c_str(), _command.getReply().size(), 0);
 				FD_CLR(currentFd, &_writeFds);
 			}	

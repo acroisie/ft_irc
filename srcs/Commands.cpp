@@ -41,7 +41,7 @@ void	Commands::tokenize(char *buff)
     while (getline(strStream, tempStr, ' '))
         _tokens.push_back(tempStr);
  	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-     	std::cout << std::endl << "{" << *it << "}\n"; // To delete
+     	std::cout << std::endl << "{" << *it << "}" << std::endl; // To delete
 }
 
 void	Commands::cap(Client &client)
@@ -57,22 +57,17 @@ void	Commands::user(Client &client)
 void	Commands::pass(Client &client)
 {
 	if (_tokens[1] == _password)
-	{
 		client.setIsAuth(1);
-	}
-
 }
+
 void	Commands::nick(Client &client)
 {
 	client.setNickname(_tokens[1]);
-	std::cout << "nick: " << client.getNickname() << '$' << std::endl;
 	if(!client.getAuth())
 	{
 		client.setIsAuth(-1);
 		_replyBuff = ERR_WRONGPASSWORD(client.getNickname());	
 	}
 	else
-	{
 		_replyBuff = RPL_WELCOME(client.getNickname());
-	}
 }

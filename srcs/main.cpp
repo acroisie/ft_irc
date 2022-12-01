@@ -18,3 +18,5 @@ int	main(int argc, char** argv)
 }
 
 // /server add irc localhost/4242 -password=test
+
+// :dan!d@localhost <client> ???
