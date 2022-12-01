@@ -91,6 +91,7 @@ void	Server::start()
 			else if (FD_ISSET(currentFd, &_writeFds))
 			{
 				send(currentFd, _command.getReply().c_str(), _command.getReply().size(), 0);
+				_command.clearReply();
 				FD_CLR(currentFd, &_writeFds);
 			}	
 		}

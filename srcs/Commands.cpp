@@ -21,6 +21,11 @@ std::string	Commands::getReply(void){return (_replyBuff);}
 
 /*-----------------MemberFunctions------------------*/
 
+void	Commands::clearReply(void)
+{
+	_replyBuff.clear();
+}
+
 void	Commands::clearTokens(void)
 {
 	_tokens.clear();
