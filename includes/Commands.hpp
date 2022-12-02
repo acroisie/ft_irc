@@ -21,4 +21,5 @@ class Commands
 		void		user(Client &client);
 		void		cap(Client &client);
 		void		join(Client &client);
+		void		quit(Client &client);
 };

@@ -9,6 +9,7 @@
 #include	<netdb.h>
 #include	<vector>
 #include	<sstream>
+#include	<unistd.h>
 
 #define 	MAX_CONNECTIONS 42
 #define 	BUFF_SIZE 1024

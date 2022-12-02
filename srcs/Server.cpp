@@ -45,14 +45,12 @@ void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_clientMap[currentFd].buff, BUFF_SIZE, 0) <= 0)
 		throw std::runtime_error("recv failed");
-	// append buffer till \r\n
 	_clientMap[currentFd].appendBuff += _clientMap[currentFd].buff;
 	size_t	pos = 0;
-	std::cout << "\npos: " << (pos = _clientMap[currentFd].appendBuff.find("\r\n")) << std::endl;
 	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
 	{
 		_clientMap[currentFd].appendBuff = _clientMap[currentFd].appendBuff.substr(0, pos);
-		std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl;
+		std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
 		_clientMap[currentFd].tokenize(_clientMap[currentFd].appendBuff);
 		_clientMap[currentFd].appendBuff.clear();
 		bzero(_clientMap[currentFd].buff, (size_t)strlen(_clientMap[currentFd].buff)); 
