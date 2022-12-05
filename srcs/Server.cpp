@@ -14,8 +14,14 @@ Server::Server(const std::string& port, const std::string& password)
 	_addrLen = sizeof(_address);
 	_timeout.tv_sec = 3 * 60;
 	_timeout.tv_usec = 0;
-	_command.setPassword(password);
 	bzero((void *)_buffer, BUFF_SIZE);
+	_password = password;
+	_commandMap["NICK"] = &Server::nick;
+	_commandMap["PASS"] = &Server::pass;
+	_commandMap["CAP"] = &Server::cap;
+	_commandMap["USER"] = &Server::user;
+	_commandMap["JOIN"] = &Server::user;
+	_commandMap["QUIT"] = &Server::user;
 }
 
 Server::~Server(){}
@@ -54,7 +60,7 @@ void	Server::handleMsg(int currentFd)
 		_clientMap[currentFd].tokenize(_clientMap[currentFd].appendBuff);
 		_clientMap[currentFd].appendBuff.clear();
 		bzero(_clientMap[currentFd].buff, (size_t)strlen(_clientMap[currentFd].buff)); 
-		_command.execCommand(_clientMap[currentFd]);
+		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();
 		_appendBuff.clear();
 		if (_clientMap[currentFd].getReply().size() && _clientMap[currentFd].getAuth())
