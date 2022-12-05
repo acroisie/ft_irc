@@ -6,7 +6,6 @@
 
 /*----------------------Getters---------------------*/
 
-
 /*-----------------MemberFunctions------------------*/
 
 void	Server::execCommand(Client &client)
