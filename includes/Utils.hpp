@@ -17,4 +17,3 @@
 #define		RPL_WELCOME(client)				"001 " + client + " :Welcome " + client + " to the ft_irc network\r\n"
 
 #define		ERR_WRONGPASSWORD(client)		"464 " + client + " :Password incorrect\r\n"
-

@@ -9,6 +9,7 @@ private:
 	struct sockaddr_in			_clientAddr;
 	std::string					_nickname;
 	int							_isAuth;
+	bool						_isOp;
 	std::string					_replyBuff;
 	std::vector<std::string>	_tokens;
 
@@ -22,9 +23,11 @@ public:
 	void						setAdress(struct sockaddr_in clientAddr);
 	void						setNickname(std::string nickname);
 	void						setIsAuth(int auth);
+	void						setIsOp(bool op);
 	void						setReply(std::string replyBuff);
 
 	const std::string			getNickname(void);
+	bool						getIsOp(void);
 	int							getAuth(void);
 	int							getFd(void);
 	std::string					getReply(void);

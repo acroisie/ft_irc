@@ -2,6 +2,7 @@
 
 #include	"../includes/Utils.hpp"
 #include	"../includes/Client.hpp"
+#include	"../includes/Channel.hpp"
 
 
 class Client;
@@ -22,7 +23,9 @@ private:
 	struct timeval				_timeout;
 	std::map<int, Client>		_clientMap;
 	std::map<int, void *>		_serverMap;
+	std::map<std::string, Channel *>		_channelMap;
 	std::map<std::string, void (Server::*)(Client &)>	_commandMap;
+
 	
 
 	std::string					_appendBuff;

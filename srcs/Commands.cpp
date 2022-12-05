@@ -46,6 +46,12 @@ void	Server::user(Client &client)
 
 void	Server::join(Client &client)
 {
+	if (!(_channelMap[client.getTokens()[1]]))
+		_channelMap[client.getTokens()[1]] = new Channel(client);
+	else
+	{
+		_channelMap[client.getTokens()[1]]->setClientList(client.getFd());
+	}
 	(void)client;
 }
 

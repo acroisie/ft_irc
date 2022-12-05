@@ -9,6 +9,7 @@ Client::~Client(){}
 
 void						Client::setNickname(std::string nickname){(void)_isAuth;_nickname =  nickname;}
 void						Client::setIsAuth(int auth){_isAuth = auth;}
+void						Client::setIsOp(bool op){_isOp = op;}
 void						Client::setFd(int clientFd){_clientFd =  clientFd;}
 void						Client::setAdress(struct sockaddr_in clientAddr){_clientAddr =  clientAddr;}
 void						Client::setReply(std::string replyBuff){_replyBuff = replyBuff;};
@@ -17,6 +18,7 @@ void						Client::setReply(std::string replyBuff){_replyBuff = replyBuff;};
 
 const std::string			Client::getNickname(void){return (_nickname);}
 int							Client::getAuth(void){return (_isAuth);}
+bool						Client::getIsOp(void){return (_isOp);}
 int							Client::getFd(void){return (_clientFd);}
 std::string					Client::getReply(void){return (_replyBuff);}
 std::vector<std::string>	Client::getTokens(void){return (_tokens);}
