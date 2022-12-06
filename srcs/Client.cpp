@@ -13,7 +13,7 @@ void						Client::setIsOp(bool op){_isOp = op;}
 void						Client::setFd(int clientFd){_clientFd =  clientFd;}
 void						Client::setAdress(struct sockaddr_in clientAddr){_clientAddr =  clientAddr;}
 void						Client::setReply(std::string replyBuff){_replyBuff = replyBuff;};
-void						Client::setPrefix(std::string prefix){_prefix = _prefix;};
+void						Client::setPrefix(std::string prefix){_prefix = prefix;};
 void						Client::setUsername(std::string username){_username = username;};
 void						Client::setRealname(std::string realname){_realname = realname;};
 
@@ -37,7 +37,7 @@ void	Client::tokenize(std::string buff)
     std::stringstream strStream(buff);
     while (getline(strStream, tempStr, ' '))
         _tokens.push_back(tempStr);
-
+    
  	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
      	std::cout << "{" << *it << "}" << std::endl; // To delete
 }

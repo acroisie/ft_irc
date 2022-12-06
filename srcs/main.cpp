@@ -19,4 +19,6 @@ int	main(int argc, char** argv)
 
 // /server add irc localhost/4242 -password=test
 
+// /mode #channel +o nickname 
+
 // :dan!d@localhost <client> ???

@@ -50,8 +50,13 @@ void	Server::acceptNewClient(void)
 
 void	Server::handleMsg(int currentFd)
 {
-	if (recv(currentFd, (void*)_clientMap[currentFd].buff, BUFF_SIZE, 0) <= 0)
-		throw std::runtime_error("recv failed");
+	if (recv(currentFd, (void*)_clientMap[currentFd].buff, BUFF_SIZE, 0) < 0)
+	{
+		FD_CLR(currentFd, &_clientFds);
+		FD_CLR(currentFd, &_readFds);
+		FD_CLR(currentFd, &_writeFds);
+		// throw std::runtime_error("recv failed");
+	}
 	_clientMap[currentFd].appendBuff += _clientMap[currentFd].buff;
 	size_t	pos = 0;
 	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
