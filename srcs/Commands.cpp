@@ -78,6 +78,5 @@ void	Server::quit(Client &client)
 
 void	Server::ping(Client &client)
 {
-	std::cout << "mes couilles" << std::endl;
 	client.setReply(RPL_PING(client.getTokens()[1]));
 }
