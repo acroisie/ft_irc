@@ -55,6 +55,9 @@ void	Server::handleMsg(int currentFd)
 		FD_CLR(currentFd, &_clientFds);
 		FD_CLR(currentFd, &_readFds);
 		FD_CLR(currentFd, &_writeFds);
+		_clientMap[currentFd].~Client();
+		std::map<int, Client>::iterator it = _clientMap.find(currentFd);
+		_clientMap.erase(it);
 		// throw std::runtime_error("recv failed");
 	}
 	_clientMap[currentFd].appendBuff += _clientMap[currentFd].buff;
