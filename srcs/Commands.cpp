@@ -49,14 +49,12 @@ void	Server::join(Client &client)
 	if (!(_channelMap[client.getTokens()[1]]))
 		_channelMap[client.getTokens()[1]] = new Channel(client);
 	else
-	{
 		_channelMap[client.getTokens()[1]]->setClientList(client.getFd());
-	}
-	(void)client;
 }
 
 void	Server::quit(Client &client)
 {
-	(void)client;
-	// close(client.getFd());
+	// (void)client;
+	close(client.getFd());
+	FD_CLR(client.getFd(), &_clientFds);
 }

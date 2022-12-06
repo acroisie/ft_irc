@@ -11,7 +11,11 @@ Channel::Channel(Client &client)
 Channel::~Channel(){}
 
 /*---------------------Setters-----------------------*/
+
 void				Channel::setClientList(int clientFd){_clientList.push_back(clientFd);}
+
 /*----------------------Getters---------------------*/
+
 std::vector<int>	Channel::getClientList(void){return (_clientList);}
+
 /*-----------------MemberFunctions------------------*/
