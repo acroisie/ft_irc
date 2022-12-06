@@ -41,7 +41,8 @@ void	Server::cap(Client &client)
 
 void	Server::user(Client &client)
 {
-	(void)client;
+	client.setUsername(client.getTokens()[1]);
+	client.setRealname(client.getTokens()[4]);
 }
 
 void	Server::join(Client &client)

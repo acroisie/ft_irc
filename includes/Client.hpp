@@ -12,6 +12,8 @@ private:
 	bool						_isOp;
 	std::string					_replyBuff;
 	std::vector<std::string>	_tokens;
+	std::string					_username;
+	std::string					_realname;
 
 public:
 	char						buff[BUFF_SIZE];
@@ -25,6 +27,8 @@ public:
 	void						setIsAuth(int auth);
 	void						setIsOp(bool op);
 	void						setReply(std::string replyBuff);
+	void						setUsername(std::string replyBuff);
+	void						setRealname(std::string replyBuff);
 
 	const std::string			getNickname(void);
 	bool						getIsOp(void);
