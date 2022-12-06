@@ -41,7 +41,8 @@ void	Server::cap(Client &client)
 
 void	Server::user(Client &client)
 {
-	(void)client;
+	client.setUsername(client.getTokens()[1]);
+	client.setRealname(client.getTokens()[4]);
 }
 
 void	Server::join(Client &client)
@@ -67,4 +68,10 @@ void	Server::quit(Client &client)
 	close(client.getFd());
 	FD_CLR(client.getFd(), &_clientFds);
 	FD_CLR(client.getFd(), &_readFds);
+}
+
+void	Server::ping(Client &client)
+{
+	std::cout << "mes couilles" << std::endl;
+	client.setReply(RPL_PING(client.getTokens()[1]));
 }

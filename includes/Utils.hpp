@@ -18,4 +18,5 @@
 #define 	RPL_TOPIC(client, channel, topic)	"332 " + client + " " + channel + " :" + topic + "\r\n"
 #define		RPL_JOIN(client, channel)			client + " JOIN :" + channel + "\r\n"
 #define		RPL_NAMEPLY							client + " " + symbol + " " + channel + " :" + prefix + nick + "{ " + prefix + nick + "}\r\n" 
+#define		RPL_PING(token)						"PONG " + token + "\r\n"
 #define		ERR_WRONGPASSWORD(client)			"464 " + client + " :Password incorrect\r\n"

@@ -42,4 +42,5 @@ public:
 	void	cap(Client &client);
 	void	join(Client &client);
 	void	quit(Client &client);
+	void	ping(Client &client);
 };
