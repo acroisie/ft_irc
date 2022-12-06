@@ -8,6 +8,7 @@ class Channel
 {
 	private:
 		std::string			_name;
+		std::string			_topic;
 		std::vector<int>	_clientList;
 
 	public:
@@ -15,5 +16,9 @@ class Channel
 		~Channel();
 
 		std::vector<int>	getClientList(void);
+		std::string			getTopic(void);
+		std::string			getName(void);
+
+		void				setTopic(std::string topic);
 		void				setClientList(int clientFd);
 };
