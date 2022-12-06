@@ -47,18 +47,20 @@ void	Server::user(Client &client)
 
 void	Server::join(Client &client)
 {
-	(void)client;
-	// Channel &channel = *_channelMap[client.getTokens()[1]];
-	// if (!(&channel))
-	// {
-	// 	_channelMap[client.getTokens()[1]] = new Channel(client);
-	// 	client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
-	// }
-	// else
-	// {
-	// 	channel.setClientList(client.getFd());
-	// 	client.setReply(RPL_TOPIC(client.getNickname(), channel.getName(), channel.getTopic()));
-	// }
+	Channel *channel = _channelMap[client.getTokens()[1]];
+	if (!channel)
+	{
+		_channelMap[client.getTokens()[1]] = new Channel(client);
+		client.setPrefix("@");
+		client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
+		client.setReply(RPL_TOPIC(client.getNickname(), _channelMap[client.getTokens()[1]]->getName(), _channelMap[client.getTokens()[1]]->getTopic()));
+	}
+	else
+	{
+		channel->setClientList(client.getFd());
+		client.setReply(RPL_TOPIC(client.getNickname(), channel->getName(), channel->getTopic()));
+
+	}
 }
 
 void	Server::quit(Client &client)
