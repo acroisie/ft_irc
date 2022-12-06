@@ -47,17 +47,18 @@ void	Server::user(Client &client)
 
 void	Server::join(Client &client)
 {
-	Channel &channel = *_channelMap[client.getTokens()[1]];
-	if (!(&channel))
-	{
-		_channelMap[client.getTokens()[1]] = new Channel(client);
-		client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
-	}
-	else
-	{
-		channel.setClientList(client.getFd());
-		client.setReply(RPL_TOPIC(client.getNickname(), channel.getName(), channel.getTopic()));
-	}
+	(void)client;
+	// Channel &channel = *_channelMap[client.getTokens()[1]];
+	// if (!(&channel))
+	// {
+	// 	_channelMap[client.getTokens()[1]] = new Channel(client);
+	// 	client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
+	// }
+	// else
+	// {
+	// 	channel.setClientList(client.getFd());
+	// 	client.setReply(RPL_TOPIC(client.getNickname(), channel.getName(), channel.getTopic()));
+	// }
 }
 
 void	Server::quit(Client &client)
@@ -65,4 +66,10 @@ void	Server::quit(Client &client)
 	close(client.getFd());
 	FD_CLR(client.getFd(), &_clientFds);
 	FD_CLR(client.getFd(), &_readFds);
+}
+
+void	Server::ping(Client &client)
+{
+	std::cout << "mes couilles" << std::endl;
+	client.setReply(RPL_PING(client.getTokens()[1]));
 }
