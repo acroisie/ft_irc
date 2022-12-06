@@ -47,18 +47,24 @@ void	Server::user(Client &client)
 
 void	Server::join(Client &client)
 {
-	Channel *channel = _channelMap[client.getTokens()[1]];
-	if (!channel)
+	if (!_channelMap[client.getTokens()[1]])
 	{
 		_channelMap[client.getTokens()[1]] = new Channel(client);
 		client.setPrefix("@");
-		client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
-		client.setReply(RPL_TOPIC(client.getNickname(), _channelMap[client.getTokens()[1]]->getName(), _channelMap[client.getTokens()[1]]->getTopic()));
+		_channelMap[client.getTokens()[1]]->setSymbol("=");
+		//client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()) + \
+		//RPL_TOPIC(client.getNickname(), _channelMap[client.getTokens()[1]]->getName(), _channelMap[client.getTokens()[1]]->getTopic()) + \
+		//RPL_NAMEPLY(client.getNickname(), \
+		//							 _channelMap[client.getTokens()[1]]->getSymbol(), \
+		//							 _channelMap[client.getTokens()[1]]->getName(), \
+		//							 _channelMap[client.getTokens()[1]]->membershipList()) + \
+		//RPL_ENDOFNAME(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
+		std::cout << "\n\n\n\n{"<< client.getReply() << "}\n\n\n\n";
 	}
 	else
 	{
-		channel->setClientList(client.getFd());
-		client.setReply(RPL_TOPIC(client.getNickname(), channel->getName(), channel->getTopic()));
+		_channelMap[client.getTokens()[1]]->setClientList(client);
+		client.setReply(RPL_TOPIC(client.getNickname(), _channelMap[client.getTokens()[1]]->getName(), _channelMap[client.getTokens()[1]]->getTopic()));
 
 	}
 }
