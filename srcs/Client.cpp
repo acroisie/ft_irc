@@ -13,6 +13,7 @@ void						Client::setIsOp(bool op){_isOp = op;}
 void						Client::setFd(int clientFd){_clientFd =  clientFd;}
 void						Client::setAdress(struct sockaddr_in clientAddr){_clientAddr =  clientAddr;}
 void						Client::setReply(std::string replyBuff){_replyBuff = replyBuff;};
+void						Client::setPrefix(std::string prefix){_prefix = _prefix;};
 
 /*----------------------Getters---------------------*/
 
@@ -21,6 +22,7 @@ int							Client::getAuth(void){return (_isAuth);}
 bool						Client::getIsOp(void){return (_isOp);}
 int							Client::getFd(void){return (_clientFd);}
 std::string					Client::getReply(void){return (_replyBuff);}
+std::string					Client::getPrefix(void){return (_prefix);}
 std::vector<std::string>	Client::getTokens(void){return (_tokens);}
 
 /*-----------------MemberFunctions------------------*/

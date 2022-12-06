@@ -10,6 +10,7 @@ private:
 	std::string					_nickname;
 	int							_isAuth;
 	bool						_isOp;
+	std::string					_prefix;
 	std::string					_replyBuff;
 	std::vector<std::string>	_tokens;
 
@@ -24,6 +25,7 @@ public:
 	void						setNickname(std::string nickname);
 	void						setIsAuth(int auth);
 	void						setIsOp(bool op);
+	void						setPrefix(std::string prefix);
 	void						setReply(std::string replyBuff);
 
 	const std::string			getNickname(void);
@@ -31,6 +33,7 @@ public:
 	int							getAuth(void);
 	int							getFd(void);
 	std::string					getReply(void);
+	std::string					getPrefix(void);
 	std::vector<std::string>	getTokens(void);
 
 	void						clearReply(void);

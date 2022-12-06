@@ -16,5 +16,6 @@
 
 #define		RPL_WELCOME(client)					"001 " + client + " :Welcome " + client + " to the ft_irc network\r\n"
 #define 	RPL_TOPIC(client, channel, topic)	"332 " + client + " " + channel + " :" + topic + "\r\n"
-#define		RPL_JOIN(client, channel)			client + "JOIN :" + channel + "\r\n"
+#define		RPL_JOIN(client, channel)			client + " JOIN :" + channel + "\r\n"
+#define		RPL_NAMEPLY							client + " " + symbol + " " + channel + " :" + prefix + nick + "{ " + prefix + nick + "}\r\n" 
 #define		ERR_WRONGPASSWORD(client)			"464 " + client + " :Password incorrect\r\n"
