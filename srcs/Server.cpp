@@ -23,6 +23,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["JOIN"] = &Server::join;
 	_commandMap["QUIT"] = &Server::quit;
 	_commandMap["PING"] = &Server::ping;
+	_commandMap["PING"] = &Server::privMsg;
 }
 
 Server::~Server(){}

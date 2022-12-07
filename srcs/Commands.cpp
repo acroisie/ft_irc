@@ -80,3 +80,16 @@ void	Server::ping(Client &client)
 {
 	client.setReply(RPL_PING(client.getTokens()[1]));
 }
+
+void	Server::privMsg(Client &client)
+{
+	(void)client;
+	// std::map<int, Client>::iterator it = _clientMap.begin();
+	// while (it != _clientMap.end())
+	// {
+	// 	_clientMap[client.getFd()].getNickname();
+	// }
+	// _clientFds[client.getNickname()];
+	// std::map<int, Client>::iterator it = _clientMap.find(currentFd);
+	// client.setReply(PRIVMSG(_clientMap[] ,client.getTokens()[1]));
+}
