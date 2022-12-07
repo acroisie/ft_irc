@@ -64,9 +64,14 @@ void	Server::join(Client &client)
 	}
 	else
 	{
-		_channelMap[client.getTokens()[1]]->setClientList(client);
+		client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
 		client.setReply(RPL_TOPIC(client.getNickname(), _channelMap[client.getTokens()[1]]->getName(), _channelMap[client.getTokens()[1]]->getTopic()));
-
+		std::cout << _channelMap[client.getTokens()[1]]->membershipList() << std::endl;
+		client.setReply(RPL_NAMEPLY(client.getNickname(), \
+									 _channelMap[client.getTokens()[1]]->getSymbol(), \
+									 _channelMap[client.getTokens()[1]]->getName(), \
+									 _channelMap[client.getTokens()[1]]->membershipList()));
+		client.setReply(RPL_ENDOFNAME(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
 	}
 }
 

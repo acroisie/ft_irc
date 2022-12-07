@@ -34,6 +34,5 @@ std::string			Channel::membershipList(void)
 		buff += " ";
 		it++;
 	}
-	//std::cout << "{"<< buff << "}\n";
 	return (buff);
 }
