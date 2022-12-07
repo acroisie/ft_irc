@@ -4,7 +4,6 @@
 
 Channel::Channel(Client &client)
 {
-	_clientList.push_back(client);
 	_name = client.getTokens()[1];
 	client.setIsOp(1);
 }
@@ -27,13 +26,12 @@ std::string			Channel::getName(void){return (_name);};
 std::string			Channel::membershipList(void)
 {
 	std::string buff;
-	std::vector<Client>::iterator it = _clientList.begin();
-	while(it != _clientList.end())
+	for(std::vector<Client>::iterator it = _clientList.begin(); it != _clientList.end(); it++)
 	{
-		buff = it->getPrefix() + it->getNickname();
-		if (it != _clientList.end())
-			buff += " ";
-		it++;
+		buff += it->getPrefix() + it->getNickname();
+		if (it == _clientList.end())
+			break;
+		buff += " ";
 	}
 	return (buff);
 }

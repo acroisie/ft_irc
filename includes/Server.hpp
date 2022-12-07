@@ -45,4 +45,5 @@ public:
 	void	quit(Client &client);
 	void	ping(Client &client);
 	void	privMsg(Client &client);
+	void	replyJoin(Client &client);
 };
