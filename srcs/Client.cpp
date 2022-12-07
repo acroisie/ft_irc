@@ -38,8 +38,8 @@ void                        Client::tokenize(std::string buff)
     while (getline(strStream, tempStr, ' '))
         _tokens.push_back(tempStr);
     
- 	// for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-    //  	std::cout << "{" << *it << "}" << std::endl; // To delete
+ 	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
+     	std::cout << "{" << *it << "}" << std::endl; // To delete
 }
 
 void	Client::clearTokens(void){_tokens.clear();}
