@@ -20,6 +20,6 @@
 #define		RPL_NAMEPLY(client, symbol, channel, membershipList)	"353 " + client + " " + symbol + " " + channel + " :" + membershipList + "\r\n"
 #define		RPL_ENDOFNAME(client, channel)							"366 " + client + " " + channel + ":End of /NAMES list\r\n"
 #define		RPL_PING(token)											"PONG " + token + "\r\n"
-#define		PRIVMSG(target, msg)									target + "{" + ,target + "}" + msg + "\r\n"
+#define		RPL_PRIVMSG(client, target, msg)						":" + client + " PRIVMSG " + target + " :" + msg
 
 #define		ERR_WRONGPASSWORD(client)								"464 " + client + " :Password incorrect\r\n"
