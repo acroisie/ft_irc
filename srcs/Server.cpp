@@ -44,22 +44,24 @@ void	Server::acceptNewClient(void)
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	_clientMap[newClient].setFd(newClient);
-	std::cout << "\rconnected" << std::endl;
+	std::cout << "\rIncoming connection..." << std::endl;
 	FD_SET(newClient, &_clientFds);
+}
+
+void	Server::connectionLost(int currentFd)
+{
+	std::cout << "\rConnection lost with " << _clientMap[currentFd].getNickname() << std::endl;
+	FD_CLR(currentFd, &_clientFds);
+	FD_CLR(currentFd, &_readFds);
+	FD_CLR(currentFd, &_writeFds);
+	std::map<int, Client>::iterator it = _clientMap.find(currentFd);
+	_clientMap.erase(it);
 }
 
 void	Server::handleMsg(int currentFd)
 {
 	if (recv(currentFd, (void*)_clientMap[currentFd].buff, BUFF_SIZE, 0) < 0)
-	{
-		FD_CLR(currentFd, &_clientFds);
-		FD_CLR(currentFd, &_readFds);
-		FD_CLR(currentFd, &_writeFds);
-		_clientMap[currentFd].~Client();
-		std::map<int, Client>::iterator it = _clientMap.find(currentFd);
-		_clientMap.erase(it);
-		// throw std::runtime_error("recv failed");
-	}
+		connectionLost(currentFd);
 	_clientMap[currentFd].appendBuff += _clientMap[currentFd].buff;
 	size_t	pos = 0;
 	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)

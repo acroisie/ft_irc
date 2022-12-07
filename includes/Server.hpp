@@ -36,6 +36,7 @@ public:
 	void	acceptNewClient(void);
 	void	handleMsg(int currentFd);
 	void	execCommand(Client &client);
+	void	connectionLost(int currentFd);
 	void	nick(Client &client);
 	void	pass(Client &client);
 	void	user(Client &client);

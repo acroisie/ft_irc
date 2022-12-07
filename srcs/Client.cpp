@@ -2,7 +2,7 @@
 
 /*---------------Constructor/Destructor--------------*/
 
-Client::Client(void): _isAuth(0){}
+Client::Client(void): _isAuth(0){_nickname = "DefaultNickname";}
 Client::~Client(){}
 
 /*---------------------Setters-----------------------*/
