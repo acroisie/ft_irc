@@ -23,7 +23,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["JOIN"] = &Server::join;
 	_commandMap["QUIT"] = &Server::quit;
 	_commandMap["PING"] = &Server::ping;
-	_commandMap["PING"] = &Server::privMsg;
+	_commandMap["PRIVMSG"] = &Server::privMsg;
 }
 
 Server::~Server(){}
@@ -68,7 +68,7 @@ void	Server::handleMsg(int currentFd)
 	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
 	{
 		_clientMap[currentFd].appendBuff = _clientMap[currentFd].appendBuff.substr(0, pos);
-		std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
+		// std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
 		_clientMap[currentFd].tokenize(_clientMap[currentFd].appendBuff);
 		_clientMap[currentFd].appendBuff.clear();
 		bzero(_clientMap[currentFd].buff, (size_t)strlen(_clientMap[currentFd].buff)); 
