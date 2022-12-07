@@ -30,7 +30,7 @@ std::string			Channel::membershipList(void)
 	std::vector<Client>::iterator it = _clientList.begin();
 	while(it != _clientList.end())
 	{
-		buff = it->getPrefix() + it->getNickname().c_str();
+		buff = it->getPrefix() + it->getNickname();
 		buff += " ";
 		it++;
 	}
