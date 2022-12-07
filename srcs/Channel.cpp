@@ -31,7 +31,8 @@ std::string			Channel::membershipList(void)
 	while(it != _clientList.end())
 	{
 		buff = it->getPrefix() + it->getNickname();
-		buff += " ";
+		if (it != _clientList.end())
+			buff += " ";
 		it++;
 	}
 	return (buff);
