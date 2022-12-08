@@ -61,10 +61,11 @@ void	Server::connectionLost(int currentFd)
 
 void	Server::handleMsg(int currentFd)
 {
-	if (recv(currentFd, (void*)_clientMap[currentFd].buff, BUFF_SIZE, 0) < 0)
+	char	buffer[BUFF_SIZE]	= {0};
+	if (recv(currentFd, buffer, BUFF_SIZE, 0) < 0)
 		connectionLost(currentFd);
-	_clientMap[currentFd].appendBuff += _clientMap[currentFd].buff;
-	bzero(_clientMap[currentFd].buff, BUFF_SIZE); 
+	_clientMap[currentFd].appendBuff += buffer;
+	bzero(buffer, BUFF_SIZE); 
 	size_t	pos = 0;
 	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
 	{

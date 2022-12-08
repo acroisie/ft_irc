@@ -17,7 +17,6 @@ private:
 	std::string					_realname;
 
 public:
-	char						buff[BUFF_SIZE];
 	std::string					appendBuff;
 	Client(void);
 	~Client();
