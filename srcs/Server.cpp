@@ -64,6 +64,7 @@ void	Server::handleMsg(int currentFd)
 	if (recv(currentFd, (void*)_clientMap[currentFd].buff, BUFF_SIZE, 0) < 0)
 		connectionLost(currentFd);
 	_clientMap[currentFd].appendBuff += _clientMap[currentFd].buff;
+	bzero(_clientMap[currentFd].buff, BUFF_SIZE); 
 	size_t	pos = 0;
 	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
 	{
@@ -71,7 +72,6 @@ void	Server::handleMsg(int currentFd)
 		// std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
 		_clientMap[currentFd].tokenize(_clientMap[currentFd].appendBuff);
 		_clientMap[currentFd].appendBuff.clear();
-		bzero(_clientMap[currentFd].buff, (size_t)strlen(_clientMap[currentFd].buff)); 
 		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();
 		_appendBuff.clear();
