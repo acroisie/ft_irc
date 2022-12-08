@@ -8,7 +8,6 @@ class Channel
 	private:
 		std::string			_name;
 		std::string			_topic;
-		std::vector<Client>	_clientList;
 		std::string			_symbol;
 		std::vector<int>	_clientFd;
 
@@ -16,7 +15,6 @@ class Channel
 		Channel(Client &client);
 		~Channel();
 
-		std::vector<Client>	getClientList(void);
 		std::string			getTopic(void);
 		std::string			getName(void);
 		std::string			getSymbol(void);
@@ -24,8 +22,5 @@ class Channel
 
 		void				setTopic(std::string topic);
 		void				setSymbol(std::string symbol);
-		void				setClientList(Client &client);
 		void				setFd(int fd);
-
-		std::string			membershipList(void);
 };

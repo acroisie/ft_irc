@@ -30,20 +30,23 @@ public:
 	Server(const std::string& port, const std::string& password);
 	~Server();
 
-	char*	getBuffer(void);
-	void	start(void);
-	void	socketInit(void);
-	void	acceptNewClient(void);
-	void	handleMsg(int currentFd);
-	void	execCommand(Client &client);
-	void	connectionLost(int currentFd);
-	void	nick(Client &client);
-	void	pass(Client &client);
-	void	user(Client &client);
-	void	cap(Client &client);
-	void	join(Client &client);
-	void	quit(Client &client);
-	void	ping(Client &client);
-	void	privMsg(Client &client);
-	void	replyJoin(Client &client);
+	char*		getBuffer(void);
+	void		start(void);
+	void		socketInit(void);
+	void		acceptNewClient(void);
+	void		handleMsg(int currentFd);
+	void		execCommand(Client &client);
+	void		connectionLost(int currentFd);
+	void		nick(Client &client);
+	void		pass(Client &client);
+	void		user(Client &client);
+	void		cap(Client &client);
+	void		join(Client &client);
+	void		quit(Client &client);
+	void		ping(Client &client);
+	void		privMsg(Client &client);
+	void		replyJoin(Client &client, Channel *channel);
+	
+	std::string	membershipList(Channel *channel);
+
 };
