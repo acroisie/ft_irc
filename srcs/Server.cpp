@@ -22,7 +22,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["USER"] = &Server::user;
 	_commandMap["JOIN"] = &Server::join;
 	_commandMap["QUIT"] = &Server::quit;
-	_commandMap["PING"] = &Server::ping;
+	// _commandMap["PING"] = &Server::ping;
 	_commandMap["PRIVMSG"] = &Server::privMsg;
 }
 
@@ -42,6 +42,7 @@ void	Server::acceptNewClient(void)
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
 		throw	std::runtime_error("accept failed");
+	std::cout << clientAddr.sin_addr.s_addr << std::endl;
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	_clientMap[newClient].setFd(newClient);
@@ -61,26 +62,28 @@ void	Server::connectionLost(int currentFd)
 
 void	Server::handleMsg(int currentFd)
 {
-	char	buffer[BUFF_SIZE]	= {0};
+	std::string test;
+	char	buffer[BUFF_SIZE];
+	bzero(buffer, BUFF_SIZE);
 	if (recv(currentFd, buffer, BUFF_SIZE, 0) < 0)
 		connectionLost(currentFd);
 	_clientMap[currentFd].appendBuff += buffer;
-	bzero(buffer, BUFF_SIZE); 
+	bzero(buffer, BUFF_SIZE);
 	size_t	pos = 0;
-	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
+	while ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
 	{
-		_clientMap[currentFd].appendBuff = _clientMap[currentFd].appendBuff.substr(0, pos);
-		// std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
-		_clientMap[currentFd].tokenize(_clientMap[currentFd].appendBuff);
-		_clientMap[currentFd].appendBuff.clear();
+		test = _clientMap[currentFd].appendBuff.substr(0, pos);
+		std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
+		_clientMap[currentFd].tokenize(test);
 		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();
-		_appendBuff.clear();
 		if (_clientMap[currentFd].getReply().size() && _clientMap[currentFd].getAuth())
 			FD_SET(currentFd, &_writeFds);
 		if (_clientMap[currentFd].getAuth() == -1)
 			FD_CLR(currentFd, &_clientFds);
 	}
+	_clientMap[currentFd].appendBuff.clear();
+	test.clear();
 }
 
 void	Server::socketInit(void)
@@ -104,7 +107,7 @@ void	Server::start()
 	while (true)
 	{
 		_readFds = _clientFds;
-		std::cout << "\rListen..." << std::flush;
+		std::cout << "Listen..." << std::flush;
 		if (!(select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)))
 			throw std::runtime_error("time-out");
 		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
