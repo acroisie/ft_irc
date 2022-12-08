@@ -10,6 +10,7 @@
 #include	<vector>
 #include	<sstream>
 #include	<unistd.h>
+#include	<vector>
 
 #define 	MAX_CONNECTIONS 42
 #define 	BUFF_SIZE 32

@@ -64,6 +64,7 @@ void	Server::join(Client &client)
 		_channelMap[client.getTokens()[1]] = new Channel(client);
 		_channelMap[client.getTokens()[1]]->setClientList(client);
 		_channelMap[client.getTokens()[1]]->setSymbol("=");
+		_channelMap[client.getTokens()[1]]->setFd(client.getFd());
 		replyJoin(client);
 	}
 	else
@@ -88,6 +89,12 @@ void	Server::ping(Client &client)
 
 void	Server::privMsg(Client &client)
 {
+	if (client.getTokens()[1].c_str()[0] == '#')
+	{
+		std::string	chlName = client.getTokens()[1].substr(1, client.getTokens()[1].size());
+		// std::cout << std::endl << "chlName : [" << chlName << "]" << std::endl;
+		// _channelMap[chlName]->
+	}
 	std::map<int, Client>::iterator it = _clientMap.begin();
 	while (it != _clientMap.end())
 	{
