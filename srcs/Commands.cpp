@@ -45,32 +45,45 @@ void	Server::user(Client &client)
 	client.setRealname(client.getTokens()[4]);
 }
 
-void	Server::replyJoin(Client &client)
+std::string	Server::membershipList(Channel *channel)
 {
-		client.setReply(RPL_JOIN(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
-		client.setReply(RPL_TOPIC(client.getNickname(), _channelMap[client.getTokens()[1]]->getName(), _channelMap[client.getTokens()[1]]->getTopic()));
+	std::string buff;
+	for(std::vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
+	{
+		buff +=   _clientMap[*it].getPrefix() + _clientMap[*it].getNickname();
+		if (it == channel->getFdVector().end())
+			break;
+		buff += " ";
+	}
+	return (buff);
+}
+
+void	Server::replyJoin(Client &client, Channel *channel)
+{
+		client.setReply(RPL_JOIN(client.getNickname(), channel->getName()));
+		client.setReply(RPL_TOPIC(client.getNickname(), channel->getName(), channel->getTopic()));
 		client.setReply(RPL_NAMEPLY(client.getNickname(), \
-									 _channelMap[client.getTokens()[1]]->getSymbol(), \
-									 _channelMap[client.getTokens()[1]]->getName(), \
-									 _channelMap[client.getTokens()[1]]->membershipList()));
-		client.setReply(RPL_ENDOFNAME(client.getNickname(), _channelMap[client.getTokens()[1]]->getName()));
+									 channel->getSymbol(), \
+									 channel->getName(), \
+									 membershipList(channel)));
+		client.setReply(RPL_ENDOFNAME(client.getNickname(), channel->getName()));
 }
 
 void	Server::join(Client &client)
 {
-	if (!_channelMap[client.getTokens()[1]])
+	Channel *channel = _channelMap[client.getTokens()[1]];
+	if (!channel)
 	{
 		client.setPrefix("@");
-		_channelMap[client.getTokens()[1]] = new Channel(client);
-		_channelMap[client.getTokens()[1]]->setClientList(client);
-		_channelMap[client.getTokens()[1]]->setSymbol("=");
-		_channelMap[client.getTokens()[1]]->setFd(client.getFd());
-		replyJoin(client);
+		channel = new Channel(client);
+		channel->setSymbol("=");
+		channel->setFd(client.getFd());
+		replyJoin(client, channel);
 	}
-	else
+	else if (channel)
 	{
-		_channelMap[client.getTokens()[1]]->setClientList(client);
-		replyJoin(client);
+		channel->setFd(client.getFd());
+		replyJoin(client, channel);
 	}
 }
 
