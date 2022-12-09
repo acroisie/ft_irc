@@ -19,6 +19,7 @@ private:
 	struct sockaddr_in									_address;
 	int													_addrLen;
 	struct timeval										_timeout;
+	std::vector<std::string>							_commandRecv;
 	std::map<int, Client>								_clientMap;
 	std::map<int, void *>								_serverMap;
 	std::map<std::string, Channel *>					_channelMap;

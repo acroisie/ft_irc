@@ -32,6 +32,9 @@ void	Server::pass(Client &client)
 	// std::cout << client.getTokens()[0];
 	if (client.getTokens()[1] == _password)
 		client.setIsAuth(1);
+	else
+		client.setIsAuth(-1);
+
 }
 
 void	Server::cap(Client &client)
