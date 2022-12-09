@@ -70,10 +70,9 @@ void	Server::handleMsg(int currentFd)
 	_clientMap[currentFd].appendBuff += buffer;
 	bzero(buffer, BUFF_SIZE);
 	size_t	pos = 0;
-	while ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
+	if ((pos = _clientMap[currentFd].appendBuff.find("\r\n")) != std::string::npos)
 	{
 		test = _clientMap[currentFd].appendBuff.substr(0, pos);
-		std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
 		_clientMap[currentFd].tokenize(test);
 		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();
@@ -82,7 +81,8 @@ void	Server::handleMsg(int currentFd)
 		if (_clientMap[currentFd].getAuth() == -1)
 			FD_CLR(currentFd, &_clientFds);
 	}
-	_clientMap[currentFd].appendBuff.clear();
+	_clientMap[currentFd].appendBuff = _clientMap[currentFd].appendBuff.substr(pos, _clientMap[currentFd].appendBuff.find("\0"));
+		//std::cout << "\n_appendBuff:" << _clientMap[currentFd].appendBuff << std::endl; // To delete
 	test.clear();
 }
 
