@@ -25,7 +25,7 @@ bool	                    Client::getIsOp(void){return (_isOp);}
 int							Client::getFd(void){return (_clientFd);}
 std::string					Client::getReply(void){return (_replyBuff);}
 std::string					Client::getPrefix(void){return (_prefix);}
-std::vector<std::string>	Client::getTokens(void){return (_tokens);}
+std::vector<std::string>	&Client::getTokens(void){return (_tokens);}
 
 /*-----------------MemberFunctions------------------*/
 
@@ -36,10 +36,12 @@ void                        Client::tokenize(std::string buff)
     std::string tempStr;
     std::stringstream strStream(buff);
     while (getline(strStream, tempStr, ' '))
+    {
         _tokens.push_back(tempStr);
-
+        tempStr.clear();
+    }
  	for (std::vector<std::string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-     	std::cout << "{" << *it << "}" << std::endl; // To delete
+        std::cout << "{" << *it << "}" << std::endl; // To delete
 }
 
 void	Client::clearTokens(void){_tokens.clear();}

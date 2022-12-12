@@ -104,6 +104,15 @@ void	Server::ping(Client &client)
 
 void	Server::privMsg(Client &client)
 {
+	std::string	msg;
+	std::cout << "Flag 1" << std::endl;
+	//std::vector<std::string>::iterator it = client.getTokens().begin();
+	for (std::vector<std::string>::iterator it = client.getTokens().begin(); it != client.getTokens().end() ;it++)
+	{
+		msg += *it;
+	}
+	std::cout << "Flag 2" << std::endl;
+	
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
 		std::string	chlName = client.getTokens()[1];
@@ -111,10 +120,11 @@ void	Server::privMsg(Client &client)
 		{
 			if (*it != client.getFd())
 			{
-				_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
+				_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
 				FD_SET(_clientMap[*it].getFd(), &_writeFds);
 			}
 		}
+	std::cout << "Flag 3" << std::endl;
 	}
 	else
 	{
@@ -123,7 +133,7 @@ void	Server::privMsg(Client &client)
 		{
 			if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
 			{
-				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
+				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
 				FD_SET(it->second.getFd(), &_writeFds);
 				break;
 			}
