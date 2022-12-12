@@ -18,7 +18,7 @@ class Channel
 		std::string			getTopic(void);
 		std::string			getName(void);
 		std::string			getSymbol(void);
-		std::vector<int>	getFdVector(void);
+		std::vector<int>	&getFdVector(void);
 
 		void				setTopic(std::string topic);
 		void				setSymbol(std::string symbol);

@@ -14,7 +14,7 @@
 #include 	<string>
 
 #define 	MAX_CONNECTIONS 42
-#define 	BUFF_SIZE 4096
+#define 	BUFF_SIZE 32
 
 #define		RPL_WELCOME(client)										"001 " + client + " :Welcome " + client + " to the ft_irc network\r\n"
 #define 	RPL_TOPIC(client, channel, topic)						"332 " + client + " " + channel + " :" + topic + "\r\n"

@@ -22,7 +22,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["USER"] = &Server::user;
 	_commandMap["JOIN"] = &Server::join;
 	_commandMap["QUIT"] = &Server::quit;
-	// _commandMap["PING"] = &Server::ping;
+	_commandMap["PING"] = &Server::ping;
 	_commandMap["PRIVMSG"] = &Server::privMsg;
 }
 
@@ -42,7 +42,6 @@ void	Server::acceptNewClient(void)
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
 		throw	std::runtime_error("accept failed");
-	std::cout << clientAddr.sin_addr.s_addr << std::endl;
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	_clientMap[newClient].setFd(newClient);
@@ -64,32 +63,24 @@ void	Server::handleMsg(int currentFd)
 {
 	char	buffer[BUFF_SIZE];
 	bzero(buffer, BUFF_SIZE);
-	_commandRecv.clear(); // clear le vecteur de commande
+	_commandRecv.clear();
 	if (recv(currentFd, buffer, BUFF_SIZE, 0) < 0)
 		connectionLost(currentFd);
 	if (!buffer[0])
 	{
-		FD_CLR(currentFd, &_clientFds); //clear le client set au cas ou le buff est vide ( a voir pour le gerer dans le auth ce que je te disais)
-		return;
+		FD_CLR(currentFd, &_clientFds);
 	}
-	std::cout << "buffer : [" << buffer << "] \n";
 	_clientMap[currentFd].appendBuff += buffer;
 	size_t	pos = 0;
 	std::string temp = _clientMap[currentFd].appendBuff;
 	while ((pos = temp.find("\r\n")) != std::string::npos)
 	{
-		_commandRecv.push_back(temp.substr(0, pos)); // stocker toutes les commandes recu dans un vecteur
-		std::cout << "temp :  [" << temp.substr(0, pos) <<"]\n";
-
-		// il faut supprimer la premiere command trouvé (NICK lnemor\r\n)
-		// ducoup je substr de la fin de la premiere trouver jusqu'au bout
+		_commandRecv.push_back(temp.substr(0, pos));
 		temp = temp.substr(pos + 2, temp.size());
 	}
-	std::cout << "temp2 : (" << temp << ")\n";
-	_clientMap[currentFd].appendBuff = temp;// sauvegarde la derniere partie de temp
-	for (std::vector<std::string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++) // exec toutes les commandes dans le vecteur
+	_clientMap[currentFd].appendBuff = temp;
+	for (std::vector<std::string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
 	{
-		//std::cout << " ( "<< *it << " )\n";
 		_clientMap[currentFd].tokenize(*it);
 		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();

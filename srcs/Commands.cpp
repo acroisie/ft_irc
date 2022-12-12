@@ -74,19 +74,18 @@ void	Server::replyJoin(Client &client, Channel *channel)
 
 void	Server::join(Client &client)
 {
-	Channel *channel = _channelMap[client.getTokens()[1]];
-	if (!channel)
+	if (! _channelMap[client.getTokens()[1]])
 	{
 		client.setPrefix("@");
-		channel = new Channel(client);
-		channel->setSymbol("=");
-		channel->setFd(client.getFd());
-		replyJoin(client, channel);
+		_channelMap[client.getTokens()[1]] = new Channel(client);
+		_channelMap[client.getTokens()[1]]->setSymbol("=");
+		_channelMap[client.getTokens()[1]]->setFd(client.getFd());
+		replyJoin(client, _channelMap[client.getTokens()[1]]);
 	}
-	else if (channel)
+	else if (_channelMap[client.getTokens()[1]])
 	{
-		channel->setFd(client.getFd());
-		replyJoin(client, channel);
+		_channelMap[client.getTokens()[1]]->setFd(client.getFd());
+		replyJoin(client, _channelMap[client.getTokens()[1]]);
 	}
 }
 
@@ -107,20 +106,30 @@ void	Server::privMsg(Client &client)
 {
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
-		std::string	chlName = client.getTokens()[1].substr(1, client.getTokens()[1].size());
-		// std::cout << std::endl << "chlName : [" << chlName << "]" << std::endl;
-		// _channelMap[chlName]->
-	}
-	std::map<int, Client>::iterator it = _clientMap.begin();
-	while (it != _clientMap.end())
-	{
-		if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
+		std::string	chlName = client.getTokens()[1];
+		for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
 		{
-			it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
-			FD_SET(it->second.getFd(), &_writeFds);
-			break;
+			if (*it != client.getFd())
+			{
+				_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
+				FD_SET(_clientMap[*it].getFd(), &_writeFds);
+			}
 		}
-		it++;
+	}
+	else
+	{
+		std::map<int, Client>::iterator it = _clientMap.begin();
+		while (it != _clientMap.end())
+		{
+			if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
+			{
+				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
+				FD_SET(it->second.getFd(), &_writeFds);
+				break;
+			}
+			it++;
+		}
+
 	}
 	//erreur le nick n'existe pas
 }

@@ -22,6 +22,6 @@ void				Channel::setFd(int fd){_clientFd.push_back(fd);}
 std::string			Channel::getTopic(void){return (_topic);}
 std::string			Channel::getSymbol(void){return (_symbol);}
 std::string			Channel::getName(void){return (_name);}
-std::vector<int>	Channel::getFdVector(void){return (_clientFd);}
+std::vector<int>	&Channel::getFdVector(void){return (_clientFd);}
 
 /*-----------------MemberFunctions------------------*/
