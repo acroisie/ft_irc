@@ -67,11 +67,11 @@ void	Server::handleMsg(int currentFd)
 	_commandRecv.clear(); // clear le vecteur de commande
 	if (recv(currentFd, buffer, BUFF_SIZE, 0) < 0)
 		connectionLost(currentFd);
-	if (!buffer[0])
-	{
-		FD_CLR(currentFd, &_clientFds); //clear le client set au cas ou le buff est vide ( a voir pour le gerer dans le auth ce que je te disais)
-		return;
-	}
+	//if (!buffer[0])
+	//{
+	//	FD_CLR(currentFd, &_clientFds); //clear le client set au cas ou le buff est vide ( a voir pour le gerer dans le auth ce que je te disais)
+	//	return;
+	//}
 	std::cout << "buffer : [" << buffer << "] \n";
 	_clientMap[currentFd].appendBuff += buffer;
 	size_t	pos = 0;
@@ -96,7 +96,7 @@ void	Server::handleMsg(int currentFd)
 		if (_clientMap[currentFd].getReply().size() && _clientMap[currentFd].getAuth())
 			FD_SET(currentFd, &_writeFds);
 		if (_clientMap[currentFd].getAuth() == -1)
-			FD_CLR(currentFd, &_clientFds);
+				FD_CLR(currentFd, &_clientFds);
 		_clientMap[currentFd].clearTokens();
 	}
 }
