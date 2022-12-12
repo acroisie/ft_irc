@@ -87,7 +87,7 @@ void	Server::handleMsg(int currentFd)
 		if (_clientMap[currentFd].getReply().size() && _clientMap[currentFd].getAuth())
 			FD_SET(currentFd, &_writeFds);
 		if (_clientMap[currentFd].getAuth() == -1)
-			FD_CLR(currentFd, &_clientFds);
+				FD_CLR(currentFd, &_clientFds);
 		_clientMap[currentFd].clearTokens();
 	}
 }
