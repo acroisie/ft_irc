@@ -75,7 +75,6 @@ void	Server::join(Client &client)
 	size_t pos = 0;
 	std::string tab[3] = {"^G"," ", ","};
 	std::string chlName = client.getTokens()[1].c_str();
-<<<<<<< HEAD
 	if (chlName[0] == '#')
 	{
 		for (size_t i = 0; i <= tab->size(); i++)
@@ -100,21 +99,6 @@ void	Server::join(Client &client)
 			_channelMap[chlName]->setFd(client.getFd());
 			replyJoin(client, _channelMap[chlName]);
 		}
-=======
-	// if (chlName[0] == '#')
-	// {
-	// 	if ((chlName.find(' ') || chlName.find(',') || chlName.find('^G')) != std::string::npos)
-			
-	// }
-
-	if (!_channelMap[chlName])
-	{
-		client.setPrefix("@");
-		_channelMap[chlName] = new Channel(client);
-		_channelMap[chlName]->setSymbol("=");
-		_channelMap[chlName]->setFd(client.getFd());
-		replyJoin(client, _channelMap[chlName]);
->>>>>>> 1154db7a42218ff3f7026a6a80e3b748d913dffb
 	}
 	else
 	{
@@ -138,14 +122,9 @@ void	Server::ping(Client &client)
 void	Server::privMsg(Client &client)
 {
 	std::string	msg;
-<<<<<<< HEAD
-	//std::vector<std::string>::iterator it = client.getTokens().begin();
-	for (std::vector<std::string>::iterator it = client.getTokens().begin(); it != client.getTokens().end() ;it++)
-=======
 	std::vector<std::string>::iterator it = client.getTokens().begin();
 	it += 2;
 	while (true)
->>>>>>> 1154db7a42218ff3f7026a6a80e3b748d913dffb
 	{
 		msg += *it;
 		it++;
@@ -153,10 +132,6 @@ void	Server::privMsg(Client &client)
 			break;
 		msg += " ";
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> 1154db7a42218ff3f7026a6a80e3b748d913dffb
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
 		std::string	chlName = client.getTokens()[1];
@@ -188,5 +163,5 @@ void	Server::privMsg(Client &client)
 
 void Server::notice(Client &client)
 {
-	void (client);
+	(void)client;
 }

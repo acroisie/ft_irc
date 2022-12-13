@@ -82,10 +82,6 @@ void	Server::handleMsg(int currentFd)
 	}
 	_clientMap[currentFd].appendBuff.clear();
 	_clientMap[currentFd].appendBuff = temp;
-<<<<<<< HEAD
-
-=======
->>>>>>> 1154db7a42218ff3f7026a6a80e3b748d913dffb
 	for (std::vector<std::string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
 	{
 		_clientMap[currentFd].tokenize(*it);
