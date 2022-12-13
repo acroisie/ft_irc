@@ -67,7 +67,6 @@ void	Server::handleMsg(int currentFd)
 	_commandRecv.clear();
 	if (recv(currentFd, (void *)buffer, BUFF_SIZE, 0) < 0)
 		connectionLost(currentFd);
-	std::cout << "Buffer state " << buffer << std::endl;
 	if (!buffer[0])
 	{
 		bzero(buffer, BUFF_SIZE);
@@ -83,7 +82,10 @@ void	Server::handleMsg(int currentFd)
 	}
 	_clientMap[currentFd].appendBuff.clear();
 	_clientMap[currentFd].appendBuff = temp;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1154db7a42218ff3f7026a6a80e3b748d913dffb
 	for (std::vector<std::string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
 	{
 		_clientMap[currentFd].tokenize(*it);
