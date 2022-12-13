@@ -74,18 +74,25 @@ void	Server::replyJoin(Client &client, Channel *channel)
 
 void	Server::join(Client &client)
 {
-	if (! _channelMap[client.getTokens()[1]])
+	std::string chlName = client.getTokens()[1].c_str();
+	if (chlName[0] == '#')
+	{
+		if ((chlName.find(' ') || chlName.find(',') || chlName.find('^G')) != std::string::npos)
+			
+	}
+
+	if (!_channelMap[chlName])
 	{
 		client.setPrefix("@");
-		_channelMap[client.getTokens()[1]] = new Channel(client);
-		_channelMap[client.getTokens()[1]]->setSymbol("=");
-		_channelMap[client.getTokens()[1]]->setFd(client.getFd());
-		replyJoin(client, _channelMap[client.getTokens()[1]]);
+		_channelMap[chlName] = new Channel(client);
+		_channelMap[chlName]->setSymbol("=");
+		_channelMap[chlName]->setFd(client.getFd());
+		replyJoin(client, _channelMap[chlName]);
 	}
-	else if (_channelMap[client.getTokens()[1]])
+	else if (_channelMap[chlName])
 	{
-		_channelMap[client.getTokens()[1]]->setFd(client.getFd());
-		replyJoin(client, _channelMap[client.getTokens()[1]]);
+		_channelMap[chlName]->setFd(client.getFd());
+		replyJoin(client, _channelMap[chlName]);
 	}
 }
 
