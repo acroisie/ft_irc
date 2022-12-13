@@ -29,12 +29,10 @@ void	Server::nick(Client &client)
 
 void	Server::pass(Client &client)
 {
-	// std::cout << client.getTokens()[0];
 	if (client.getTokens()[1] == _password)
 		client.setIsAuth(1);
 	else
 		client.setIsAuth(-1);
-
 }
 
 void	Server::cap(Client &client)
@@ -53,7 +51,7 @@ std::string	Server::membershipList(Channel *channel)
 	std::string buff;
 	for(std::vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
 	{
-		buff +=   _clientMap[*it].getPrefix() + _clientMap[*it].getNickname();
+		buff += _clientMap[*it].getPrefix() + _clientMap[*it].getNickname();
 		if (it == channel->getFdVector().end())
 			break;
 		buff += " ";
@@ -75,11 +73,11 @@ void	Server::replyJoin(Client &client, Channel *channel)
 void	Server::join(Client &client)
 {
 	std::string chlName = client.getTokens()[1].c_str();
-	if (chlName[0] == '#')
-	{
-		if ((chlName.find(' ') || chlName.find(',') || chlName.find('^G')) != std::string::npos)
+	// if (chlName[0] == '#')
+	// {
+	// 	if ((chlName.find(' ') || chlName.find(',') || chlName.find('^G')) != std::string::npos)
 			
-	}
+	// }
 
 	if (!_channelMap[chlName])
 	{
@@ -112,14 +110,16 @@ void	Server::ping(Client &client)
 void	Server::privMsg(Client &client)
 {
 	std::string	msg;
-	std::cout << "Flag 1" << std::endl;
-	//std::vector<std::string>::iterator it = client.getTokens().begin();
-	for (std::vector<std::string>::iterator it = client.getTokens().begin(); it != client.getTokens().end() ;it++)
+	std::vector<std::string>::iterator it = client.getTokens().begin();
+	it += 2;
+	while (true)
 	{
 		msg += *it;
+		it++;
+		if (it == client.getTokens().end())
+			break;
+		msg += " ";
 	}
-	std::cout << "Flag 2" << std::endl;
-	
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
 		std::string	chlName = client.getTokens()[1];
@@ -131,7 +131,6 @@ void	Server::privMsg(Client &client)
 				FD_SET(_clientMap[*it].getFd(), &_writeFds);
 			}
 		}
-	std::cout << "Flag 3" << std::endl;
 	}
 	else
 	{
@@ -146,7 +145,6 @@ void	Server::privMsg(Client &client)
 			}
 			it++;
 		}
-
 	}
 	//erreur le nick n'existe pas
 }
