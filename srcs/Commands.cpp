@@ -157,8 +157,12 @@ void	Server::privMsg(Client &client)
 			}
 			it++;
 		}
+		if (it == _clientMap.end())
+		{
+			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
+			FD_SET(client.getFd(), &_writeFds);
+		}
 	}
-	//erreur le nick n'existe pas
 }
 
 void Server::notice(Client &client)
