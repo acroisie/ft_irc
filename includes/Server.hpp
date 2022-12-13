@@ -49,6 +49,7 @@ public:
 	void		ping(Client &client);
 	void		privMsg(Client &client);
 	void		notice(Client &client);
+	void		mode(Client &client);
 	
 	std::string	membershipList(Channel *channel);
 
