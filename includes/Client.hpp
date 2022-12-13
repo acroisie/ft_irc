@@ -37,7 +37,7 @@ public:
 	int							getFd(void);
 	std::string					getReply(void);
 	std::string					getPrefix(void);
-	std::vector<std::string>	getTokens(void);
+	std::vector<std::string>	&getTokens(void);
 
 	void						clearReply(void);
 	void						tokenize(std::string buff);
