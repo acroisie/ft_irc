@@ -38,6 +38,8 @@ public:
 	void		handleMsg(int currentFd);
 	void		execCommand(Client &client);
 	void		connectionLost(int currentFd);
+	void		replyJoin(Client &client, Channel *channel);
+	
 	void		nick(Client &client);
 	void		pass(Client &client);
 	void		user(Client &client);
@@ -46,7 +48,7 @@ public:
 	void		quit(Client &client);
 	void		ping(Client &client);
 	void		privMsg(Client &client);
-	void		replyJoin(Client &client, Channel *channel);
+	void		notice(Client &client);
 	
 	std::string	membershipList(Channel *channel);
 

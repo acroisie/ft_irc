@@ -29,7 +29,6 @@ void	Server::nick(Client &client)
 
 void	Server::pass(Client &client)
 {
-	// std::cout << client.getTokens()[0];
 	if (client.getTokens()[1] == _password)
 		client.setIsAuth(1);
 	else
@@ -74,26 +73,39 @@ void	Server::replyJoin(Client &client, Channel *channel)
 
 void	Server::join(Client &client)
 {
+	size_t pos = 0;
+	std::string tab[3] = {"^G"," ", ","};
 	std::string chlName = client.getTokens()[1].c_str();
 	if (chlName[0] == '#')
 	{
-		if ((chlName.find(' ') || chlName.find(',') || chlName.find('^G')) != std::string::npos)
-			
+		for (size_t i = 0; i <= tab->size(); i++)
+		{
+			if ((pos = chlName.find(tab[i])) != std::string::npos)
+			{
+				chlName = chlName.substr(0, pos);
+				break;
+			}
+		}
+		if (!_channelMap[chlName])
+		{
+			client.setPrefix("@");
+			_channelMap[chlName] = new Channel();
+			_channelMap[chlName]->setSymbol("=");
+			_channelMap[chlName]->setName(chlName);
+			_channelMap[chlName]->setFd(client.getFd());
+			replyJoin(client, _channelMap[chlName]);
+		}
+		else if (_channelMap[chlName])
+		{
+			_channelMap[chlName]->setFd(client.getFd());
+			replyJoin(client, _channelMap[chlName]);
+		}
 	}
-
-	if (!_channelMap[chlName])
+	else
 	{
-		client.setPrefix("@");
-		_channelMap[chlName] = new Channel(client);
-		_channelMap[chlName]->setSymbol("=");
-		_channelMap[chlName]->setFd(client.getFd());
-		replyJoin(client, _channelMap[chlName]);
+		client.setReply(ERR_BADCHANMASK(client.getTokens()[1]));
 	}
-	else if (_channelMap[chlName])
-	{
-		_channelMap[chlName]->setFd(client.getFd());
-		replyJoin(client, _channelMap[chlName]);
-	}
+		
 }
 
 void	Server::quit(Client &client)
@@ -101,7 +113,6 @@ void	Server::quit(Client &client)
 	close(client.getFd());
 	FD_CLR(client.getFd(), &_clientFds);
 	FD_CLR(client.getFd(), &_readFds);
-	std::cout << "\rBye bye " << client.getNickname() << "!" << std::endl;
 }
 
 void	Server::ping(Client &client)
@@ -112,13 +123,11 @@ void	Server::ping(Client &client)
 void	Server::privMsg(Client &client)
 {
 	std::string	msg;
-	std::cout << "Flag 1" << std::endl;
 	//std::vector<std::string>::iterator it = client.getTokens().begin();
 	for (std::vector<std::string>::iterator it = client.getTokens().begin(); it != client.getTokens().end() ;it++)
 	{
 		msg += *it;
 	}
-	std::cout << "Flag 2" << std::endl;
 	
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
@@ -131,7 +140,6 @@ void	Server::privMsg(Client &client)
 				FD_SET(_clientMap[*it].getFd(), &_writeFds);
 			}
 		}
-	std::cout << "Flag 3" << std::endl;
 	}
 	else
 	{
@@ -149,4 +157,9 @@ void	Server::privMsg(Client &client)
 
 	}
 	//erreur le nick n'existe pas
+}
+
+void Server::notice(Client &client)
+{
+	void (client);
 }

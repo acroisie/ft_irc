@@ -24,6 +24,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["QUIT"] = &Server::quit;
 	_commandMap["PING"] = &Server::ping;
 	_commandMap["PRIVMSG"] = &Server::privMsg;
+	_commandMap["NOTICE"] = &Server::notice;
 }
 
 Server::~Server(){}
@@ -75,28 +76,17 @@ void	Server::handleMsg(int currentFd)
 	_clientMap[currentFd].appendBuff += buffer;
 	size_t	pos = 0;
 	std::string temp = _clientMap[currentFd].appendBuff;
-	std::cout << "debug\n";
 	while ((pos = temp.find("\r\n")) != std::string::npos)
 	{
-		std::cout << "debug 1\n";
-
 		_commandRecv.push_back(temp.substr(0, pos));
-		
-		std::cout << "debug 2\n";
-
 		temp = temp.substr(pos + 2, temp.size());
-	std::cout << "debug 3\n";
-
 	}
 	_clientMap[currentFd].appendBuff.clear();
 	_clientMap[currentFd].appendBuff = temp;
-	std::cout << "debug 4\n";
 
 	for (std::vector<std::string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
 	{
 		_clientMap[currentFd].tokenize(*it);
-	std::cout << "debug 5\n";
-
 		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();
 		if (_clientMap[currentFd].getReply().size() && _clientMap[currentFd].getAuth())

@@ -2,11 +2,7 @@
 
 /*---------------Constructor/Destructor--------------*/
 
-Channel::Channel(Client &client)
-{
-	_name = client.getTokens()[1];
-	client.setIsOp(1);
-}
+Channel::Channel(){}
 Channel::~Channel(){}
 
 /*---------------------Setters-----------------------*/
@@ -14,6 +10,7 @@ Channel::~Channel(){}
 //void				Channel::setClientList(Client &client){_clientList.push_back(client);}
 void				Channel::setTopic(std::string topic){_topic = topic;}
 void				Channel::setSymbol(std::string symbol){_symbol = symbol;}
+void				Channel::setName(std::string name){_name = name;}
 void				Channel::setFd(int fd){_clientFd.push_back(fd);}
 
 /*----------------------Getters---------------------*/

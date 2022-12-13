@@ -12,7 +12,7 @@ class Channel
 		std::vector<int>	_clientFd;
 
 	public:
-		Channel(Client &client);
+		Channel();
 		~Channel();
 
 		std::string			getTopic(void);
@@ -22,5 +22,6 @@ class Channel
 
 		void				setTopic(std::string topic);
 		void				setSymbol(std::string symbol);
+		void				setName(std::string name);
 		void				setFd(int fd);
 };
