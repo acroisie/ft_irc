@@ -27,3 +27,4 @@
 
 #define		ERR_WRONGPASSWORD(client)								"464 " + client + " :Password incorrect\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"
+#define		ERR_NOSUCHNICK(client, nickname)						"401 " + client + " " + nickname + " :No such nickname\r\n"
