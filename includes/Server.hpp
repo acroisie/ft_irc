@@ -31,7 +31,6 @@ public:
 	Server(const std::string& port, const std::string& password);
 	~Server();
 
-	char*		getBuffer(void);
 	void		start(void);
 	void		socketInit(void);
 	void		acceptNewClient(void);
@@ -49,7 +48,7 @@ public:
 	void		ping(Client &client);
 	void		privMsg(Client &client);
 	void		notice(Client &client);
-	void		mode(Client &client);
+	// void		mode(Client &client);
 	
 	std::string	membershipList(Channel *channel);
 

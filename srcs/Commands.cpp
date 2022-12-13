@@ -1,11 +1,5 @@
 #include "../includes/Server.hpp"
 
-/*---------------Constructor/Destructor--------------*/
-
-/*---------------------Setters-----------------------*/
-
-/*----------------------Getters---------------------*/
-
 /*-----------------MemberFunctions------------------*/
 
 void	Server::execCommand(Client &client)
@@ -101,10 +95,7 @@ void	Server::join(Client &client)
 		}
 	}
 	else
-	{
-		client.setReply(ERR_BADCHANMASK(client.getTokens()[1]));
-	}
-		
+		client.setReply(ERR_BADCHANMASK(client.getTokens()[1]));	
 }
 
 void	Server::quit(Client &client)
@@ -158,10 +149,7 @@ void	Server::privMsg(Client &client)
 			it++;
 		}
 		if (it == _clientMap.end())
-		{
 			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
-			FD_SET(client.getFd(), &_writeFds);
-		}
 	}
 }
 
@@ -170,20 +158,20 @@ void Server::notice(Client &client)
 	(void)client;
 }
 
-void Server::mode(Client &client)
-{
-	std::string target = client.getTokens()[1] ;
-	(void)client;
-	if (target[0] != '#')
-	{
-		std::map<int, Client>::iterator it = _clientMap.begin();
-		while (it != _clientMap.end())
-		{
-			if (it->second.getNickname().compare(target) == 0)
-				break;
-			it++;
-		}
-		if (it == _clientMap.end())
-			client.setReply()
-	}
-}
+// void Server::mode(Client &client)
+// {
+// 	std::string target = client.getTokens()[1] ;
+// 	(void)client;
+// 	if (target[0] != '#')
+// 	{
+// 		std::map<int, Client>::iterator it = _clientMap.begin();
+// 		while (it != _clientMap.end())
+// 		{
+// 			if (it->second.getNickname().compare(target) == 0)
+// 				break;
+// 			it++;
+// 		}
+// 		if (it == _clientMap.end())
+// 			client.setReply()
+// 	}
+// }
