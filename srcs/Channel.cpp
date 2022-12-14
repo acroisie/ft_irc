@@ -12,6 +12,7 @@ void				Channel::setTopic(std::string topic){_topic = topic;}
 void				Channel::setSymbol(std::string symbol){_symbol = symbol;}
 void				Channel::setName(std::string name){_name = name;}
 void				Channel::setFd(int fd){_clientFd.push_back(fd);}
+void				Channel::setNameFd(std::string name, int fd){_nameFd[name] = fd;}
 
 /*----------------------Getters---------------------*/
 
@@ -20,5 +21,6 @@ std::string			Channel::getTopic(void){return (_topic);}
 std::string			Channel::getSymbol(void){return (_symbol);}
 std::string			Channel::getName(void){return (_name);}
 std::vector<int>	&Channel::getFdVector(void){return (_clientFd);}
+int					Channel::getNameFd(std::string name){return (_nameFd[name]);}
 
 /*-----------------MemberFunctions------------------*/

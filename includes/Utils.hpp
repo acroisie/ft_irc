@@ -23,6 +23,7 @@
 #define		RPL_ENDOFNAME(client, channel)							"366 " + client + " " + channel + " :End of /NAMES list\r\n"
 #define		RPL_PING(token)											"PONG " + token + "\r\n"
 #define		RPL_PRIVMSG(client, target, msg)						":" + client + " PRIVMSG " + target + " :" + msg + "\r\n"
+#define		RPL_KICK(channel, client, comment)						":" channel + client + "*(" + "," client ")" + "[" + comment + "]\r\n"
 
 #define		ERR_WRONGPASSWORD(client)								"464 " + client + " :Password incorrect\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"

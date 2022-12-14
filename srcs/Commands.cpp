@@ -86,6 +86,7 @@ void	Server::join(Client &client)
 			_channelMap[chlName]->setSymbol("=");
 			_channelMap[chlName]->setName(chlName);
 			_channelMap[chlName]->setFd(client.getFd());
+			_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
 			replyJoin(client, _channelMap[chlName]);
 		}
 		else if (_channelMap[chlName])
@@ -157,6 +158,15 @@ void	Server::privMsg(Client &client)
 		if (it == _clientMap.end())
 			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 	}
+}
+
+void	Server::kick(Client &client)
+{
+	(void)client;
+	// if (client.getIsOp())
+	// {
+	// 	_clientMap[_channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2])].setReply(RPL_KICK(client.getTokens()[1], client.getTokens()[2], "test"));
+	// }
 }
 
 void Server::notice(Client &client)

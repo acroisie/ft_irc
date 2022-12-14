@@ -25,6 +25,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["PING"] = &Server::ping;
 	_commandMap["PRIVMSG"] = &Server::privMsg;
 	_commandMap["NOTICE"] = &Server::notice;
+	_commandMap["KICK"] = &Server::kick;
 	// _commandMap["MODE"] = &Server::mode;
 }
 
