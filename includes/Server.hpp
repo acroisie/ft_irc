@@ -48,6 +48,7 @@ public:
 	void		ping(Client &client);
 	void		privMsg(Client &client);
 	void		notice(Client &client);
+	void		notice(Client &client, std::string chlName, std::string msg);
 	void		mode(Client &client);
 	void		topic(Client &client);
 	void		kick(Client &client);
