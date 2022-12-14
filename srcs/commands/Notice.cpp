@@ -43,3 +43,15 @@ void Server::notice(Client &client)
 		}
 	}
 }
+
+void Server::notice(Client &client, std::string chlName, std::string msg)
+{	
+	for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
+	{
+		if (*it != client.getFd())
+		{
+			_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+			FD_SET(_clientMap[*it].getFd(), &_writeFds);
+		}
+	}
+}

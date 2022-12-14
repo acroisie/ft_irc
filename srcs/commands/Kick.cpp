@@ -3,11 +3,13 @@
 
 void	Server::kick(Client &client)
 {
-	// int fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2]);
+// 	int fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2]);
 	
-	if (client.getIsOp())
-	{
-		_clientMap[_channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2])].setReply(RPL_KICK(client.getTokens()[1], client.getTokens()[2], "TEST"));
-		// FD_SET(_clientMap[_channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2])], &_writeFds);
-	}
+// 	if (client.getIsOp())
+// 	{
+// 		std::cout << "Flag 1" << std::endl;
+// 		_clientMap[fd].setReply(RPL_KICK(client.getTokens()[1], client.getTokens()[2], "TEST"));
+// 		std::cout << _clientMap[fd].getReply();
+// 		FD_SET(fd, &_writeFds);
+// 	}
 }
