@@ -24,6 +24,7 @@ void	Server::join(Client &client)
 		if (!_channelMap[chlName])
 		{
 			client.setPrefix("@");
+			client.setIsOp(1);
 			_channelMap[chlName] = new Channel();
 			_channelMap[chlName]->setSymbol("=");
 			_channelMap[chlName]->setName(chlName);
@@ -33,8 +34,13 @@ void	Server::join(Client &client)
 		}
 		else if (_channelMap[chlName])
 		{
-			_channelMap[chlName]->setFd(client.getFd());
-			replyJoin(client, _channelMap[chlName]);
+			if (!_channelMap[chlName]->clientIsBanned(client))
+			{
+				_channelMap[chlName]->setFd(client.getFd());
+				replyJoin(client, _channelMap[chlName]);
+			}
+			else
+				client.setReply(ERR_BANNEDFROMCHAN(client.getNickname(), chlName));
 		}
 	}
 	else

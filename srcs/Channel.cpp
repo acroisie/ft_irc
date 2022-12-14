@@ -25,3 +25,10 @@ std::vector<int>	&Channel::getFdVector(void){return (_clientFd);}
 int					Channel::getNameFd(std::string name){return (_nameFd[name]);}
 
 /*-----------------MemberFunctions------------------*/
+
+bool Channel::clientIsBanned(Client &client)
+{
+	if (_bannedClientFd.find(client.getNickname()) != _bannedClientFd.end())
+		return (1);
+	return(0);
+}

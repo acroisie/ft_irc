@@ -3,6 +3,8 @@
 #include	"Utils.hpp"
 #include	"Client.hpp"
 
+class Client;
+
 class Channel
 {
 	private:
@@ -13,6 +15,7 @@ class Channel
 		std::string					_mode;
 		std::vector<int>			_clientFd;
 		std::map<std::string, int>	_nameFd;
+		std::map<std::string, int>	_bannedClientFd;
 	public:
 		Channel();
 		~Channel();
@@ -31,4 +34,6 @@ class Channel
 		void				setPassword(std::string password);
 		void				setNameFd(std::string name, int fd);
 		void				setFd(int fd);
+
+		bool				clientIsBanned(Client &client);
 };
