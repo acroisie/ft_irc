@@ -36,4 +36,5 @@ class Channel
 		void				setFd(int fd);
 
 		bool				clientIsBanned(Client &client);
+		bool				clientIsOnChan(Client &client);
 };

@@ -52,6 +52,7 @@ public:
 	void		mode(Client &client);
 	void		topic(Client &client);
 	void		kick(Client &client);
+	void		part(Client &client);
 	
 	std::string	membershipList(Channel *channel);
 	bool		nickAlreadyUse(Client &client);

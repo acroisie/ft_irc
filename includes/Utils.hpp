@@ -26,10 +26,11 @@
 #define		RPL_PRIVMSG(client, target, msg)						":" + client + " PRIVMSG " + target + " :" + msg + "\r\n"
 #define		RPL_NICK(client, newnick)								":" + client + " NICK " + newnick +  "\r\n"
 #define		RPL_KICK(channel, client, comment)						":" + channel + client + "*(" + "," + client + ")" + "[" + comment + "]\r\n"
-
+#define		RPL_PART(client, channel)										":" + client + "PART :" + channel + "\r\n"
 #define		ERR_WRONGPASSWORD(client)								"464 " + client + " :Password incorrect\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"
 #define		ERR_NOSUCHNICK(client, nickname)						"401 " + client + " " + nickname + " :No such nick/channel\r\n"
+#define		ERR_NOSUCHCHANNEL(client, channel) 						"403 " + client + " " + channel + " :No such channel\r\n"
 #define		ERR_NOTONCHANNEL(client, channel)						"442 " + client + " " +  channel +  "You're not on that channel\r\n"
 #define		ERR_BANNEDFROMCHAN(client, channel)						"474 " + client + " " + channel + " :Cannot join channel (+b)\r\n"
 #define		ERR_NICKNAMEINUSE(client, nick) 						"433 " + client + " " + nick + " :Nickname is already in use\r\n"

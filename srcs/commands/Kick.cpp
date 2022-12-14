@@ -3,6 +3,7 @@
 
 void	Server::kick(Client &client)
 {
+	(void)client;
 // 	int fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2]);
 	
 // 	if (client.getIsOp())

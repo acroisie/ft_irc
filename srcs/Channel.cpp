@@ -32,3 +32,13 @@ bool Channel::clientIsBanned(Client &client)
 		return (1);
 	return(0);
 }
+
+bool Channel::clientIsOnChan(Client &client)
+{
+	for (std::vector<int>::iterator it; it != _clientFd.end(); it++)
+	{
+		if (client.getFd() == *it)
+			return (1);
+	}
+	return (0);
+}
