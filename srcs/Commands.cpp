@@ -1,11 +1,5 @@
 #include "../includes/Server.hpp"
 
-/*---------------Constructor/Destructor--------------*/
-
-/*---------------------Setters-----------------------*/
-
-/*----------------------Getters---------------------*/
-
 /*-----------------MemberFunctions------------------*/
 
 void	Server::execCommand(Client &client)
@@ -119,6 +113,7 @@ void	Server::quit(Client &client)
 	close(client.getFd());
 	FD_CLR(client.getFd(), &_clientFds);
 	FD_CLR(client.getFd(), &_readFds);
+	std::cout << "\r" << client.getNickname() << " leave the server" << std::endl;
 }
 
 void	Server::ping(Client &client)
@@ -142,12 +137,63 @@ void	Server::privMsg(Client &client)
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
 		std::string	chlName = client.getTokens()[1];
-		for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
-		{
-			if (*it != client.getFd())
+		if (_channelMap.find(chlName) != _channelMap.end())
+		{			
+			for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
 			{
-				_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
-				FD_SET(_clientMap[*it].getFd(), &_writeFds);
+				if (*it != client.getFd())
+				{
+					_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+					FD_SET(_clientMap[*it].getFd(), &_writeFds);
+				}
+			}
+		}
+		else
+			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
+	}
+	else
+	{
+		std::map<int, Client>::iterator it = _clientMap.begin();
+		while (it != _clientMap.end())
+		{
+			if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
+			{
+				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+				FD_SET(it->second.getFd(), &_writeFds);
+				break;
+			}
+			it++;
+		}
+		if (it == _clientMap.end())
+			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
+	}
+}
+
+void Server::notice(Client &client)
+{
+	std::string	msg;
+	std::vector<std::string>::iterator it = client.getTokens().begin();
+	it += 2;
+	while (true)
+	{
+		msg += *it;
+		it++;
+		if (it == client.getTokens().end())
+			break;
+		msg += " ";
+	}
+	if (client.getTokens()[1].c_str()[0] == '#')
+	{
+		std::string	chlName = client.getTokens()[1];
+		if (_channelMap.find(chlName) != _channelMap.end())
+		{			
+			for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
+			{
+				if (*it != client.getFd())
+				{
+					_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+					FD_SET(_clientMap[*it].getFd(), &_writeFds);
+				}
 			}
 		}
 	}
@@ -164,38 +210,6 @@ void	Server::privMsg(Client &client)
 			}
 			it++;
 		}
-		if (it == _clientMap.end())
-		{
-			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
-			FD_SET(client.getFd(), &_writeFds);
-		}
 	}
 }
 
-void Server::notice(Client &client)
-{
-	(void)client;
-}
-
-void Server::mode(Client &client)
-{
-	std::string target = client.getTokens()[1] ;
-	(void)client;
-	if (target[0] != '#')
-	{
-		std::map<int, Client>::iterator it = _clientMap.begin();
-		while (it != _clientMap.end())
-		{
-			if (it->second.getNickname().compare(target) == 0)
-				break;
-			it++;
-		}
-		if (it == _clientMap.end())
-			client.setReply(ERR_NOSUCHNICK(client.getNickname(), target));
-	}
-}
-
-void Server::topic(Client &client)
-{
-	(void)client;
-}

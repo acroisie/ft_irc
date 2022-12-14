@@ -31,10 +31,6 @@ Server::Server(const std::string& port, const std::string& password)
 
 Server::~Server(){}
 
-/*----------------------Getters---------------------*/
-
-char*	Server::getBuffer(void){return (_buffer);}
-
 /*-----------------MemberFunctions------------------*/
 
 void	Server::acceptNewClient(void)
