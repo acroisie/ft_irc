@@ -103,6 +103,7 @@ void	Server::quit(Client &client)
 	close(client.getFd());
 	FD_CLR(client.getFd(), &_clientFds);
 	FD_CLR(client.getFd(), &_readFds);
+	std::cout << "\r" << client.getNickname() << " leave the server" << std::endl;
 }
 
 void	Server::ping(Client &client)
@@ -160,7 +161,46 @@ void	Server::privMsg(Client &client)
 
 void Server::notice(Client &client)
 {
-	(void)client;
+	std::string	msg;
+	std::vector<std::string>::iterator it = client.getTokens().begin();
+	it += 2;
+	while (true)
+	{
+		msg += *it;
+		it++;
+		if (it == client.getTokens().end())
+			break;
+		msg += " ";
+	}
+	if (client.getTokens()[1].c_str()[0] == '#')
+	{
+		std::string	chlName = client.getTokens()[1];
+		if (_channelMap.find(chlName) != _channelMap.end())
+		{			
+			for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
+			{
+				if (*it != client.getFd())
+				{
+					_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+					FD_SET(_clientMap[*it].getFd(), &_writeFds);
+				}
+			}
+		}
+	}
+	else
+	{
+		std::map<int, Client>::iterator it = _clientMap.begin();
+		while (it != _clientMap.end())
+		{
+			if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
+			{
+				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+				FD_SET(it->second.getFd(), &_writeFds);
+				break;
+			}
+			it++;
+		}
+	}
 }
 
 // void Server::mode(Client &client)
