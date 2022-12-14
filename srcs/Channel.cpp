@@ -11,6 +11,7 @@ Channel::~Channel(){}
 void				Channel::setTopic(std::string topic){_topic = topic;}
 void				Channel::setSymbol(std::string symbol){_symbol = symbol;}
 void				Channel::setName(std::string name){_name = name;}
+void				Channel::setPassword(std::string password){_password = password;}
 void				Channel::setFd(int fd){_clientFd.push_back(fd);}
 
 /*----------------------Getters---------------------*/

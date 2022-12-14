@@ -62,7 +62,10 @@ std::string	Server::membershipList(Channel *channel)
 void	Server::replyJoin(Client &client, Channel *channel)
 {
 		client.setReply(RPL_JOIN(client.getNickname(), channel->getName()));
-		client.setReply(RPL_TOPIC(client.getNickname(), channel->getName(), channel->getTopic()));
+		if (channel->getTopic().empty())
+			client.setReply(RPL_NOTOPIC(client.getNickname(), channel->getName()));
+		else
+			client.setReply(RPL_TOPIC(client.getNickname(), channel->getName(), channel->getTopic()));
 		client.setReply(RPL_NAMEPLY(client.getNickname(), \
 									 channel->getSymbol(), \
 									 channel->getName(), \
@@ -75,6 +78,12 @@ void	Server::join(Client &client)
 	size_t pos = 0;
 	std::string tab[3] = {"^G"," ", ","};
 	std::string chlName = client.getTokens()[1].c_str();
+	std::string password;
+	if (client.getTokens().size() > 2)
+	{
+		password = client.getTokens()[2];
+
+	}
 	if (chlName[0] == '#')
 	{
 		for (size_t i = 0; i <= tab->size(); i++)
@@ -101,9 +110,7 @@ void	Server::join(Client &client)
 		}
 	}
 	else
-	{
 		client.setReply(ERR_BADCHANMASK(client.getTokens()[1]));
-	}
 		
 }
 
@@ -184,6 +191,11 @@ void Server::mode(Client &client)
 			it++;
 		}
 		if (it == _clientMap.end())
-			client.setReply()
+			client.setReply(ERR_NOSUCHNICK(client.getNickname(), target));
 	}
+}
+
+void Server::topic(Client &client)
+{
+	(void)client;
 }

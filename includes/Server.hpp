@@ -50,6 +50,7 @@ public:
 	void		privMsg(Client &client);
 	void		notice(Client &client);
 	void		mode(Client &client);
+	void		topic(Client &client);
 	
 	std::string	membershipList(Channel *channel);
 

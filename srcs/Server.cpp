@@ -26,6 +26,7 @@ Server::Server(const std::string& port, const std::string& password)
 	_commandMap["PRIVMSG"] = &Server::privMsg;
 	_commandMap["NOTICE"] = &Server::notice;
 	_commandMap["MODE"] = &Server::mode;
+	_commandMap["TOPIC"] = &Server::topic;
 }
 
 Server::~Server(){}
