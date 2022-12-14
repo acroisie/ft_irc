@@ -6,4 +6,5 @@ void	Server::quit(Client &client)
 	FD_CLR(client.getFd(), &_clientFds);
 	FD_CLR(client.getFd(), &_readFds);
 	std::cout << "\r" << client.getNickname() << " leave the server" << std::endl;
+	_clientMap.erase(client.getFd());
 }

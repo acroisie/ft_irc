@@ -53,5 +53,5 @@ public:
 	void		kick(Client &client);
 	
 	std::string	membershipList(Channel *channel);
-
+	bool		nickAlreadyUse(Client &client);
 };

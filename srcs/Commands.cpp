@@ -9,6 +9,16 @@ void	Server::execCommand(Client &client)
 		(this->*(it->second))(client);
 }
 
+bool	Server::nickAlreadyUse(Client &client)
+{
+	for (std::map<int, Client>::iterator it = _clientMap.begin(); it != _clientMap.end(); it++)
+	{
+		if (!it->second.getNickname().compare(client.getTokens()[1]))
+			return (1);
+	}
+	return (0);
+}
+
 
 
 

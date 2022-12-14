@@ -32,3 +32,5 @@
 #define		ERR_NOSUCHNICK(client, nickname)						"401 " + client + " " + nickname + " :No such nick/channel\r\n"
 #define		ERR_NOTONCHANNEL(client, channel)						"442 " + client + " " +  channel +  "You're not on that channel\r\n"
 #define		ERR_BANNEDFROMCHAN(client, channel)						"474 " + client + " " + channel + " :Cannot join channel (+b)\r\n"
+#define		ERR_NICKNAMEINUSE(client, nick) 						"433 " + client + " " + nick + " :Nickname is already in use\r\n"
+#define		ERR_ERRONEUSNICKNAME(client,nick) 						"433 " + client + " " + nick + " :Erroneus nickname\r\n"
