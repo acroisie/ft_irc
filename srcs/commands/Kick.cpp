@@ -1,4 +1,5 @@
-#include "../includes/Server.hpp"
+#include "../../includes/Server.hpp"
+
 
 void	Server::kick(Client &client)
 {

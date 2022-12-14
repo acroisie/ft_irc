@@ -1,6 +1,6 @@
-#include "../includes/Server.hpp"
+#include "../../includes/Server.hpp"
 
-void Server::notice(Client &client)
+void	Server::privMsg(Client &client)
 {
 	std::string	msg;
 	std::vector<std::string>::iterator it = client.getTokens().begin();
@@ -27,6 +27,8 @@ void Server::notice(Client &client)
 				}
 			}
 		}
+		else
+			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 	}
 	else
 	{
@@ -41,5 +43,7 @@ void Server::notice(Client &client)
 			}
 			it++;
 		}
+		if (it == _clientMap.end())
+			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 	}
 }

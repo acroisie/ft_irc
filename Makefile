@@ -10,10 +10,10 @@ OBJS := $(SRCS:.cpp=.o)
 
 all : $(NAME)
 
-$(NAME):		$(addprefix srcs/objs/, $(OBJS)) Makefile
+$(NAME):	$(addprefix srcs/objs/, $(OBJS)) Makefile
 			$(CC) $(CC_FLAGS) $(addprefix srcs/objs/, $(OBJS)) -o $(NAME) 
 srcs/objs/%.o:		srcs/%.cpp  Makefile $(shell find . -type f -name "*.hpp")
-				@mkdir -p srcs/objs
+				@mkdir -p srcs/objs srcs/objs/commands
 					$(CC) $(CC_FLAGS) -c $< -o "$@"
 
 clean :
