@@ -6,7 +6,7 @@ void	Server::nick(Client &client)
 {
 	client.setReply(RPL_NICK(client.getNickname(), client.getTokens()[1]));
 	client.setNickname(client.getTokens()[1]);
-	if(!client.getAuth())
+	if(client.getAuth() == 0)
 	{
 		client.setIsAuth(-1);
 		client.setReply(ERR_WRONGPASSWORD(client.getNickname()));	
