@@ -25,8 +25,9 @@
 #define		RPL_PING(token)											"PONG " + token + "\r\n"
 #define		RPL_PRIVMSG(client, target, msg)						":" + client + " PRIVMSG " + target + " :" + msg + "\r\n"
 #define		RPL_NICK(client, newnick)								":" + client + " NICK " + newnick +  "\r\n"
-#define		RPL_KICK(channel, client, comment)						":" + channel + client + "*(" + "," + client + ")" + "[" + comment + "]\r\n"
-#define		RPL_PART(client, channel)										":" + client + "PART :" + channel + "\r\n"
+#define		RPL_KICK(client, kicked, channel, comment)						":" + client + " KICK " + channel + " " + kicked + " " + comment +  "\r\n"
+#define		RPL_PART(client, channel)								":" + client + "PART :" + channel + "\r\n"
+
 #define		ERR_WRONGPASSWORD(client)								"464 " + client + " :Password incorrect\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"
 #define		ERR_NOSUCHNICK(client, nickname)						"401 " + client + " " + nickname + " :No such nick/channel\r\n"

@@ -50,7 +50,7 @@ void Server::notice(Client &client, std::string chlName, std::string msg)
 	{
 		if (*it != client.getFd())
 		{
-			_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+			_clientMap[*it].setReply(msg);
 			FD_SET(_clientMap[*it].getFd(), &_writeFds);
 		}
 	}

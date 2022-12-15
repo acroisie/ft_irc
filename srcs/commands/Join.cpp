@@ -37,6 +37,8 @@ void	Server::join(Client &client)
 			if (!_channelMap[chlName]->clientIsBanned(client))
 			{
 				_channelMap[chlName]->setFd(client.getFd());
+				_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
+				notice(client, chlName, RPL_JOIN(client.getNickname(), chlName));
 				replyJoin(client, _channelMap[chlName]);
 			}
 			else

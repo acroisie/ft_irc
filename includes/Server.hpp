@@ -56,4 +56,5 @@ public:
 	
 	std::string	membershipList(Channel *channel);
 	bool		nickAlreadyUse(Client &client);
+	int			searchByNick(std::string name);
 };
