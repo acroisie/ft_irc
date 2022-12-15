@@ -36,3 +36,4 @@
 #define		ERR_BANNEDFROMCHAN(client, channel)						"474 " + client + " " + channel + " :Cannot join channel (+b)\r\n"
 #define		ERR_NICKNAMEINUSE(client, nick) 						"433 " + client + " " + nick + " :Nickname is already in use\r\n"
 #define		ERR_ERRONEUSNICKNAME(client,nick) 						"433 " + client + " " + nick + " :Erroneus nickname\r\n"
+#define		ERR_CANNOTSENDTOCHAN(client,channel) 					"404 " + client + " " +  channel + " :Cannot send to channel\r\n"

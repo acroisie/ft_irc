@@ -17,14 +17,22 @@ void	Server::privMsg(Client &client)
 	{
 		std::string	chlName = client.getTokens()[1];
 		if (_channelMap.find(chlName) != _channelMap.end())
-		{			
-			for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
+		{		
+			if(_channelMap[chlName]->clientIsOnChan(client))
 			{
-				if (*it != client.getFd())
+				for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
 				{
-					_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
-					FD_SET(_clientMap[*it].getFd(), &_writeFds);
+					if (*it != client.getFd())
+					{
+						_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+						FD_SET(_clientMap[*it].getFd(), &_writeFds);
+					}
 				}
+			}
+			else
+			{
+				client.setReply(ERR_CANNOTSENDTOCHAN(client.getNickname(), chlName));
+				FD_SET(client.getFd(), &_writeFds);
 			}
 		}
 		else

@@ -24,5 +24,6 @@ void	Server::kick(Client &client)
 	{
 		client.setReply(RPL_KICK(client.getNickname(), _clientMap[fd].getNickname(), client.getTokens()[1], (comment.empty() ? "" : comment)));
 		notice(client, client.getTokens()[1], RPL_KICK(client.getNickname(), _clientMap[fd].getNickname(), client.getTokens()[1], (comment.empty() ? "" : comment)));
+		_channelMap[client.getTokens()[1]]->eraseClient(_clientMap[fd]);
 	}
 }
