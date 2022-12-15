@@ -3,37 +3,26 @@
 
 void	Server::kick(Client &client)
 {
-	(void)client;
+	std::string	comment;
+	std::vector<std::string>::iterator it = client.getTokens().begin();
+	if (client.getTokens().size() > 3)
+	{
+		it += 3;
+		while (true)
+		{
+			comment += *it;
+			it++;
+			if (it == client.getTokens().end())
+				break;
+			comment += " ";
+		}
+	}
 	int fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2]); ;
 	if (!fd)
+		client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
+	else if (client.getIsOp())
 	{
-
-		
-		std::cout << "not found\n";
-		return;
-
+		client.setReply(RPL_KICK(client.getNickname(), _clientMap[fd].getNickname(), client.getTokens()[1], (comment.empty() ? "" : comment)));
+		notice(client, client.getTokens()[1], RPL_KICK(client.getNickname(), _clientMap[fd].getNickname(), client.getTokens()[1], (comment.empty() ? "" : comment)));
 	}
-	std::cout << _clientMap[fd].getNickname() << std::endl;
-
-	if (client.getIsOp())
-	{
-		std::cout << "Flag 1" << std::endl;
-		//client.setReply(RPL_KICK(client.getNickname(),	_clientMap[fd].getNickname(), client.getTokens()[1]));
-		//notice(client, client.getTokens()[1], RPL_KICK(client.getNickname(),	_clientMap[fd].getNickname(), client.getTokens()[1]));
-
-		std::cout << _clientMap[fd].getReply() << std::endl;;
-	}
-}
-
-int Server::searchByNick(std::string name)
-{
-	for (std::map<int, Client>::iterator it = _clientMap.begin(); it != _clientMap.end(); it++)
-	{
-		std::cout << "-> " <<it->second.getNickname() << " " <<it->second.getFd() << "\n";
-		std::cout << "name : " << name << "\n";
-
-		if (!it->second.getNickname().compare(name))
-			return (it->second.getFd());
-	}
-	return(0);
 }
