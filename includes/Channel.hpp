@@ -37,4 +37,5 @@ class Channel
 
 		bool				clientIsBanned(Client &client);
 		bool				clientIsOnChan(Client &client);
+		void				eraseClient(Client &client);
 };

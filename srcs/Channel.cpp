@@ -35,10 +35,23 @@ bool Channel::clientIsBanned(Client &client)
 
 bool Channel::clientIsOnChan(Client &client)
 {
-	for (std::vector<int>::iterator it; it != _clientFd.end(); it++)
+	for (std::vector<int>::iterator it = _clientFd.begin(); it != _clientFd.end(); it++)
 	{
 		if (client.getFd() == *it)
 			return (1);
 	}
 	return (0);
+}
+
+void	Channel::eraseClient(Client &client)
+{
+	_nameFd.erase(client.getNickname());
+	for(std::vector<int>::iterator it = _clientFd.begin(); it != _clientFd.end(); it++)
+	{
+		if (*it == client.getFd())
+		{
+			 _clientFd.erase(it);
+			 return ;
+		}
+	}
 }
