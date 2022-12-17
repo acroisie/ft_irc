@@ -2,44 +2,45 @@
 
 #include	"Utils.hpp"
 #include	"Client.hpp"
+using		namespace std;
 
 class Client;
 
 class Channel
 {
 	private:
-		std::string					_name;
-		std::string					_password;
-		std::string					_topic;
-		std::string					_symbol;
-		std::string					_mode;
-		std::vector<int>			_clientFd;
-		std::map<std::string, int>	_nameFd;
-		std::map<std::string, int>	_bannedClientFd;
-		std::vector<std::string>	_invitedList;
+		string				_name;
+		string				_password;
+		string				_topic;
+		string				_symbol;
+		string				_mode;
+		vector<int>			_clientFd;
+		map<string, int>	_nameFd;
+		map<string, int>	_bannedClientFd;
+		vector<string>		_invitedList;
 
 	public:
 		Channel();
 		~Channel();
 
-		std::string			getTopic(void);
-		std::string			getName(void);
-		std::string			getSymbol(void);
-		std::string			getMode(void);
-		std::vector<int>	&getFdVector(void);
-		std::vector<std::string>	&getInvitedList(void);
-		int					getNameFd(std::string name);
+		string			getTopic(void);
+		string			getName(void);
+		string			getSymbol(void);
+		string			getMode(void);
+		vector<int>		&getFdVector(void);
+		vector<string>	&getInvitedList(void);
+		int				getNameFd(string name);
 
-		void				setTopic(std::string topic);
-		void				setSymbol(std::string symbol);
-		void				setName(std::string name);
-		void				setMode(std::string mode);
-		void				setInvited(std::string name);
-		void				setPassword(std::string password);
-		void				setNameFd(std::string name, int fd);
-		void				setFd(int fd);
+		void			setTopic(string topic);
+		void			setSymbol(string symbol);
+		void			setName(string name);
+		void			setMode(string mode);
+		void			setInvited(string name);
+		void			setPassword(string password);
+		void			setNameFd(string name, int fd);
+		void			setFd(int fd);
 
-		bool				clientIsBanned(Client &client);
-		bool				clientIsOnChan(Client &client);
-		void				eraseClient(Client &client);
+		bool			clientIsBanned(Client &client);
+		bool			clientIsOnChan(Client &client);
+		void			eraseClient(Client &client);
 };

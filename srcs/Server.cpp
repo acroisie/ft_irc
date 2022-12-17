@@ -1,8 +1,9 @@
 #include	"../includes/Server.hpp"
+using		namespace std;
 
 /*---------------Constructor/Destructor--------------*/
 
-Server::Server(const std::string& port, const std::string& password)
+Server::Server(const string& port, const string& password)
 :_port(port)
 {
 	FD_ZERO(&_clientFds);
@@ -43,21 +44,21 @@ void	Server::acceptNewClient(void)
 	socklen_t				addrLen;
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
-		throw	std::runtime_error("accept failed");
+		throw	runtime_error("accept failed");
 	_clientMap[newClient].setFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
 	_clientMap[newClient].setFd(newClient);
-	std::cout << "\rIncoming connection..." << std::endl;
+	cout << "\rIncoming connection..." << endl;
 	FD_SET(newClient, &_clientFds);
 }
 
 void	Server::connectionLost(int currentFd)
 {
-	std::cout << "\rConnection lost with " << _clientMap[currentFd].getNickname() << std::endl;
+	cout << "\rConnection lost with " << _clientMap[currentFd].getNickname() << endl;
 	FD_CLR(currentFd, &_clientFds);
 	FD_CLR(currentFd, &_readFds);
 	FD_CLR(currentFd, &_writeFds);
-	std::map<int, Client>::iterator it = _clientMap.find(currentFd);
+	map<int, Client>::iterator it = _clientMap.find(currentFd);
 	_clientMap.erase(it);
 }
 
@@ -75,15 +76,15 @@ void	Server::handleMsg(int currentFd)
 	}
 	_clientMap[currentFd].appendBuff += buffer;
 	size_t	pos = 0;
-	std::string temp = _clientMap[currentFd].appendBuff;
-	while ((pos = temp.find("\r\n")) != std::string::npos)
+	string temp = _clientMap[currentFd].appendBuff;
+	while ((pos = temp.find("\r\n")) != string::npos)
 	{
 		_commandRecv.push_back(temp.substr(0, pos));
 		temp = temp.substr(pos + 2, temp.size());
 	}
 	_clientMap[currentFd].appendBuff.clear();
 	_clientMap[currentFd].appendBuff = temp;
-	for (std::vector<std::string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
+	for (vector<string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
 	{
 		_clientMap[currentFd].tokenize(*it);
 		execCommand(_clientMap[currentFd]);
@@ -100,15 +101,15 @@ void	Server::handleMsg(int currentFd)
 void	Server::socketInit(void)
 {
 	if ((_serverFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-		throw	std::runtime_error("socket creation failed");
+		throw	runtime_error("socket creation failed");
 	if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) < 0)
-		throw	std::runtime_error("fcntl failed");
+		throw	runtime_error("fcntl failed");
 	if ((setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &_opt, sizeof(_opt))) < 0)
-		throw	std::runtime_error("reuse of socket failed");
+		throw	runtime_error("reuse of socket failed");
 	if (bind(_serverFd, (struct sockaddr*)&_address, (socklen_t)sizeof(_address)) < 0)
-		throw	std::runtime_error("bind failed");
+		throw	runtime_error("bind failed");
 	if (listen(_serverFd, MAX_CONNECTIONS) < 0)
-		throw	std::runtime_error("listen failed");
+		throw	runtime_error("listen failed");
 	FD_SET(_serverFd, &_clientFds);
 }
 
@@ -118,9 +119,9 @@ void	Server::start()
 	while (true)
 	{
 		_readFds = _clientFds;
-		std::cout << "\rListen..." << std::flush;
+		cout << "\rListen..." << flush;
 		if (!(select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)))
-			throw std::runtime_error("time-out");
+			throw runtime_error("time-out");
 		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
 		{
 			if (FD_ISSET(currentFd, &_readFds))

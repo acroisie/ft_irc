@@ -1,18 +1,19 @@
 #include	"../includes/Server.hpp"
+using		namespace std;
 
 int	main(int argc, char** argv)
 {
 	try
 	{
 		if (argc != 3)
-			throw std::invalid_argument(("Invalid args ./ircserv <port> <password>"));
+			throw invalid_argument(("Invalid args ./ircserv <port> <password>"));
 		Server irc(argv[1], argv[2]);
 		irc.start();
 		return (0);
 	}
-	catch(const std::exception& e)
+	catch(const exception& e)
 	{
-		std::cerr << strerror(errno) << ": " << e.what() << std::endl;
+		cerr << strerror(errno) << ": " << e.what() << endl;
 		return (1);
 	}
 }

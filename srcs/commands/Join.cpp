@@ -1,11 +1,12 @@
-#include "../../includes/Server.hpp"
+#include	"../../includes/Server.hpp"
+using		namespace std;
 
 void	Server::join(Client &client)
 {
 	size_t pos = 0;
-	std::string tab[3] = {"^G"," ", ","};
-	std::string chlName = client.getTokens()[1].c_str();
-	std::string password;
+	string tab[3] = {"^G"," ", ","};
+	string chlName = client.getTokens()[1].c_str();
+	string password;
 	if (client.getTokens().size() > 2)
 	{
 		password = client.getTokens()[2];
@@ -15,7 +16,7 @@ void	Server::join(Client &client)
 	{
 		for (size_t i = 0; i <= tab->size(); i++)
 		{
-			if ((pos = chlName.find(tab[i])) != std::string::npos)
+			if ((pos = chlName.find(tab[i])) != string::npos)
 			{
 				chlName = chlName.substr(0, pos);
 				break;
@@ -64,10 +65,10 @@ void	Server::replyJoin(Client &client, Channel *channel)
 		client.setReply(RPL_ENDOFNAME(client.getNickname(), channel->getName()));
 }
 
-std::string	Server::membershipList(Channel *channel)
+string	Server::membershipList(Channel *channel)
 {
-	std::string buff;
-	for(std::vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
+	string buff;
+	for(vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
 	{
 		buff += _clientMap[*it].getPrefix() + _clientMap[*it].getNickname();
 		if (it == channel->getFdVector().end())

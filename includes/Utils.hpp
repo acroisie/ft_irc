@@ -12,6 +12,7 @@
 #include	<unistd.h>
 #include	<vector>
 #include 	<string>
+using		namespace std;
 
 #define 	MAX_CONNECTIONS 42
 #define 	BUFF_SIZE 4096

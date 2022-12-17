@@ -1,10 +1,10 @@
-#include "../../includes/Server.hpp"
-
+#include	"../../includes/Server.hpp"
+using		namespace std;
 
 void	Server::kick(Client &client)
 {
-	std::string	comment;
-	std::vector<std::string>::iterator it = client.getTokens().begin();
+	string	comment;
+	vector<string>::iterator it = client.getTokens().begin();
 	if (client.getTokens().size() > 3)
 	{
 		it += 3;

@@ -2,8 +2,8 @@
 
 void Server::notice(Client &client)
 {
-	std::string	msg;
-	std::vector<std::string>::iterator it = client.getTokens().begin();
+	string	msg;
+	vector<string>::iterator it = client.getTokens().begin();
 	it += 2;
 	while (true)
 	{
@@ -15,10 +15,10 @@ void Server::notice(Client &client)
 	}
 	if (client.getTokens()[1].c_str()[0] == '#')
 	{
-		std::string	chlName = client.getTokens()[1];
+		string	chlName = client.getTokens()[1];
 		if (_channelMap.find(chlName) != _channelMap.end())
 		{			
-			for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
+			for(vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
 			{
 				if (*it != client.getFd())
 				{
@@ -30,7 +30,7 @@ void Server::notice(Client &client)
 	}
 	else
 	{
-		std::map<int, Client>::iterator it = _clientMap.begin();
+		map<int, Client>::iterator it = _clientMap.begin();
 		while (it != _clientMap.end())
 		{
 			if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
@@ -44,9 +44,9 @@ void Server::notice(Client &client)
 	}
 }
 
-void Server::notice(Client &client, std::string chlName, std::string msg)
+void Server::notice(Client &client, string chlName, string msg)
 {	
-	for(std::vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
+	for(vector<int>::iterator it = _channelMap[chlName]->getFdVector().begin(); it != _channelMap[chlName]->getFdVector().end(); it++)
 	{
 		if (*it != client.getFd())
 		{

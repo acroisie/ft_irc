@@ -1,6 +1,5 @@
-#include "../../includes/Server.hpp"
-
-
+#include	"../../includes/Server.hpp"
+using		namespace std;
 
 void	Server::nick(Client &client)
 {
