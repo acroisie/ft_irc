@@ -26,7 +26,7 @@ bool                    Client::getIsOp(void){return (_isOp);}
 int						Client::getFd(void){return (_clientFd);}
 string					Client::getReply(void){return (_replyBuff);}
 string					Client::getPrefix(void){return (_prefix);}
-vector<string>	&Client::getTokens(void){return (_tokens);}
+vector<string>	        &Client::getTokens(void){return (_tokens);}
 
 /*-----------------MemberFunctions------------------*/
 

@@ -12,7 +12,7 @@ void	Server::invite(Client &client)
 			{
 				it->second.setReply(RPL_INVITING(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
 				FD_SET(it->second.getFd(), &_writeFds);
-				_channelMap[client.getTokens()[2]]->setInvited(client.getTokens()[1]); // eviter les boublons en checkant si le bail est deja invité
+				_channelMap[client.getTokens()[2]]->setInvited(client.getTokens()[1]);
 				break;
 			}
 			it++;

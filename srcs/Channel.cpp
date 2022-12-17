@@ -13,9 +13,19 @@ void				Channel::setTopic(string topic){_topic = topic;}
 void				Channel::setSymbol(string symbol){_symbol = symbol;}
 void				Channel::setName(string name){_name = name;}
 void				Channel::setPassword(string password){_password = password;}
-void				Channel::setFd(int fd){_clientFd.push_back(fd);}
 void				Channel::setNameFd(string name, int fd){_nameFd[name] = fd;}
-void				Channel::setInvited(string name){_invitedList.push_back(name);}
+void				Channel::setFd(int fd)
+{
+	vector<int>::iterator it = find(_clientFd.begin(), _clientFd.end(), fd);
+	if (it == _clientFd.end())
+		_clientFd.push_back(fd);
+}
+void				Channel::setInvited(string name)
+{
+	vector<string>::iterator it = find(_invitedList.begin(), _invitedList.end(), name);
+	if (it == _invitedList.end())
+		_invitedList.push_back(name);
+}
 
 /*----------------------Getters---------------------*/
 
