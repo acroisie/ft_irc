@@ -11,6 +11,7 @@ void	Server::invite(Client &client)
 			{
 				it->second.setReply(RPL_INVITING(client.getNickname(), client.getTokens()[1], client.getTokens()[2]));
 				FD_SET(it->second.getFd(), &_writeFds);
+				_channelMap[client.getTokens()[2]]->setInvited(client.getTokens()[1]);
 				break;
 			}
 			it++;
@@ -18,6 +19,6 @@ void	Server::invite(Client &client)
 		if (it == _clientMap.end())
 			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 	}
-	// else
-	// 	client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
+	else
+		client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 }

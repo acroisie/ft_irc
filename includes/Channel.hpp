@@ -16,6 +16,8 @@ class Channel
 		std::vector<int>			_clientFd;
 		std::map<std::string, int>	_nameFd;
 		std::map<std::string, int>	_bannedClientFd;
+		std::vector<std::string>	_invitedList;
+
 	public:
 		Channel();
 		~Channel();
@@ -25,12 +27,14 @@ class Channel
 		std::string			getSymbol(void);
 		std::string			getMode(void);
 		std::vector<int>	&getFdVector(void);
+		std::vector<std::string>	&getInvitedList(void);
 		int					getNameFd(std::string name);
 
 		void				setTopic(std::string topic);
 		void				setSymbol(std::string symbol);
 		void				setName(std::string name);
 		void				setMode(std::string mode);
+		void				setInvited(std::string name);
 		void				setPassword(std::string password);
 		void				setNameFd(std::string name, int fd);
 		void				setFd(int fd);
