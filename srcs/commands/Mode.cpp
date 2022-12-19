@@ -11,7 +11,10 @@ void	Server::mode(Client &client)
 		{
 			_channelMap[client.getTokens()[1]]->setModeK("+k");
 			if (client.getTokens().size() > 3)
-				_channelMap[client.getTokens()[1]]->setPassword(client.getTokens()[2]);
+			{
+				_channelMap[client.getTokens()[1]]->setPassword(client.getTokens()[3]);
+				client.setReply(RPL_MODE(client.getNickname(),client.getTokens()[1], _channelMap[client.getTokens()[1]]->getModeK()));
+			}
 		}
 	}
 }

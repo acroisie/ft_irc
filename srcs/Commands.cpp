@@ -19,5 +19,3 @@ bool	Server::nickAlreadyUse(Client &client)
 	}
 	return (0);
 }
-
-
