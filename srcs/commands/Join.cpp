@@ -22,8 +22,6 @@ void	Server::join(Client &client)
 	string tab[3] = {"^G"," ", ","};
 	string chlName = client.getTokens()[1].c_str();
 	// string password;
-	// if (client.getTokens().size() > 2)
-	// 	password = client.getTokens()[2];
 	if (chlName[0] == '#')
 	{
 		for (size_t i = 0; i <= tab->size(); i++)
@@ -43,10 +41,20 @@ void	Server::join(Client &client)
 			_channelMap[chlName]->setName(chlName);
 			_channelMap[chlName]->setFd(client.getFd());
 			_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
+			if (client.getTokens().size() > 2)
+			{
+				_channelMap[chlName]->setPassword(client.getTokens()[2]);
+				
+			}
 			replyJoin(client, _channelMap[chlName]);
 		}
-	else if (_channelMap[chlName])
+		else if (_channelMap[chlName])
 		{
+			if (!_channelMap[chlName]->getPassword().empty())
+			{
+				if (!_channelMap[chlName]->verifPassord(client))
+					return;
+			}
 			if (_channelMap[chlName]->clientIsOnChan(client))
 				return ;
 			if (!_channelMap[chlName]->clientIsBanned(client))

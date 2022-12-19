@@ -14,6 +14,7 @@ void	Server::part(Client &client)
 		else
 		{
 			client.setReply(RPL_PART(client.getNickname(), chalname));
+			notice(client, chalname, RPL_PART(client.getNickname(), chalname));
 			_channelMap[chalname]->eraseClient(client);
 		}
 	}

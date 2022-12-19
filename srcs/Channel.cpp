@@ -34,6 +34,7 @@ void				Channel::setInvited(string name)
 string				Channel::getTopic(void){return (_topic);}
 string				Channel::getSymbol(void){return (_symbol);}
 string				Channel::getName(void){return (_name);}
+string				Channel::getPassword(void){return (_password);}
 vector<int>			&Channel::getFdVector(void){return (_clientFd);}
 vector<string>		&Channel::getInvitedList(void){return (_invitedList);}
 int					Channel::getNameFd(string name){return (_nameFd[name]);}
@@ -68,4 +69,15 @@ void	Channel::eraseClient(Client &client)
 			 return;
 		}
 	}
+}
+
+bool	Channel::verifPassord(Client &client)
+{
+	if (client.getTokens().size() > 2)
+	{
+	 	if (_password.compare(client.getTokens()[2]) == 0)
+			return (1);
+	}
+	client.setReply(ERR_BADCHANNELKEY(client.getNickname(), _name));
+	return (0);
 }

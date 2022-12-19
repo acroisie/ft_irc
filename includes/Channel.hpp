@@ -30,6 +30,7 @@ class Channel
 		vector<int>		&getFdVector(void);
 		vector<string>	&getInvitedList(void);
 		int				getNameFd(string name);
+		string			getPassword(void);
 
 		void			setTopic(string topic);
 		void			setSymbol(string symbol);
@@ -43,4 +44,5 @@ class Channel
 		bool			clientIsBanned(Client &client);
 		bool			clientIsOnChan(Client &client);
 		void			eraseClient(Client &client);
+		bool			verifPassord(Client &client);
 };
