@@ -5,10 +5,9 @@ bool	Server::modeCheck(string chlName, Client &client)
 {
 	if ((_channelMap[chlName]->getMode().compare("+i")) == 0)
 	{
-		cout << "Debug Flag1\n";
 		vector<string>::iterator it = find(_channelMap[chlName]->getInvitedList().begin(), \
 		 _channelMap[chlName]->getInvitedList().end(), client.getNickname());
-		if (it == _channelMap[chlName]->getInvitedList().end())
+		if (it != _channelMap[chlName]->getInvitedList().end())
 			return (true);
 		else
 			client.setReply(ERR_NOTONCHANNEL(client.getNickname(), chlName));
