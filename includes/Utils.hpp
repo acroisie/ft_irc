@@ -39,7 +39,7 @@ using		namespace std;
 #define		ERR_NOTONCHANNEL(client, channel)						"442 " + client + " " + channel + " :You're not on that channel\r\n"
 #define		ERR_BANNEDFROMCHAN(client, channel)						"474 " + client + " " + channel + " :Cannot join channel (+b)\r\n"
 #define		ERR_NICKNAMEINUSE(client, nick) 						"433 " + client + " " + nick + " :Nickname is already in use\r\n"
-#define		ERR_ERRONEUSNICKNAME(client, nick) 						"433 " + client + " " + nick + " :Erroneus nickname\r\n"
+#define		ERR_ERRONEUSNICKNAME(client, nick) 						"432 " + client + " " + nick + " :Erroneus nickname\r\n"
 #define		ERR_CANNOTSENDTOCHAN(client, channel) 					"404 " + client + " " + channel + " :Cannot send to channel\r\n"
 #define		ERR_BADCHANNELKEY(client, channel)						"475 " + client + " " + channel + " :Cannot join channel (+k)\r\n"
 #define		ERR_NEEDMOREPARAMS(client, command)						"461 " + client + " " + command + " :Not enough parameters\r\n"
