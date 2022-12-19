@@ -13,6 +13,7 @@ void				Channel::setTopic(string topic){_topic = topic;}
 void				Channel::setSymbol(string symbol){_symbol = symbol;}
 void				Channel::setName(string name){_name = name;}
 void				Channel::setPassword(string password){_password = password;}
+void				Channel::setMode(string mode){_mode = mode;}
 void				Channel::setNameFd(string name, int fd){_nameFd[name] = fd;}
 void				Channel::setFd(int fd)
 {
@@ -39,14 +40,14 @@ int					Channel::getNameFd(string name){return (_nameFd[name]);}
 
 /*-----------------MemberFunctions------------------*/
 
-bool Channel::clientIsBanned(Client &client)
+bool	Channel::clientIsBanned(Client &client)
 {
 	if (_bannedClientFd.find(client.getNickname()) != _bannedClientFd.end())
 		return (1);
 	return(0);
 }
 
-bool Channel::clientIsOnChan(Client &client)
+bool	Channel::clientIsOnChan(Client &client)
 {
 	for (vector<int>::iterator it = _clientFd.begin(); it != _clientFd.end(); it++)
 	{

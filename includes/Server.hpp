@@ -59,4 +59,5 @@ public:
 	string		membershipList(Channel *channel);
 	bool		nickAlreadyUse(Client &client);
 	int			searchByNick(string name);
+	bool		modeCheck(string chlName, Client &client);
 };
