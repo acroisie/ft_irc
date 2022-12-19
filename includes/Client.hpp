@@ -22,7 +22,7 @@ public:
 	Client(void);
 	~Client();
 	
-	void					setFd(int _clientFd);
+	void					addClientFd(int _clientFd);
 	void					setAdress(struct sockaddr_in clientAddr);
 	void					setNickname(string nickname);
 	void					setIsAuth(int auth);

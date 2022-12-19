@@ -42,7 +42,7 @@ class Channel
 		void			setInvited(string name);
 		void			setPassword(string password);
 		void			setNameFd(string name, int fd);
-		void			setFd(int fd);
+		void			addClientFd(int fd);
 
 		bool			clientIsBanned(Client &client);
 		bool			clientIsOnChan(Client &client);

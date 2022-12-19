@@ -8,7 +8,6 @@ Channel::~Channel(){}
 
 /*---------------------Setters-----------------------*/
 
-//void				Channel::setClientList(Client &client){_clientList.push_back(client);}
 void				Channel::setTopic(string topic){_topic = topic;}
 void				Channel::setSymbol(string symbol){_symbol = symbol;}
 void				Channel::setName(string name){_name = name;}
@@ -16,7 +15,7 @@ void				Channel::setPassword(string password){_password = password;}
 void				Channel::setModeI(string mode){_modeI = mode;}
 void				Channel::setModeK(string mode){_modeK = mode;}
 void				Channel::setNameFd(string name, int fd){_nameFd[name] = fd;}
-void				Channel::setFd(int fd)
+void				Channel::addClientFd(int fd)
 {
 	vector<int>::iterator it = find(_clientFd.begin(), _clientFd.end(), fd);
 	if (it == _clientFd.end())
@@ -31,7 +30,6 @@ void				Channel::setInvited(string name)
 
 /*----------------------Getters---------------------*/
 
-//vector<Client>	Channel::getClientList(void){return (_clientList);}
 string				Channel::getTopic(void){return (_topic);}
 string				Channel::getSymbol(void){return (_symbol);}
 string				Channel::getName(void){return (_name);}

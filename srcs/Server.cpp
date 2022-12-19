@@ -45,9 +45,9 @@ void	Server::acceptNewClient(void)
 	addrLen = sizeof(clientAddr);
 	if ((newClient = accept(_serverFd, (struct sockaddr*)&clientAddr, (socklen_t*)&addrLen)) < 0)
 		throw	runtime_error("accept failed");
-	_clientMap[newClient].setFd(newClient);
+	_clientMap[newClient].addClientFd(newClient);
 	_clientMap[newClient].setAdress(clientAddr);
-	_clientMap[newClient].setFd(newClient);
+	_clientMap[newClient].addClientFd(newClient);
 	cout << "\rIncoming connection..." << endl;
 	FD_SET(newClient, &_clientFds);
 }

@@ -11,7 +11,7 @@ Client::~Client(){}
 void					Client::setNickname(string nickname){(void)_isAuth;_nickname =  nickname;}
 void					Client::setIsAuth(int auth){_isAuth = auth;}
 void					Client::setIsOp(bool op){_isOp = op;}
-void					Client::setFd(int clientFd){_clientFd = clientFd;}
+void					Client::addClientFd(int clientFd){_clientFd = clientFd;}
 void					Client::setAdress(struct sockaddr_in clientAddr){_clientAddr =  clientAddr;}
 void					Client::setReply(string replyBuff){_replyBuff += replyBuff;};
 void					Client::setPrefix(string prefix){_prefix = prefix;};

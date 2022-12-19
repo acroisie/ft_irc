@@ -40,7 +40,7 @@ void	Server::join(Client &client)
 			_channelMap[chlName] = new Channel();
 			_channelMap[chlName]->setSymbol("=");
 			_channelMap[chlName]->setName(chlName);
-			_channelMap[chlName]->setFd(client.getFd());
+			_channelMap[chlName]->addClientFd(client.getFd());
 			_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
 			if (client.getTokens().size() > 2)
 			{
@@ -63,7 +63,7 @@ void	Server::join(Client &client)
 			{
 				if (modeCheck(chlName, client))
 				{
-					_channelMap[chlName]->setFd(client.getFd());
+					_channelMap[chlName]->addClientFd(client.getFd());
 					_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
 					notice(client, chlName, RPL_JOIN(client.getNickname(), chlName));
 					replyJoin(client, _channelMap[chlName]);
