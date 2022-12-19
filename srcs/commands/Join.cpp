@@ -44,6 +44,7 @@ void	Server::join(Client &client)
 			_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
 			if (client.getTokens().size() > 2)
 			{
+				_channelMap[chlName]->setModeK("+k");
 				_channelMap[chlName]->setPassword(client.getTokens()[2]);
 				
 			}
@@ -51,7 +52,7 @@ void	Server::join(Client &client)
 		}
 		else if (_channelMap.count(chlName))
 		{
-			if (!_channelMap[chlName]->getPassword().empty())
+			if (_channelMap[chlName]->getModeK().compare("+k") == 0)
 			{
 				if (!_channelMap[chlName]->verifPassord(client))
 					return;
