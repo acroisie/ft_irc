@@ -3,24 +3,38 @@ using		namespace std;
 
 void	Server::topic(Client &client)
 {
-	
-	std::string chlname = client.getTokens()[1];
-	if (!_channelMap[chlname])
+	std::string topic;
+
+	if (client.getTokens().size() < 2)
 	{
-		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), chlname));
+		client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(),client.getTokens()[0]));
+		return;
+	}
+	if (!_channelMap[client.getTokens()[1]])
+	{
+		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), client.getTokens()[1]));
 		return ;
 	}
-	else if (!_channelMap[chlname]->clientIsOnChan(client))
+	else if (!_channelMap[client.getTokens()[1]]->clientIsOnChan(client))
 	{
-		client.setReply(ERR_NOTONCHANNEL(client.getNickname(), chlname));
+		client.setReply(ERR_NOTONCHANNEL(client.getNickname(), client.getTokens()[1]));
 		return ;
 	}
-	if (client.getTokens().size() > 2)
+	if (client.getTokens().size() == 3)
 	{
-		_channelMap[chlname]->setTopic(client.getTokens()[2]);
-		std::string topic =  client.getTokens()[2].substr(1,  client.getTokens()[2].size());
-		client.setReply(RPL_TOPIC(client.getNickname(), chlname, topic));
-		notice(client,chlname, RPL_TOPIC(client.getNickname(), chlname, topic));
+		topic =  client.getTokens()[2].substr(1,  client.getTokens()[2].size());
+		_channelMap[client.getTokens()[1]]->setTopic(topic);
+		if (topic.compare(":") == 0)
+			_channelMap[client.getTokens()[1]]->setTopic("");
+		client.setReply(RPL_TOPICC(client.getNickname(), client.getTokens()[1], _channelMap[client.getTokens()[1]]->getTopic()));
+		notice(client,client.getTokens()[1], RPL_TOPICC(client.getNickname(), client.getTokens()[1], _channelMap[client.getTokens()[1]]->getTopic()));
+	}
+	else if (client.getTokens().size() == 2)
+	{
+		if (_channelMap[client.getTokens()[1]]->getTopic().empty())
+			client.setReply(RPL_NOTOPIC(client.getNickname(), client.getTokens()[1]));
+		else
+			client.setReply(RPL_TOPIC(client.getNickname(), client.getTokens()[1], _channelMap[client.getTokens()[1]]->getTopic()));
 	}
 	(void)client;
 }
