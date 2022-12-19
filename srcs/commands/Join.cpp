@@ -3,7 +3,7 @@ using		namespace std;
 
 bool	Server::modeCheck(string chlName, Client &client)
 {
-	if ((_channelMap[chlName]->getMode().compare("+i")) == 0)
+	if ((_channelMap[chlName]->getModeI().compare("+i")) == 0)
 	{
 		vector<string>::iterator it = find(_channelMap[chlName]->getInvitedList().begin(), \
 		 _channelMap[chlName]->getInvitedList().end(), client.getNickname());
