@@ -51,7 +51,7 @@ void	Channel::eraseClient(Client &client)
 		if (*it == client.getFd())
 		{
 			 _clientFd.erase(it);
-			 return ;
+			 return;
 		}
 	}
 }
