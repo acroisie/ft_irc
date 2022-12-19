@@ -1,21 +1,32 @@
-#include "../../includes/Server.hpp"
+#include	"../../includes/Server.hpp"
+using		namespace std;
+
+bool	Server::modeCheck(string chlName, Client &client)
+{
+	if (_channelMap[chlName]->getMode() == "+i")
+	{
+		vector<string>::iterator it = find(_channelMap[chlName]->getInvitedList().begin(), \
+		 _channelMap[chlName]->getInvitedList().end(), client.getNickname());
+		if (it == _channelMap[chlName]->getInvitedList().end())
+			return (true);
+		else
+			client.setReply();
+	}
+}
 
 void	Server::join(Client &client)
 {
 	size_t pos = 0;
-	std::string tab[3] = {"^G"," ", ","};
-	std::string chlName = client.getTokens()[1].c_str();
-	std::string password;
-	if (client.getTokens().size() > 2)
-	{
-		password = client.getTokens()[2];
-
-	}
+	string tab[3] = {"^G"," ", ","};
+	string chlName = client.getTokens()[1].c_str();
+	// string password;
+	// if (client.getTokens().size() > 2)
+	// 	password = client.getTokens()[2];
 	if (chlName[0] == '#')
 	{
 		for (size_t i = 0; i <= tab->size(); i++)
 		{
-			if ((pos = chlName.find(tab[i])) != std::string::npos)
+			if ((pos = chlName.find(tab[i])) != string::npos)
 			{
 				chlName = chlName.substr(0, pos);
 				break;
@@ -32,14 +43,17 @@ void	Server::join(Client &client)
 			_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
 			replyJoin(client, _channelMap[chlName]);
 		}
-		else if (_channelMap[chlName])
+	else if (_channelMap[chlName])
 		{
 			if (!_channelMap[chlName]->clientIsBanned(client))
 			{
-				_channelMap[chlName]->setFd(client.getFd());
-				_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
-				notice(client, chlName, RPL_JOIN(client.getNickname(), chlName));
-				replyJoin(client, _channelMap[chlName]);
+				if (modeCheck(chlName, client))
+				{
+					_channelMap[chlName]->setFd(client.getFd());
+					_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
+					notice(client, chlName, RPL_JOIN(client.getNickname(), chlName));
+					replyJoin(client, _channelMap[chlName]);
+				}
 			}
 			else
 				client.setReply(ERR_BANNEDFROMCHAN(client.getNickname(), chlName));
@@ -64,10 +78,10 @@ void	Server::replyJoin(Client &client, Channel *channel)
 		client.setReply(RPL_ENDOFNAME(client.getNickname(), channel->getName()));
 }
 
-std::string	Server::membershipList(Channel *channel)
+string	Server::membershipList(Channel *channel)
 {
-	std::string buff;
-	for(std::vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
+	string buff;
+	for(vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
 	{
 		buff += _clientMap[*it].getPrefix() + _clientMap[*it].getNickname();
 		if (it == channel->getFdVector().end())

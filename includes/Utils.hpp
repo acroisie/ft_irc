@@ -12,6 +12,7 @@
 #include	<unistd.h>
 #include	<vector>
 #include 	<string>
+using		namespace std;
 
 #define 	MAX_CONNECTIONS 42
 #define 	BUFF_SIZE 4096
@@ -27,6 +28,7 @@
 #define		RPL_NICK(client, newnick)								":" + client + " NICK " + newnick +  "\r\n"
 #define		RPL_KICK(client, kicked, channel, comment)				":" + client + " KICK " + channel + " " + kicked + " " + comment + "\r\n"
 #define		RPL_PART(client, channel)								":" + client + "PART :" + channel + "\r\n"
+#define		RPL_INVITING(client, invitedClient, channel)			"341 " + client + " " + invitedClient + " " + channel + "\r\n"
 
 #define		ERR_WRONGPASSWORD(client)								"464 " + client + " :Password incorrect\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"
@@ -36,3 +38,4 @@
 #define		ERR_BANNEDFROMCHAN(client, channel)						"474 " + client + " " + channel + " :Cannot join channel (+b)\r\n"
 #define		ERR_NICKNAMEINUSE(client, nick) 						"433 " + client + " " + nick + " :Nickname is already in use\r\n"
 #define		ERR_ERRONEUSNICKNAME(client,nick) 						"433 " + client + " " + nick + " :Erroneus nickname\r\n"
+#define		ERR_CANNOTSENDTOCHAN(client,channel) 					"404 " + client + " " +  channel + " :Cannot send to channel\r\n"

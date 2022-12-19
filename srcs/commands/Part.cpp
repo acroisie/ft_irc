@@ -3,7 +3,7 @@
 void	Server::part(Client &client)
 {
 	(void)client;
-	std::string chalname = client.getTokens()[1];
+	string chalname = client.getTokens()[1];
 	if (_channelMap[chalname])
 	{
 		if (!(_channelMap[chalname]->clientIsOnChan(client)))
