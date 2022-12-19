@@ -33,7 +33,7 @@ void	Server::join(Client &client)
 				break;
 			}
 		}
-		if (!_channelMap[chlName])
+		if (!_channelMap.count(chlName))
 		{
 			client.setPrefix("@");
 			client.setIsOp(1);
@@ -49,7 +49,7 @@ void	Server::join(Client &client)
 			}
 			replyJoin(client, _channelMap[chlName]);
 		}
-		else if (_channelMap[chlName])
+		else if (_channelMap.count(chlName))
 		{
 			if (!_channelMap[chlName]->getPassword().empty())
 			{

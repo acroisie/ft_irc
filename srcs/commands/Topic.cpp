@@ -10,12 +10,12 @@ void	Server::topic(Client &client)
 		client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(),client.getTokens()[0]));
 		return;
 	}
-	if (!_channelMap[client.getTokens()[1]])
+	if (!_channelMap.count(client.getTokens()[1]))
 	{
-		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), client.getTokens()[1]));
+		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), ));
 		return ;
 	}
-	else if (!_channelMap[client.getTokens()[1]]->clientIsOnChan(client))
+	if (!_channelMap[client.getTokens()[1]]->clientIsOnChan(client))
 	{
 		client.setReply(ERR_NOTONCHANNEL(client.getNickname(), client.getTokens()[1]));
 		return ;
