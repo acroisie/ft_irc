@@ -34,6 +34,7 @@ void				Channel::setInvited(string name)
 string				Channel::getTopic(void){return (_topic);}
 string				Channel::getSymbol(void){return (_symbol);}
 string				Channel::getName(void){return (_name);}
+string				Channel::getMode(void){return (_mode);}
 vector<int>			&Channel::getFdVector(void){return (_clientFd);}
 vector<string>		&Channel::getInvitedList(void){return (_invitedList);}
 int					Channel::getNameFd(string name){return (_nameFd[name]);}
