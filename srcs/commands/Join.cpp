@@ -1,18 +1,20 @@
 #include	"../../includes/Server.hpp"
 using		namespace std;
 
-bool	Server::modeCheck(string chlName, Client &client)
-{
-	if (_channelMap[chlName]->getMode() == "+i")
-	{
-		vector<string>::iterator it = find(_channelMap[chlName]->getInvitedList().begin(), \
-		 _channelMap[chlName]->getInvitedList().end(), client.getNickname());
-		if (it == _channelMap[chlName]->getInvitedList().end())
-			return (true);
-		else
-			client.setReply();
-	}
-}
+//bool	Server::modeCheck(string chlName, Client &client)
+//{
+//	if (_channelMap[chlName]->getMode() == "+i")
+//	{
+//		vector<string>::iterator it = find(_channelMap[chlName]->getInvitedList().begin(), \
+//		 _channelMap[chlName]->getInvitedList().end(), client.getNickname());
+//		if (it == _channelMap[chlName]->getInvitedList().end())
+//			return (true);
+//		else
+//			return (false);
+//	}
+//	else
+//			return (false);
+//}
 
 void	Server::join(Client &client)
 {
@@ -45,15 +47,17 @@ void	Server::join(Client &client)
 		}
 	else if (_channelMap[chlName])
 		{
+			if (_channelMap[chlName]->clientIsOnChan(client))
+				return ;
 			if (!_channelMap[chlName]->clientIsBanned(client))
 			{
-				if (modeCheck(chlName, client))
-				{
+				//if (modeCheck(chlName, client))
+				//{
 					_channelMap[chlName]->setFd(client.getFd());
 					_channelMap[chlName]->setNameFd(client.getNickname(), client.getFd());
 					notice(client, chlName, RPL_JOIN(client.getNickname(), chlName));
 					replyJoin(client, _channelMap[chlName]);
-				}
+				//}
 			}
 			else
 				client.setReply(ERR_BANNEDFROMCHAN(client.getNickname(), chlName));
