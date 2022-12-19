@@ -13,6 +13,7 @@ void				Channel::setSymbol(string symbol){_symbol = symbol;}
 void				Channel::setName(string name){_name = name;}
 void				Channel::setPassword(string password){_password = password;}
 void				Channel::setModeI(string mode){_modeI = mode;}
+void				Channel::unsetModeI(void){_modeI.clear();_invitedList.clear();};
 void				Channel::setModeK(string mode){_modeK = mode;}
 void				Channel::setNameFd(string name, int fd){_nameFd[name] = fd;}
 void				Channel::addClientFd(int fd)

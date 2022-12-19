@@ -38,6 +38,7 @@ class Channel
 		void			setSymbol(string symbol);
 		void			setName(string name);
 		void			setModeI(string mode);
+		void			unsetModeI(void);
 		void			setModeK(string mode);
 		void			setInvited(string name);
 		void			setPassword(string password);
