@@ -13,7 +13,8 @@ class Channel
 		string				_password;
 		string				_topic;
 		string				_symbol;
-		string				_mode;
+		string				_modeI;
+		string				_modeK;
 		vector<int>			_clientFd;
 		map<string, int>	_nameFd;
 		map<string, int>	_bannedClientFd;
@@ -26,7 +27,8 @@ class Channel
 		string			getTopic(void);
 		string			getName(void);
 		string			getSymbol(void);
-		string			getMode(void);
+		string			getModeI(void);
+		string			getModeK(void);
 		vector<int>		&getFdVector(void);
 		vector<string>	&getInvitedList(void);
 		int				getNameFd(string name);
@@ -35,7 +37,8 @@ class Channel
 		void			setTopic(string topic);
 		void			setSymbol(string symbol);
 		void			setName(string name);
-		void			setMode(string mode);
+		void			setModeI(string mode);
+		void			setModeK(string mode);
 		void			setInvited(string name);
 		void			setPassword(string password);
 		void			setNameFd(string name, int fd);
