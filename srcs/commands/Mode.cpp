@@ -3,13 +3,13 @@ using		namespace std;
 
 void	Server::mode(Client &client)
 {
+	if (!client.getIsOp())
+	{
+		client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(),client.getTokens()[1]));
+		return ;
+	}
 	if (client.getTokens().size() > 2)
 	{
-		if (!client.getIsOp())
-		{
-			client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(),client.getTokens()[1]));
-			return ;
-		}
 		if ((client.getTokens()[2].compare("+i")) == 0)
 		{
 			_channelMap[client.getTokens()[1]]->setModeI("+i");
@@ -46,25 +46,26 @@ void	Server::mode(Client &client)
 		}
 		int fd;
 		if (client.getTokens().size() > 3)
-			fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[3]);
-		if (client.getIsOp() == 1)
 		{
-			if ((client.getTokens()[2].compare("+o")) == 0)
-			{
-					_clientMap[fd].setPrefix("@");
-					_clientMap[fd].setIsOp(1);
-					notice(client, client.getTokens()[1], RPL_MODEO(client.getPrefix() + client.getNickname(), \
-					client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
-					client.setReply(RPL_MODEO(client.getPrefix() + client.getNickname(), client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
-			}
-			else if ((client.getTokens()[2].compare("-o")) == 0)
-			{
-				_clientMap[fd].getPrefix().clear();
-				_clientMap[fd].setIsOp(0);
+			fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[3]);
+			if (!fd)
+				return;
+		}
+		if ((client.getTokens()[2].compare("+o")) == 0)
+		{
+				_clientMap[fd].setPrefix("@");
+				_clientMap[fd].setIsOp(1);
 				notice(client, client.getTokens()[1], RPL_MODEO(client.getPrefix() + client.getNickname(), \
-				client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
-				client.setReply(RPL_MODEO(client.getPrefix() + client.getNickname(), client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
-			}
+				client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
+				client.setReply(RPL_MODEO(client.getPrefix() + client.getNickname(), client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
+		}
+		else if ((client.getTokens()[2].compare("-o")) == 0)
+		{
+			_clientMap[fd].getPrefix().clear();
+			_clientMap[fd].setIsOp(0);
+			notice(client, client.getTokens()[1], RPL_MODEO(client.getPrefix() + client.getNickname(), \
+			client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
+			client.setReply(RPL_MODEO(client.getPrefix() + client.getNickname(), client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
 		}
 	}
 	// else
