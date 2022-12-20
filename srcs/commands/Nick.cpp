@@ -3,7 +3,7 @@ using		namespace std;
 
 void	Server::nick(Client &client)
 {
-		if (segvGuard(client))
+	if (segvGuard(client))
 		return ;
 	if (!nickAlreadyUse(client)) 
 	{

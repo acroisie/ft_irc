@@ -5,11 +5,8 @@ void	Server::topic(Client &client)
 {
 	std::string topic;
 
-	if (client.getTokens().size() < 2)
-	{
-		client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(),client.getTokens()[0]));
-		return;
-	}
+	if (segvGuard(client))
+		return ;
 	if (!_channelMap.count(client.getTokens()[1]))
 	{
 		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), ));

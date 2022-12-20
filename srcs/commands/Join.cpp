@@ -19,7 +19,7 @@ bool	Server::modeCheck(string chlName, Client &client)
 
 void	Server::join(Client &client)
 {
-		if (segvGuard(client))
+	if (segvGuard(client))
 		return ;
 	size_t pos = 0;
 	string tab[3] = {"^G"," ", ","};
