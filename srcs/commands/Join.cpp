@@ -37,8 +37,9 @@ void	Server::join(Client &client)
 		}
 		if (!_channelMap.count(chlName))
 		{
-			client.setPrefix("@");
-			client.setIsOp(1);
+			//client.setPrefix("@");
+			//client.setIsOp(1);
+
 			_channelMap[chlName] = new Channel();
 			_channelMap[chlName]->setSymbol("=");
 			_channelMap[chlName]->setName(chlName);
@@ -50,6 +51,7 @@ void	Server::join(Client &client)
 				_channelMap[chlName]->setPassword(client.getTokens()[2]);
 				
 			}
+			_channelMap[chlName]->addOp(client);
 			replyJoin(client, _channelMap[chlName]);
 		}
 		else if (_channelMap.count(chlName))
@@ -99,7 +101,9 @@ string	Server::membershipList(Channel *channel)
 	string buff;
 	for(vector<int>::iterator it = channel->getFdVector().begin(); it != channel->getFdVector().end(); it++)
 	{
-		buff += _clientMap[*it].getPrefix() + _clientMap[*it].getNickname();
+		if (channel->isOp(_clientMap[*it]))
+			buff += "@";
+		buff += _clientMap[*it].getNickname();
 		if (it == channel->getFdVector().end())
 			break;
 		buff += " ";

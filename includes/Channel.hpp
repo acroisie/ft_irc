@@ -9,16 +9,17 @@ class Client;
 class Channel
 {
 	private:
-		string				_name;
-		string				_password;
-		string				_topic;
-		string				_symbol;
-		string				_modeI;
-		string				_modeK;
-		vector<int>			_clientFd;
-		map<string, int>	_nameFd;
-		map<string, int>	_bannedClientFd;
-		vector<string>		_invitedList;
+		string						_name;
+		string						_password;
+		string						_topic;
+		string						_symbol;
+		string						_modeI;
+		string						_modeK;
+		vector<int>					_clientFd;
+		map<string, int>			_nameFd;
+		map<string,int>				_bannedClientFd;
+		map<string, Client>			_opList;
+		vector<string>				_invitedList;
 
 	public:
 		Channel();
@@ -44,7 +45,10 @@ class Channel
 		void				setPassword(string password);
 		void				setNameFd(string name, int fd);
 		void				addClientFd(int fd);
-
+		void				addOp(Client &client);
+		void				removeOp(Client &client);
+		
+		bool				isOp(Client &client);
 		bool				clientIsBanned(Client &client);
 		bool				clientIsOnChan(Client &client);
 		void				eraseClient(Client &client);

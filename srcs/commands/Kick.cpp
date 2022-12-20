@@ -5,7 +5,7 @@ void	Server::kick(Client &client)
 {
 	if (segvGuard(client))
 		return ;
-	if (client.getIsOp())
+	if (_channelMap[client.getTokens()[1]]->isOp(client))
 	{	
 		string	comment;
 		vector<string>::iterator it = client.getTokens().begin();
@@ -24,7 +24,7 @@ void	Server::kick(Client &client)
 		int fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[2]); ;
 		if (!fd)
 			client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
-		else if (client.getIsOp())
+		else if (_channelMap[client.getTokens()[1]]->isOp(client))
 		{
 			client.setReply(RPL_KICK(client.getNickname(), _clientMap[fd].getNickname(), client.getTokens()[1], (comment.empty() ? "" : comment)));
 			notice(client, client.getTokens()[1], RPL_KICK(client.getNickname(), _clientMap[fd].getNickname(), client.getTokens()[1], (comment.empty() ? "" : comment)));

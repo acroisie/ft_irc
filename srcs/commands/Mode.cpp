@@ -13,7 +13,7 @@ void	Server::mode(Client &client)
 		return ;
 	if (client.getTokens().size() > 2)
 	{
-		if (!client.getIsOp())
+		if (!_channelMap[client.getTokens()[1]]->isOp(client))
 		{
 			client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(),client.getTokens()[1]));
 			return ;
@@ -51,21 +51,21 @@ void	Server::mode(Client &client)
 			if (!fd)
 				return;
 		}
+		string prefixe = "@";
 		if ((client.getTokens()[2].compare("+o")) == 0)
 		{
-				_clientMap[fd].setPrefix("@");
-				_clientMap[fd].setIsOp(1);
-				notice(client, client.getTokens()[1], RPL_MODEO(client.getPrefix() + client.getNickname(), \
-				client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
-				client.setReply(RPL_MODEO(client.getPrefix() + client.getNickname(), client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
+				_channelMap[client.getTokens()[1]]->addOp(_clientMap[fd]);
+				notice(client, client.getTokens()[1], RPL_MODEO(prefixe + client.getNickname(), \
+					client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
+				client.setReply(RPL_MODEO(prefixe + client.getNickname(), \
+					client.getTokens()[1], "+o", _clientMap[fd].getNickname()));
 		}
 		else if ((client.getTokens()[2].compare("-o")) == 0)
 		{
-			_clientMap[fd].getPrefix().clear();
-			_clientMap[fd].setIsOp(0);
-			notice(client, client.getTokens()[1], RPL_MODEO(client.getPrefix() + client.getNickname(), \
+			_channelMap[client.getTokens()[1]]->removeOp(_clientMap[fd]);
+			notice(client, client.getTokens()[1], RPL_MODEO(prefixe + client.getNickname(), \
 			client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
-			client.setReply(RPL_MODEO(client.getPrefix() + client.getNickname(), client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
+			client.setReply(RPL_MODEO(prefixe + client.getNickname(), client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
 		}
 	}
 }

@@ -5,7 +5,7 @@ void	Server::invite(Client &client)
 {
 	if (segvGuard(client))
 		return ;
-	if (client.getIsOp())
+	if (_channelMap[client.getTokens()[1]]->isOp(client))
 	{
 		map<int, Client>::iterator it = _clientMap.begin();
 		while (it != _clientMap.end())

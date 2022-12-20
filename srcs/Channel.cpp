@@ -83,3 +83,20 @@ bool	Channel::verifPassord(Client &client)
 	client.setReply(ERR_BADCHANNELKEY(client.getNickname(), _name));
 	return (0);
 }
+
+void	Channel::addOp(Client &client)
+{
+	_opList[client.getNickname()] = client;
+}
+
+void	Channel::removeOp(Client &client)
+{
+	_opList.erase(client.getNickname());
+}
+
+bool	Channel::isOp(Client &client)
+{
+	if (_opList.count(client.getNickname()))
+		return (1);
+	return (0);
+}

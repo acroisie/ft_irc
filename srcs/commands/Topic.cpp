@@ -7,6 +7,11 @@ void	Server::topic(Client &client)
 
 	if (segvGuard(client))
 		return ;
+	if (!_channelMap[client.getTokens()[1]]->isOp(client))
+	{
+		client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(), client.getTokens()[1]));
+		return;
+	}
 	if (!_channelMap.count(client.getTokens()[1]))
 	{
 		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), ));
