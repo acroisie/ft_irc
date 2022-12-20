@@ -61,4 +61,5 @@ public:
 	bool					nickAlreadyUse(Client &client);
 	int						searchByNick(string name);
 	bool					modeCheck(string chlName, Client &client);
+	void					notifAll(Client &client, string mode);
 };
