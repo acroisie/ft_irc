@@ -8,6 +8,12 @@ void	Server::quit(Client &client)
 	{	
 		if (it->second->clientIsOnChan(client))
 			it->second->eraseClient(client);
+		if (it->second->getFdVector().empty())
+		{
+			_channelMap.erase(it);
+			std::cout << "clear tab\n";
+			break;
+		}
 	}
 	close(client.getFd());
 	FD_CLR(client.getFd(), &_clientFds);

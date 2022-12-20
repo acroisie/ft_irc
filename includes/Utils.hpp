@@ -31,8 +31,8 @@ using		namespace std;
 #define		RPL_JOIN(client, channel)								":" + client + " JOIN :" + channel + "\r\n"
 #define		RPL_TOPICC(client, channel, topic)						":" + client + " TOPIC " + channel + " " + topic + "\r\n"
 #define		RPL_TOPICCO(client, channel)							":" + client + " TOPIC " + channel + " " + "\r\n"
-#define		RPL_MODE(client, channel, mode)							":" + client + " MODE " + channel + " :" + mode + "\r\n"
-#define		RPL_MODEO(client, channel, mode,user)					":" + client + " MODE " + channel + " :" + mode + + " " + user + "\r\n"
+#define		RPL_MODE(client, channel, mode)							":" + client + " MODE " + channel + " " + mode + "\r\n"
+#define		RPL_MODEO(client, channel, mode,user)					":" + client + " MODE " + channel + " " + mode + " " + user + "\r\n"
 
 #define		ERR_NOSUCHNICK(client, nickname)						"401 " + client + " " + nickname + " :No such nick/channel\r\n"
 #define		ERR_NOSUCHCHANNEL(client, channel) 						"403 " + client + " " + channel + " :No such channel\r\n"
