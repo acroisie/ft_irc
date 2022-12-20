@@ -4,6 +4,11 @@ void Server::notice(Client &client)
 {
 	if (segvGuard(client))
 		return ;
+	if (client.getTokens().size() == 2)
+	{
+		client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[0]));
+		return;
+	}
 	string	msg;
 	vector<string>::iterator it = client.getTokens().begin();
 	it += 2;
