@@ -2,7 +2,8 @@
 
 void	Server::part(Client &client)
 {
-	(void)client;
+	if (segvGuard(client))
+		return ;
 	string chalname = client.getTokens()[1];
 	if (_channelMap[chalname])
 	{

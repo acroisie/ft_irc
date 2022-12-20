@@ -2,6 +2,8 @@
 
 void Server::notice(Client &client)
 {
+	if (segvGuard(client))
+		return ;
 	string	msg;
 	vector<string>::iterator it = client.getTokens().begin();
 	it += 2;

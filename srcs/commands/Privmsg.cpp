@@ -3,6 +3,8 @@ using		namespace std;
 
 void	Server::privMsg(Client &client)
 {
+	if (segvGuard(client))
+		return ;
 	string	msg;
 	vector<string>::iterator it = client.getTokens().begin();
 	it += 2;

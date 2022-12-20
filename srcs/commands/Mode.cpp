@@ -9,6 +9,8 @@ void	Server::notifAll(Client &client, string mode)
 }
 void	Server::mode(Client &client)
 {
+		if (segvGuard(client))
+		return ;
 	if (client.getTokens().size() > 2)
 	{
 		if (!client.getIsOp())

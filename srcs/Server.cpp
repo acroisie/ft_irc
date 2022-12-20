@@ -37,6 +37,16 @@ Server::~Server(){}
 
 /*-----------------MemberFunctions------------------*/
 
+int	Server::segvGuard(Client &client)
+{
+	if (client.getTokens().size() < 2)
+	{
+		client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[0]));
+		return (1);
+	}
+	return (0);
+}
+
 void	Server::acceptNewClient(void)
 {
 	int						newClient;

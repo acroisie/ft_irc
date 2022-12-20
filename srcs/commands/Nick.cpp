@@ -3,6 +3,8 @@ using		namespace std;
 
 void	Server::nick(Client &client)
 {
+		if (segvGuard(client))
+		return ;
 	if (!nickAlreadyUse(client)) 
 	{
 		for (size_t i = 0; i < client.getTokens()[1].size(); i++)

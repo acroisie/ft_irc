@@ -62,4 +62,5 @@ public:
 	int						searchByNick(string name);
 	bool					modeCheck(string chlName, Client &client);
 	void					notifAll(Client &client, string mode);
+	int						segvGuard(Client &Client);
 };

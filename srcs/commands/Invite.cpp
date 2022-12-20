@@ -3,6 +3,8 @@ using		namespace std;
 
 void	Server::invite(Client &client)
 {
+	if (segvGuard(client))
+		return ;
 	if (client.getIsOp())
 	{
 		map<int, Client>::iterator it = _clientMap.begin();

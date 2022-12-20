@@ -3,6 +3,8 @@ using		namespace std;
 
 void	Server::kick(Client &client)
 {
+		if (segvGuard(client))
+		return ;
 	if (client.getIsOp())
 	{	
 		string	comment;
