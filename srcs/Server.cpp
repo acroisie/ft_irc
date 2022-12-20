@@ -73,6 +73,7 @@ void	Server::handleMsg(int currentFd)
 	{
 		bzero(buffer, BUFF_SIZE);
 		FD_CLR(currentFd, &_clientFds);
+		return;
 	}
 	_clientMap[currentFd].appendBuff += buffer;
 	size_t	pos = 0;
@@ -87,6 +88,8 @@ void	Server::handleMsg(int currentFd)
 	for (vector<string>::iterator it = _commandRecv.begin(); it != _commandRecv.end(); it++)
 	{
 		_clientMap[currentFd].tokenize(*it);
+		if(_clientMap[currentFd].getTokens().empty())
+			return;
 		execCommand(_clientMap[currentFd]);
 		_clientMap[currentFd].clearTokens();
 		if (_clientMap[currentFd].getReply().size() && _clientMap[currentFd].getAuth())
