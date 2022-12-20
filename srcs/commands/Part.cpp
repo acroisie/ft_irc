@@ -16,6 +16,11 @@ void	Server::part(Client &client)
 			client.setReply(RPL_PART(client.getNickname(), chalname));
 			notice(client, chalname, RPL_PART(client.getNickname(), chalname));
 			_channelMap[chalname]->eraseClient(client);
+			if (_channelMap[chalname]->getFdVector().empty())
+			{
+				_channelMap.erase(chalname);
+				std::cout << "clear tab\n";
+			}
 		}
 	}
 	else
