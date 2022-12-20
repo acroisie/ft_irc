@@ -9,13 +9,13 @@ void	Server::notifAll(Client &client, string mode)
 }
 void	Server::mode(Client &client)
 {
-	if (!client.getIsOp())
-	{
-		client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(),client.getTokens()[1]));
-		return ;
-	}
 	if (client.getTokens().size() > 2)
 	{
+		if (!client.getIsOp())
+		{
+			client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(),client.getTokens()[1]));
+			return ;
+		}
 		if ((client.getTokens()[2].compare("+i")) == 0)
 		{
 			_channelMap[client.getTokens()[1]]->setModeI("+i");

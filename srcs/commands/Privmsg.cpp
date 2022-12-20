@@ -25,7 +25,7 @@ void	Server::privMsg(Client &client)
 				{
 					if (*it != client.getFd())
 					{
-						_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+						_clientMap[*it].setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg.substr(1, msg.size()).c_str()));
 						FD_SET(_clientMap[*it].getFd(), &_writeFds);
 					}
 				}
@@ -46,7 +46,7 @@ void	Server::privMsg(Client &client)
 		{
 			if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
 			{
-				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg));
+				it->second.setReply(RPL_PRIVMSG(client.getNickname(), client.getTokens()[1], msg.substr(1, msg.size()).c_str()));
 				FD_SET(it->second.getFd(), &_writeFds);
 				break;
 			}

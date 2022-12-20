@@ -52,23 +52,13 @@ void	Server::acceptNewClient(void)
 	FD_SET(newClient, &_clientFds);
 }
 
-void	Server::connectionLost(int currentFd)
-{
-	cout << "\rConnection lost with " << _clientMap[currentFd].getNickname() << endl;
-	FD_CLR(currentFd, &_clientFds);
-	FD_CLR(currentFd, &_readFds);
-	FD_CLR(currentFd, &_writeFds);
-	map<int, Client>::iterator it = _clientMap.find(currentFd);
-	_clientMap.erase(it);
-}
-
 void	Server::handleMsg(int currentFd)
 {
 	char	buffer[BUFF_SIZE];
 	bzero(buffer, BUFF_SIZE);
 	_commandRecv.clear();
 	if (recv(currentFd, (void *)buffer, BUFF_SIZE, 0) < 0)
-		connectionLost(currentFd);
+		quit(_clientMap[currentFd]);
 	if (!buffer[0])
 	{
 		bzero(buffer, BUFF_SIZE);

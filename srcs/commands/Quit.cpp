@@ -7,7 +7,11 @@ void	Server::quit(Client &client)
 	for (map<string, Channel *>::iterator it = _channelMap.begin(); it != _channelMap.end(); it++)
 	{	
 		if (it->second->clientIsOnChan(client))
+		{
+			client.setReply(RPL_PART(client.getNickname(), it->second->getName()));
+			notice(client,  it->second->getName(), RPL_PART(client.getNickname(),  it->second->getName()));
 			it->second->eraseClient(client);
+		}
 		if (it->second->getFdVector().empty())
 		{
 			_channelMap.erase(it);

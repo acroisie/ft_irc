@@ -32,3 +32,4 @@ void	Server::kick(Client &client)
 	else
 		client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(), client.getTokens()[1]));
 }
+
