@@ -11,8 +11,18 @@ void	Server::mode(Client &client)
 {
 	if (segvGuard(client))
 		return ;
+	std::string modeList[6] = {"+i", "-i", "+k", "-k", "+o", "-o"};
 	if (client.getTokens().size() > 2)
 	{
+		int flag = 0;
+		for (size_t i = 0; i != 6 ; i++)
+		{
+			if (client.getTokens()[2].compare(modeList[i]) == 0)
+				flag = 1;
+			std::cout << "Mode : " << modeList[i] << " flag: " << flag << std::endl; 
+		}
+		if (flag == 0)
+			return;
 		if (!_channelMap[client.getTokens()[1]]->isOp(client))
 		{
 			client.setReply(ERR_CHANOPRIVSNEEDED(client.getNickname(),client.getTokens()[1]));
