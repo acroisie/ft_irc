@@ -18,9 +18,10 @@ private:
 	string					_realname;
 
 public:
-	string					appendBuff;
 	Client(void);
 	~Client();
+	
+	string					appendBuff;
 	
 	void					addClientFd(int _clientFd);
 	void					setAdress(struct sockaddr_in clientAddr);

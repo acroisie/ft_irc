@@ -3,7 +3,7 @@ using		namespace std;
 
 /*---------------Constructor/Destructor--------------*/
 
-Client::Client(void): _isAuth(0){_nickname = "DefaultNickname";}
+Client::Client(void):   _isAuth(0){_nickname = "DefaultNickname";}
 Client::~Client(){}
 
 /*---------------------Setters-----------------------*/
@@ -45,4 +45,4 @@ void                    Client::tokenize(string buff)
         cout << "{" << *it << "}" << endl; // To delete
 }
 
-void	Client::clearTokens(void){_tokens.clear();}
+void                    Client::clearTokens(void){_tokens.clear();}
