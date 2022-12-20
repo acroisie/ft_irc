@@ -36,5 +36,4 @@ void	Server::topic(Client &client)
 		else
 			client.setReply(RPL_TOPIC(client.getNickname(), client.getTokens()[1], _channelMap[client.getTokens()[1]]->getTopic()));
 	}
-	(void)client;
 }
