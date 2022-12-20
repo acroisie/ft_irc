@@ -45,4 +45,4 @@ using		namespace std;
 #define		ERR_BANNEDFROMCHAN(client, channel)						"474 " + client + " " + channel + " :Cannot join channel (+b)\r\n"
 #define		ERR_BADCHANNELKEY(client, channel)						"475 " + client + " " + channel + " :Cannot join channel (+k)\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"
-#define		ERR_CHANOPRIVSNEEDED(client, channel)						"482 " + client + " " + channel + " :You're not channel operator\r\n"
+#define		ERR_CHANOPRIVSNEEDED(client, channel)					"482 " + client + " " + channel + " :You're not channel operator\r\n"
