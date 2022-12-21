@@ -4,30 +4,21 @@ void	Server::part(Client &client)
 {
 	if (segvGuard(client))
 		return ;
-	string chalname = client.getTokens()[1];
-	if (_channelMap[chalname])
+	string chlName = client.getTokens()[1];
+	if (_channelMap.count(client.getTokens()[1]))
 	{
-		if (!(_channelMap[chalname]->clientIsOnChan(client)))
-		{
-			client.setReply(ERR_NOTONCHANNEL(client.getNickname(), chalname));
-			return;
-		}
+		if (!(_channelMap[chlName]->clientIsOnChan(client)))
+			client.setReply(ERR_NOTONCHANNEL(client.getNickname(), chlName));
 		else
 		{
-			client.setReply(RPL_PART(client.getNickname(), chalname));
-			notice(client, chalname, RPL_PART(client.getNickname(), chalname));
-			_channelMap[chalname]->eraseClient(client);
-			if (_channelMap[chalname]->getFdVector().empty())
-			{
-				_channelMap.erase(chalname);
-				// std::cout << "clear tab\n";
-			}
+			client.setReply(RPL_PART(client.getNickname(), chlName));
+			notice(client, chlName, RPL_PART(client.getNickname(), chlName));
+			_channelMap[chlName]->eraseClient(client);
+			if (_channelMap[chlName]->getFdVector().empty())
+				_channelMap.erase(chlName);
 		}
 	}
 	else
-	{
-		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), chalname));
-		return;
-	}
+		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), chlName));
 }
 
