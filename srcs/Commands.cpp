@@ -14,7 +14,7 @@ bool	Server::nickAlreadyUse(Client &client)
 {
 	for (map<int, Client>::iterator it = _clientMap.begin(); it != _clientMap.end(); it++)
 	{
-		if (!it->second.getNickname().compare(client.getTokens()[1]))
+		if (it->second.getNickname().compare(client.getTokens()[1]) == 0)
 			return (1);
 	}
 	return (0);
