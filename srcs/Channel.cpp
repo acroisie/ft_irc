@@ -28,6 +28,12 @@ void				Channel::setInvited(string name)
 	if (it == _invitedList.end())
 		_invitedList.push_back(name);
 }
+void				Channel::unsetInvited(string name)
+{
+	vector<string>::iterator it = find(_invitedList.begin(), _invitedList.end(), name);
+	if (it != _invitedList.end())
+		_invitedList.erase(it);
+}
 
 /*----------------------Getters---------------------*/
 
