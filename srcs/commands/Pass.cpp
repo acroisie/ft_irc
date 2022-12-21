@@ -6,5 +6,7 @@ void	Server::pass(Client &client)
 	if (client.getTokens().size() < 2)
 		return ;
 	if (client.getTokens()[1] == _password)
-		client.setCheckAuth("pass");
+		client.setIsAuth(1);
+	else
+		client.setIsAuth(0);
 }

@@ -46,4 +46,4 @@ using		namespace std;
 #define		ERR_BADCHANNELKEY(client, channel)						"475 " + client + " " + channel + " :Cannot join channel (+k)\r\n"
 #define		ERR_BADCHANMASK(channel)								"476 " + channel + " : Bad Channel Mask\r\n"
 #define		ERR_CHANOPRIVSNEEDED(client, channel)					"482 " + client + " " + channel + " :You're not channel operator\r\n"
-#define		ERR_ALREADYREGISTERED(client)							"462 " + client + " You may not reregister Username\r\n"
+#define		ERR_ALREADYREGISTERED(client)							"462 " + client + " You may not reregister\r\n"

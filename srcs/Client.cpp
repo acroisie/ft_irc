@@ -3,12 +3,7 @@ using		namespace std;
 
 /*---------------Constructor/Destructor--------------*/
 
-Client::Client(void):   _isAuth(0)
-{
-	_nickname = "DefaultNickname";
-	bzero(_checkAuth, 4);
-	
-}
+Client::Client(void):   _isAuth(0){_nickname = "DefaultNickname";}
 Client::~Client(){}
 
 /*---------------------Setters-----------------------*/
@@ -22,24 +17,6 @@ void					Client::setReply(string replyBuff){_replyBuff += replyBuff;};
 void					Client::setPrefix(string prefix){_prefix = prefix;};
 void					Client::setUsername(string username){_username = username;};
 void					Client::setRealname(string realname){_realname = realname;};
-void					Client::setCheckAuth(string flag)
-{
-	if (flag.compare("pass") == 0)
-		_checkAuth[0] = 1;
-	else if (flag.compare("nick") == 0)
-		_checkAuth[1] = 1;
-	else if (flag.compare("user") == 0)
-		_checkAuth[2] = 1;
-};
-void					Client::unsetCheckAuth(string flag)
-{
-	if (flag.compare("pass") == 0)
-		_checkAuth[0] = 0;
-	else if (flag.compare("nick") == 0)
-		_checkAuth[1] = 0;
-	else if (flag.compare("user") == 0)
-		_checkAuth[2] = 0;
-};
 
 /*----------------------Getters---------------------*/
 
@@ -51,25 +28,9 @@ int						Client::getFd(void){return (_clientFd);}
 string					Client::getReply(void){return (_replyBuff);}
 string					Client::getPrefix(void){return (_prefix);}
 vector<string>	        &Client::getTokens(void){return (_tokens);}
-int						Client::getCheckAuth(string flag)
-{
-	if (flag.compare("pass") == 0)
-		return (_checkAuth[0]);
-	else if (flag.compare("nick") == 0)
-		return (_checkAuth[1]);
-	else if (flag.compare("user") == 0)
-		return(_checkAuth[2]);
-	return (-1);
-};
 
 /*-----------------MemberFunctions------------------*/
-bool					Client::authIsValid()
-{
-	if (_checkAuth[0] == 1 && _checkAuth[1] == 1  && _checkAuth[2] == 1)
-		return (1);
-	else
-		return (0);
-}
+
 void                    Client::clearReply(void){_replyBuff.clear();}
 
 void                    Client::tokenize(string buff)
