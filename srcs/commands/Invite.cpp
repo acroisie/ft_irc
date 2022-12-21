@@ -5,9 +5,9 @@ void	Server::invite(Client &client)
 {
 	if (segvGuard(client))
 		return ;
-	if (_channelMap.count(client.getTokens()[1]))
+	if (_channelMap.count(client.getTokens()[2]))
 	{
-		if (_channelMap[client.getTokens()[1]]->isOp(client))
+		if (_channelMap[client.getTokens()[2]]->isOp(client))
 		{
 			map<int, Client>::iterator it = _clientMap.begin();
 			while (it != _clientMap.end())
