@@ -21,6 +21,7 @@ void					Client::setRealname(string realname){_realname = realname;};
 /*----------------------Getters---------------------*/
 
 const string			Client::getNickname(void){return (_nickname);}
+const string			Client::getUsername(void){return (_username);}
 int						Client::getAuth(void){return (_isAuth);}
 bool                    Client::getIsOp(void){return (_isOp);}
 int						Client::getFd(void){return (_clientFd);}

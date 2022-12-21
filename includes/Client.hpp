@@ -34,6 +34,7 @@ public:
 	void					setRealname(string replyBuff);
 
 	const string			getNickname(void);
+	const string			getUsername(void);
 	bool					getIsOp(void);
 	int						getAuth(void);
 	int						getFd(void);
