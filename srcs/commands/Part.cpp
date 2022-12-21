@@ -20,7 +20,7 @@ void	Server::part(Client &client)
 			if (_channelMap[chalname]->getFdVector().empty())
 			{
 				_channelMap.erase(chalname);
-				std::cout << "clear tab\n";
+				// std::cout << "clear tab\n";
 			}
 		}
 	}
