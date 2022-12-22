@@ -7,6 +7,7 @@ void	Server::notifAll(Client &client, string mode)
 	client.getTokens()[1], mode));
 	client.setReply(RPL_MODE(client.getNickname(),client.getTokens()[1], mode));
 }
+
 void	Server::mode(Client &client)
 {
 	if (segvGuard(client))
@@ -21,7 +22,6 @@ void	Server::mode(Client &client)
 			{
 				if (client.getTokens()[2].compare(modeList[i]) == 0)
 					flag = 1;
-				// std::cout << "Mode : " << modeList[i] << " flag: " << flag << std::endl; 
 			}
 			if (flag == 0)
 				return;
@@ -43,12 +43,14 @@ void	Server::mode(Client &client)
 
 			if ((client.getTokens()[2].compare("+k")) == 0)
 			{
-				_channelMap[client.getTokens()[1]]->setModeK("+k");
 				if (client.getTokens().size() > 3)
 				{
+					_channelMap[client.getTokens()[1]]->setModeK("+k");
 					_channelMap[client.getTokens()[1]]->setPassword(client.getTokens()[3]);
 					notifAll(client, "+k");
 				}
+				else
+					client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[0]));
 			}
 			else if ((client.getTokens()[2].compare("-k")) == 0)
 			{
@@ -84,3 +86,5 @@ void	Server::mode(Client &client)
 	else 
 	client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 }
+
+// message missing param error

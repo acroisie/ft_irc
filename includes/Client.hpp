@@ -16,7 +16,6 @@ private:
 	vector<string>			_tokens;
 	string					_username;
 	string					_realname;
-	int						_checkAuth[3];
 
 public:
 	Client(void);
@@ -33,11 +32,7 @@ public:
 	void					setReply(string replyBuff);
 	void					setUsername(string replyBuff);
 	void					setRealname(string replyBuff);
-	void					setCheckAuth(string flag);
-	void					unsetCheckAuth(string flag);
 
-	int						getCheckAuth(string flag);
-	bool					authIsValid(void);
 	const string			getNickname(void);
 	const string			getUsername(void);
 	bool					getIsOp(void);

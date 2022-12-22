@@ -69,6 +69,13 @@ bool	Channel::clientIsOnChan(Client &client)
 void	Channel::eraseClient(Client &client)
 {
 	_nameFd.erase(client.getNickname());
+	if (_opList.count(client.getNickname()))
+		_opList.erase(client.getNickname());
+	if (count(_invitedList.begin(), _invitedList.end(), client.getNickname()))
+	{
+		vector<string>::iterator it = find(_invitedList.begin(), _invitedList.end(), client.getNickname());
+		_invitedList.erase(it);
+	}
 	for(vector<int>::iterator it = _clientFd.begin(); it != _clientFd.end(); it++)
 	{
 		if (*it == client.getFd())
