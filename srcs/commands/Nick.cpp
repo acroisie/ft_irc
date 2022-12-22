@@ -19,7 +19,17 @@ void	Server::nick(Client &client)
 		for (map<string, Channel *>::iterator it = _channelMap.begin(); it != _channelMap.end(); it++)
 		{
 			if (it->second->clientIsOnChan(client))
+			{
+				bool isOp = false;
+				if (it->second->isOp(client))
+					isOp = true;
 				notice(client, it->second->getName(), RPL_NICK(client.getNickname(), client.getTokens()[1]));
+				it->second->eraseClient(client);
+				it->second->addClientFd(client.getFd());
+				it->second->setNameFd(client.getTokens()[1], client.getFd());
+				if (isOp)
+					it->second->addOp(client);
+			}
 		}
 		client.setNickname(client.getTokens()[1]);
 	}

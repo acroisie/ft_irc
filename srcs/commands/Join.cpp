@@ -24,7 +24,6 @@ void	Server::join(Client &client)
 	size_t pos = 0;
 	string tab[3] = {"^G"," ", ","};
 	string chlName = client.getTokens()[1].c_str();
-	// string password;
 	if (chlName[0] == '#')
 	{
 		for (size_t i = 0; i <= tab->size(); i++)
@@ -37,9 +36,6 @@ void	Server::join(Client &client)
 		}
 		if (!_channelMap.count(chlName))
 		{
-			//client.setPrefix("@");
-			//client.setIsOp(1);
-
 			_channelMap[chlName] = new Channel();
 			_channelMap[chlName]->setSymbol("=");
 			_channelMap[chlName]->setName(chlName);
