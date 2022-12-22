@@ -7,6 +7,7 @@ void	Server::notifAll(Client &client, string mode)
 	client.getTokens()[1], mode));
 	client.setReply(RPL_MODE(client.getNickname(),client.getTokens()[1], mode));
 }
+
 void	Server::mode(Client &client)
 {
 	if (segvGuard(client))
@@ -21,7 +22,6 @@ void	Server::mode(Client &client)
 			{
 				if (client.getTokens()[2].compare(modeList[i]) == 0)
 					flag = 1;
-				// std::cout << "Mode : " << modeList[i] << " flag: " << flag << std::endl; 
 			}
 			if (flag == 0)
 				return;
@@ -82,11 +82,9 @@ void	Server::mode(Client &client)
 				client.setReply(RPL_MODEO(prefixe + client.getNickname(), client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
 			}
 		}
-		else
-			client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[0]));
 	}
 	else 
 	client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 }
 
-// PB mode +o apres changement de nick, il faut propager l'info dans le channel
+// message missing param error
