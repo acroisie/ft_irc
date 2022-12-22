@@ -16,6 +16,11 @@ void	Server::nick(Client &client)
 			}
 		}	
 		client.setReply(RPL_NICK(client.getNickname(), client.getTokens()[1]));
+		for (map<string, Channel *>::iterator it = _channelMap.begin(); it != _channelMap.end(); it++)
+		{
+			if (it->second->clientIsOnChan(client))
+				notice(client, it->second->getName(), RPL_NICK(client.getNickname(), client.getTokens()[1]));
+		}
 		client.setNickname(client.getTokens()[1]);
 	}
 	else
