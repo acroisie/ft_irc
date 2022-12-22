@@ -43,12 +43,14 @@ void	Server::mode(Client &client)
 
 			if ((client.getTokens()[2].compare("+k")) == 0)
 			{
-				_channelMap[client.getTokens()[1]]->setModeK("+k");
 				if (client.getTokens().size() > 3)
 				{
+					_channelMap[client.getTokens()[1]]->setModeK("+k");
 					_channelMap[client.getTokens()[1]]->setPassword(client.getTokens()[3]);
 					notifAll(client, "+k");
 				}
+				else
+					client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[0]));
 			}
 			else if ((client.getTokens()[2].compare("-k")) == 0)
 			{
@@ -80,7 +82,11 @@ void	Server::mode(Client &client)
 				client.setReply(RPL_MODEO(prefixe + client.getNickname(), client.getTokens()[1], "-o",_clientMap[fd].getNickname()));
 			}
 		}
+		else
+			client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[0]));
 	}
 	else 
 	client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 }
+
+// PB mode +o apres changement de nick, il faut propager l'info dans le channel
