@@ -38,14 +38,4 @@ void	Server::nick(Client &client)
 		client.setReply(ERR_NICKNAMEINUSE(client.getNickname(), client.getTokens()[1]));
 		return;
 	}
-	if(client.getAuth() == 0)
-	{
-		client.setIsAuth(-1);
-		client.setReply(ERR_WRONGPASSWORD(client.getNickname()));	
-	}
-	else if (client.getAuth() == 1)
-	{
-		client.setReply(RPL_WELCOME(client.getNickname()));
-		client.setIsAuth(2);
-	}
 }
