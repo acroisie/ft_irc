@@ -46,8 +46,8 @@ void                    Client::tokenize(string buff)
         _tokens.push_back(tempStr);
         tempStr.clear();
     }
- 	for (vector<string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
-        cout << "{" << *it << "}" << endl; // To delete
+ 	// for (vector<string>::iterator it = _tokens.begin(); it != _tokens.end(); it++) // To delete
+    //     cout << "{" << *it << "}" << endl; // To delete
 }
 
 void                    Client::clearTokens(void){_tokens.clear();}

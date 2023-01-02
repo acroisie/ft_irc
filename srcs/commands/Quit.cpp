@@ -15,7 +15,6 @@ void	Server::quit(Client &client)
 		if (it->second->getFdVector().empty())
 		{
 			_channelMap.erase(it);
-			// std::cout << "clear tab\n";
 			break;
 		}
 	}

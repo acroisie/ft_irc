@@ -21,4 +21,3 @@ void	Server::part(Client &client)
 	else
 		client.setReply(ERR_NOSUCHCHANNEL(client.getNickname(), chlName));
 }
-
