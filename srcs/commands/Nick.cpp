@@ -27,6 +27,7 @@ void	Server::nick(Client &client)
 					isOp = true;
 				notice(client, it->second->getName(), RPL_NICK(client.getNickname(), client.getTokens()[1]));
 				it->second->eraseClient(client);
+				client.setNickname(client.getTokens()[1]);
 				it->second->addClientFd(client.getFd());
 				it->second->setNameFd(client.getTokens()[1], client.getFd());
 				if (isOp)
