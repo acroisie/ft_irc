@@ -12,13 +12,10 @@ void	Server::user(Client &client)
 		client.setReply(ERR_WRONGPASSWORD(client.getNickname()));
 		return;
 	}
-	else if (client.getNickOk())
+	else if (client.getNickOk() && client.getUserOk() == 0)
 	{
 		client.setReply(RPL_WELCOME(client.getNickname()));
 	}
-	else
-	{
-		client.setUserOk(1);
-	}
+	client.setUserOk(1);
 
 }
