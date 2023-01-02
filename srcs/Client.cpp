@@ -3,7 +3,7 @@ using		namespace std;
 
 /*---------------Constructor/Destructor--------------*/
 
-Client::Client(void):   _isAuth(0){_nickname = "DefaultNickname";}
+Client::Client(void): _isAuth(0), _nickOk(0), _userOk(0){_nickname = "DefaultNickname";}
 Client::~Client(){}
 
 /*---------------------Setters-----------------------*/
