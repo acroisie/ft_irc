@@ -84,5 +84,5 @@ void	Server::mode(Client &client)
 		}
 	}
 	else 
-	client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
+		client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 }

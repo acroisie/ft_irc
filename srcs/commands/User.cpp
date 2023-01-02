@@ -4,15 +4,7 @@ using		namespace std;
 void	Server::user(Client &client)
 {
 	if (segvGuard(client))
-		return ;
-	// for (map<int, Client>::iterator it = _clientMap.begin(); it != _clientMap.end(); it++)
-	// {
-	// 	if (it->second.getUsername().compare(client.getUsername()))
-	// 	{
-	// 		client.setReply(ERR_ALREADYREGISTERED(client.getNickname()));
-	// 		return;
-	// 	}
-	// }
+		return;
 	client.setUsername(client.getTokens()[1]);
 	if(client.getAuth() == 0)
 	{
@@ -20,13 +12,10 @@ void	Server::user(Client &client)
 		client.setReply(ERR_WRONGPASSWORD(client.getNickname()));
 		return;
 	}
-	else if (client.getNickOk())
+	else if (client.getNickOk() && client.getUserOk() == 0)
 	{
 		client.setReply(RPL_WELCOME(client.getNickname()));
 	}
-	else
-	{
-		client.setUserOk(1);
-	}
+	client.setUserOk(1);
 
 }
