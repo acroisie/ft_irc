@@ -15,6 +15,8 @@ void					Client::addClientFd(int clientFd){_clientFd = clientFd;}
 void					Client::setAdress(struct sockaddr_in clientAddr){_clientAddr =  clientAddr;}
 void					Client::setReply(string replyBuff){_replyBuff += replyBuff;};
 void					Client::setPrefix(string prefix){_prefix = prefix;};
+void					Client::setNickOk(bool i){_nickOk = i;};
+void					Client::setUserOk(bool i){_userOk = i;};
 void					Client::setUsername(string username){_username = username;};
 void					Client::setRealname(string realname){_realname = realname;};
 
@@ -28,6 +30,8 @@ int						Client::getFd(void){return (_clientFd);}
 string					Client::getReply(void){return (_replyBuff);}
 string					Client::getPrefix(void){return (_prefix);}
 vector<string>	        &Client::getTokens(void){return (_tokens);}
+bool					Client::getUserOk(){return (_userOk);}
+bool					Client::getNickOk(){return (_nickOk);}
 
 /*-----------------MemberFunctions------------------*/
 

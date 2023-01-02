@@ -10,6 +10,8 @@ private:
 	struct sockaddr_in		_clientAddr;
 	string					_nickname;
 	int						_isAuth;
+	bool					_nickOk;
+	bool					_userOk;
 	bool					_isOp;
 	string					_prefix;
 	string					_replyBuff;
@@ -32,6 +34,8 @@ public:
 	void					setReply(string replyBuff);
 	void					setUsername(string replyBuff);
 	void					setRealname(string replyBuff);
+	void					setNickOk(bool i);
+	void					setUserOk(bool i);
 
 	const string			getNickname(void);
 	const string			getUsername(void);
@@ -41,6 +45,8 @@ public:
 	string					getReply(void);
 	string					getPrefix(void);
 	vector<string>			&getTokens(void);
+	bool					getNickOk(void);
+	bool					getUserOk(void);
 
 	void					clearReply(void);
 	void					tokenize(string buff);

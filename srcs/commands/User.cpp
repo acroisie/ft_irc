@@ -17,11 +17,16 @@ void	Server::user(Client &client)
 	if(client.getAuth() == 0)
 	{
 		client.setIsAuth(-1);
-		client.setReply(ERR_WRONGPASSWORD(client.getNickname()));	
+		client.setReply(ERR_WRONGPASSWORD(client.getNickname()));
+		return;
 	}
-	else if (client.getAuth() == 1)
+	else if (client.getNickOk())
 	{
 		client.setReply(RPL_WELCOME(client.getNickname()));
-		client.setIsAuth(2);
 	}
+	else
+	{
+		client.setUserOk(1);
+	}
+
 }

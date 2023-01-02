@@ -5,6 +5,8 @@ void	Server::nick(Client &client)
 {
 	if (segvGuard(client))
 		return ;
+	if (client.getAuth() == 0)
+		return;
 	if (!nickAlreadyUse(client)) 
 	{
 		for (size_t i = 0; i < client.getTokens()[1].size(); i++)
@@ -32,10 +34,17 @@ void	Server::nick(Client &client)
 			}
 		}
 		client.setNickname(client.getTokens()[1]);
+		client.setNickOk(1);
+		if (client.getUserOk())
+		{
+			client.setReply(RPL_WELCOME(client.getNickname()));
+			return;
+		}
 	}
 	else
 	{
 		client.setReply(ERR_NICKNAMEINUSE(client.getNickname(), client.getTokens()[1]));
+		client.setNickOk(0);
 		return;
 	}
 }
