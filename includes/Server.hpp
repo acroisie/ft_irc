@@ -22,7 +22,6 @@ private:
 	struct timeval			_timeout;
 	vector<string>			_commandRecv;
 	map<int, Client>		_clientMap;
-	map<int, void *>		_serverMap;
 	map<string, Channel *>	_channelMap;
 	map<string, void \
 	(Server::*)(Client &)>	_commandMap;
@@ -32,7 +31,7 @@ private:
 public:
 	Server(const string& port, const string& password);
 	~Server();
-
+	static bool				running;
 	void					start(void);
 	void					socketInit(void);
 	void					acceptNewClient(void);

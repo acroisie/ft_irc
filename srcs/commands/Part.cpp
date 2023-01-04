@@ -15,7 +15,7 @@ void	Server::part(Client &client)
 			notice(client, chlName, RPL_PART(client.getNickname(), chlName));
 			_channelMap[chlName]->eraseClient(client);
 			if (_channelMap[chlName]->getFdVector().empty())
-				_channelMap.erase(chlName);
+				delete(_channelMap[chlName]);
 		}
 	}
 	else

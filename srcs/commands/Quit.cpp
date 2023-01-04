@@ -14,7 +14,7 @@ void	Server::quit(Client &client)
 		}
 		if (it->second->getFdVector().empty())
 		{
-			_channelMap.erase(it);
+			delete(it->second);
 			break;
 		}
 	}

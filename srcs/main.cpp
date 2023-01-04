@@ -1,8 +1,14 @@
 #include	"../includes/Server.hpp"
 using		namespace std;
 
+void	sig_quit(int)
+{
+	Server::running = false;
+}
+
 int	main(int argc, char** argv)
 {
+	signal(SIGINT, &sig_quit);
 	try
 	{
 		if (argc != 3)

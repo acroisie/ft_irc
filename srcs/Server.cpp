@@ -33,7 +33,13 @@ Server::Server(const string& port, const string& password)
 	_commandMap["INVITE"] = &Server::invite;
 }
 
-Server::~Server(){}
+Server::~Server()
+{
+	for (map<int, Client>::iterator it = _clientMap.begin(); it != _clientMap.end(); it++)
+		close(it->first);
+	close(_serverFd);
+	cout << "\rServer down." << endl;
+}
 
 /*-----------------MemberFunctions------------------*/
 
@@ -116,15 +122,22 @@ void	Server::socketInit(void)
 	FD_SET(_serverFd, &_clientFds);
 }
 
+bool Server::running = true;
+
 void	Server::start()
 {
 	socketInit();
-	while (true)
+	while (running)
 	{
 		_readFds = _clientFds;
 		cout << "\rListen..." << flush;
 		if (!(select(MAX_CONNECTIONS + 1, &_readFds, &_writeFds, NULL, &_timeout)))
-			throw runtime_error("time-out");
+		{
+			cout << "\rTime-out" << endl;
+			running = false;
+		}
+		if (!running)
+			break;
 		for (int currentFd = 0; currentFd <= (MAX_CONNECTIONS + 1) ; currentFd++)
 		{
 			if (FD_ISSET(currentFd, &_readFds))
