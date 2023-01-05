@@ -14,7 +14,8 @@ void	Server::quit(Client &client)
 		}
 		if (it->second->getFdVector().empty())
 		{
-			delete(it->second);
+			if (it->second)
+				delete(it->second);
 			break;
 		}
 	}
