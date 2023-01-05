@@ -65,6 +65,8 @@ void	Server::mode(Client &client)
 				if (!fd)
 					return;
 			}
+			else if (client.getTokens().size() == 3)
+				return;
 			string prefixe = "@";
 			if ((client.getTokens()[2].compare("+o")) == 0)
 			{
