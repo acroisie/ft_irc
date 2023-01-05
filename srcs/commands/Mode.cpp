@@ -63,10 +63,16 @@ void	Server::mode(Client &client)
 			{
 				fd = _channelMap[client.getTokens()[1]]->getNameFd(client.getTokens()[3]);
 				if (!fd)
+				{
+					client.setReply(ERR_NOSUCHNICK(client.getNickname(), client.getTokens()[1]));
 					return;
+				}
 			}
 			else if (client.getTokens().size() == 3)
+			{
+				client.setReply(ERR_NEEDMOREPARAMS(client.getNickname(), client.getTokens()[1]));
 				return;
+			}
 			string prefixe = "@";
 			if ((client.getTokens()[2].compare("+o")) == 0)
 			{
