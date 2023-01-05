@@ -73,7 +73,7 @@ void	Server::handleMsg(int currentFd)
 	char	buffer[BUFF_SIZE];
 	bzero(buffer, BUFF_SIZE);
 	_commandRecv.clear();
-	if (recv(currentFd, (void *)buffer, BUFF_SIZE, 0) < 0)
+	if (recv(currentFd, (void *)buffer, BUFF_SIZE - 1, 0) < 0)
 		quit(_clientMap[currentFd]);
 	if (!buffer[0])
 	{
