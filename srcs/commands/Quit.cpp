@@ -16,6 +16,7 @@ void	Server::quit(Client &client)
 		{
 			if (it->second)
 				delete(it->second);
+			_channelMap.erase(it);
 			break;
 		}
 	}
