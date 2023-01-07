@@ -62,3 +62,10 @@ void Server::notice(Client &client, string chlName, string msg)
 		}
 	}
 }
+
+void	Server::notifAll(Client &client, string mode)
+{
+	notice(client, client.getTokens()[1], RPL_MODE(client.getNickname(), \
+	client.getTokens()[1], mode));
+	client.setReply(RPL_MODE(client.getNickname(),client.getTokens()[1], mode));
+}
