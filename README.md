@@ -15,8 +15,6 @@ The rules:
 
 You want to play with it? Start a beautifull shell and type > Make && ./ircserv <port> <password>
 
-This server developed in C++ uses Weechat, an IRC client.
-
 Usage
 To connect to the server, simply use Weechat and follow these steps:
 
