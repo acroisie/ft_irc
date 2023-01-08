@@ -23,7 +23,9 @@ To connect to the server, simply use Weechat and follow these steps:
 Open Weechat
 * Enter the command /server add irc localhost/<port> -password=<password>
 * Enter the command /connect server_name
+
 You are now connected to the server!
+
 You can join channels using the command /join #channel_name.
 
 Enjoy your stay on our server!
