@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-.vscode
-srcs/objs
 ircserv
-srcs/workspace.code-workspace
+srcs/objs
+.vscode
+noAr
 test
-test.cpp
-trash.cpp
-trash.hpp
-=======
-srcs/objs
-ircserv
-.vscode
->>>>>>> lNW/master
-.DS_Store
+test1
+test2
+test3
+noAr2
